@@ -97,8 +97,8 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
 | 0009 | variété par défaut 2 / 3 | appliquée |
 | 0010 | légumes d'accompagnement des recettes de tofu seul | appliquée |
 | 0011 | langue du foyer + noms anglais du catalogue | appliquée |
-| 0012 | validation : cooked_ratio, dernier membre du livre, catalogue (258 articles), fusion boissons végétales | à appliquer |
-| 0013 | alias du catalogue (après 0012) | à appliquer |
+| 0012 | validation : cooked_ratio, dernier membre du livre, catalogue (258 articles), fusion boissons végétales | appliquée |
+| 0013 | alias du catalogue (après 0012) | appliquée |
 
 ## Procédures
 - **Publier** : `npx vitest run`, `npx tsc --noEmit`, `npx eslint src scripts`, `npm run build`, puis commit et push sur `main`.
