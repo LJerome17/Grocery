@@ -1,26 +1,60 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f5ef;
+  --foreground: #1f2a1f;
+  --card: #ffffff;
+  --muted: #6b7266;
+  --line: #e4e1d6;
+  --brand: #2f6b3a;
+  --brand-soft: #e3efe2;
+  --accent: #c2410c;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer components {
+  .btn-primary,
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply bg-brand text-white;
+  }
+  .btn-ghost {
+    @apply border border-line bg-card text-foreground;
+  }
+  .input {
+    @apply w-full rounded-xl border border-line bg-card px-3 py-2.5 text-base outline-none focus:border-brand;
+  }
+  .card {
+    @apply rounded-2xl border border-line bg-card;
+  }
+  .chip,
+  .chip-on {
+    @apply inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium;
+  }
+  .chip {
+    @apply border-line bg-card;
+  }
+  .chip-on {
+    @apply border-brand bg-brand-soft text-brand;
+  }
 }
