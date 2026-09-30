@@ -9429,6 +9429,16 @@
         "name": "Oignons verts -",
         "note": "Au goût",
         "optional": false
+      },
+      {
+        "raw": "Légumes pour accompagner le tofu (au choix)",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Légumes pour accompagner le tofu",
+        "note": "au choix",
+        "optional": false
       }
     ],
     "instructions": [
@@ -9579,6 +9589,16 @@
         "unit": null,
         "name": "Sel et poivre -",
         "note": "Au goût",
+        "optional": false
+      },
+      {
+        "raw": "Légumes pour accompagner le tofu (au choix)",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Légumes pour accompagner le tofu",
+        "note": "au choix",
         "optional": false
       }
     ],
