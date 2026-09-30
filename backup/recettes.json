@@ -885,8 +885,8 @@
     "name": "Boisson de soya",
     "note": "1/2 tasse",
     "optional": false,
-    "ingredient_id": "8da85476-e8fa-40e6-9589-f719e533de1e",
-    "catalog": "Boisson de soya",
+    "ingredient_id": "051313d6-d58e-4263-ab9f-253cce56f6a4",
+    "catalog": "Boisson végétale",
     "aisle": "laitiers"
    },
    {
@@ -8574,7 +8574,7 @@
     "optional": false,
     "ingredient_id": "a8833284-5220-47eb-af18-69bdaf88a2cd",
     "catalog": "Nouilles udon",
-    "aisle": "refrigeres"
+    "aisle": "international"
    },
    {
     "id": "8b6ef88b-bbc4-4ce0-acef-ad60102eb4e0",
@@ -9404,8 +9404,8 @@
     "name": "unsweetened soy milk",
     "note": "30ml",
     "optional": false,
-    "ingredient_id": "8da85476-e8fa-40e6-9589-f719e533de1e",
-    "catalog": "Boisson de soya",
+    "ingredient_id": "051313d6-d58e-4263-ab9f-253cce56f6a4",
+    "catalog": "Boisson végétale",
     "aisle": "laitiers"
    },
    {
@@ -9828,8 +9828,8 @@
     "name": "Soy Milk/Oat Milk",
     "note": null,
     "optional": false,
-    "ingredient_id": "8da85476-e8fa-40e6-9589-f719e533de1e",
-    "catalog": "Boisson de soya",
+    "ingredient_id": "051313d6-d58e-4263-ab9f-253cce56f6a4",
+    "catalog": "Boisson végétale",
     "aisle": "laitiers"
    },
    {
@@ -10200,7 +10200,7 @@
     "optional": false,
     "ingredient_id": "a8833284-5220-47eb-af18-69bdaf88a2cd",
     "catalog": "Nouilles udon",
-    "aisle": "refrigeres"
+    "aisle": "international"
    },
    {
     "id": "9e974e9c-6669-406e-8016-979187fc378d",
@@ -10425,7 +10425,7 @@
     "optional": false,
     "ingredient_id": "916bce6a-5612-491e-990c-b072a3fe9dba",
     "catalog": "Beurre végétal",
-    "aisle": "refrigeres"
+    "aisle": "laitiers"
    },
    {
     "id": "280baa2b-d939-41ba-a533-5733d52991d3",
@@ -10925,7 +10925,7 @@
     "optional": false,
     "ingredient_id": "40f6d102-fb11-4926-ae96-dbdc1c42c8b1",
     "catalog": "Pesto",
-    "aisle": "refrigeres"
+    "aisle": "cereales"
    },
    {
     "id": "8d45e2a6-0bd8-4d67-a75f-ae63092cd998",
@@ -11909,7 +11909,7 @@
     "optional": false,
     "ingredient_id": "916bce6a-5612-491e-990c-b072a3fe9dba",
     "catalog": "Beurre végétal",
-    "aisle": "refrigeres"
+    "aisle": "laitiers"
    },
    {
     "id": "63377699-5130-4027-bab4-0a4cecef9c88",
@@ -14366,8 +14366,8 @@
     "name": "boisson de soya nature non sucrée",
     "note": "1 tasse",
     "optional": false,
-    "ingredient_id": "8da85476-e8fa-40e6-9589-f719e533de1e",
-    "catalog": "Boisson de soya",
+    "ingredient_id": "051313d6-d58e-4263-ab9f-253cce56f6a4",
+    "catalog": "Boisson végétale",
     "aisle": "laitiers"
    },
    {
@@ -17226,7 +17226,7 @@
     "optional": false,
     "ingredient_id": "40f6d102-fb11-4926-ae96-dbdc1c42c8b1",
     "catalog": "Pesto",
-    "aisle": "refrigeres"
+    "aisle": "cereales"
    },
    {
     "id": "c6f1a569-44a9-4394-9b75-1954f4dda434",
@@ -19986,6 +19986,22 @@
     "ingredient_id": "228adf48-ad7a-4ec2-85c2-7f7bb70be0d9",
     "catalog": "Sel",
     "aisle": "epices"
+   },
+   {
+    "id": "06443859-cdf7-4f5c-9300-8bd7d6ffec2f",
+    "recipe_id": "bf07491c-1496-44f2-b315-0b507c92bf71",
+    "position": 12,
+    "section": null,
+    "raw": "Légumes pour accompagner le tofu (au choix)",
+    "quantity": null,
+    "quantity_max": null,
+    "unit": null,
+    "name": "Légumes pour accompagner le tofu",
+    "note": "au choix",
+    "optional": false,
+    "ingredient_id": "03db62c0-9964-4aed-ae02-87277f0590d0",
+    "catalog": "Légumes d'accompagnement (au choix)",
+    "aisle": "fruits-legumes"
    }
   ]
  },
@@ -20730,6 +20746,22 @@
     "ingredient_id": "35596205-38cd-4201-b62b-e7f0ca89a5ab",
     "catalog": "Oignon vert",
     "aisle": "fruits-legumes"
+   },
+   {
+    "id": "793fe088-eaa9-4dbc-81e0-1825418709e7",
+    "recipe_id": "4ed4c82e-2a05-4b55-908a-37b2dc4f1911",
+    "position": 18,
+    "section": null,
+    "raw": "Légumes pour accompagner le tofu (au choix)",
+    "quantity": null,
+    "quantity_max": null,
+    "unit": null,
+    "name": "Légumes pour accompagner le tofu",
+    "note": "au choix",
+    "optional": false,
+    "ingredient_id": "03db62c0-9964-4aed-ae02-87277f0590d0",
+    "catalog": "Légumes d'accompagnement (au choix)",
+    "aisle": "fruits-legumes"
    }
   ]
  },
@@ -21213,6 +21245,22 @@
     "ingredient_id": "770d31dd-3240-4ded-89fb-387d5d54ea71",
     "catalog": "Eau",
     "aisle": "aucun"
+   },
+   {
+    "id": "8a6b684c-4e5d-442f-8372-c321d13850fc",
+    "recipe_id": "322a0dac-754a-45f9-b52e-077346e53c03",
+    "position": 12,
+    "section": null,
+    "raw": "Légumes pour accompagner le tofu (au choix)",
+    "quantity": null,
+    "quantity_max": null,
+    "unit": null,
+    "name": "Légumes pour accompagner le tofu",
+    "note": "au choix",
+    "optional": false,
+    "ingredient_id": "03db62c0-9964-4aed-ae02-87277f0590d0",
+    "catalog": "Légumes d'accompagnement (au choix)",
+    "aisle": "fruits-legumes"
    }
   ]
  },

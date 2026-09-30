@@ -9,7 +9,7 @@ et des amis peuvent avoir leur propre foyer.
 - Base de données : Supabase, projet `nptpjbncvqjyqeyroasg`
 - Dossier local : `C:\Users\jerom\Projets\epicerie` (hors OneDrive exprès)
 
-Ce fichier est tenu à jour à chaque changement important. Dernière mise à jour : 2026-09-30 (validation avant lancement).
+Ce fichier est tenu à jour à chaque changement important. Dernière mise à jour : 2026-09-30 (validation avant lancement terminée, version de lancement en ligne).
 
 ## Règles décidées avec Momo et Jéjé
 
@@ -26,9 +26,12 @@ Ce fichier est tenu à jour à chaque changement important. Dernière mise à jo
 - Photos personnelles dans `recettes/Photo_recettes/` (nom de fichier = tous les mots du titre) : elles passent avant toute autre image.
 
 **Livre de recettes partagé**
-- Le foyer de Momo et Jéjé est le livre (code d'invitation gardé secret ; bouton « Créer un nouveau code d'invitation » dans Réglages) :  tous les foyers le lisent en direct, lui seul
-  ajoute, modifie ou supprime des recettes. Son dernier membre ne peut pas le quitter. Seuls ses membres peuvent utiliser la
-  lecture de liens et la copie de photos (`/api/import`, `/api/image`). Pas de bouton pour retirer un membre (décision : code secret). Chaque foyer a ses propres semaines et listes.
+- Le foyer de Momo et Jéjé est le livre : tous les foyers le lisent en direct, lui seul ajoute, modifie ou supprime des recettes.
+  Chaque foyer a ses propres semaines et listes.
+- Code d'invitation gardé secret ; bouton « Créer un nouveau code d'invitation » dans Réglages. Pas de bouton pour retirer
+  un membre (décision : le code reste secret). Le dernier membre du livre ne peut pas le quitter.
+- Seuls les membres du livre peuvent utiliser la lecture de liens et la copie de photos (`/api/import`, `/api/image`).
+- Nom proposé pour un nouveau foyer : « Notre foyer » / « Our household » (deux foyers peuvent avoir le même nom).
 - `book_household()` renvoie l'identifiant fixe de ce foyer ; `households.is_book` est une colonne calculée (non modifiable).
 
 **Semaine**
@@ -43,7 +46,7 @@ Ce fichier est tenu à jour à chaque changement important. Dernière mise à jo
 **Liste d'épicerie**
 - Articles en français (ou en anglais pour un foyer anglophone), jamais de franglais.
 - Les plages restent (« 4 à 8 ») ; équivalences d'unités vers l'unité d'achat ; unités entières arrondies vers le haut.
-- Garde-manger (73 articles : huiles, vinaigres, sauces, épices, farine, sucre…) listé à part.
+- Garde-manger (93 articles : huiles, vinaigres, sauces, épices, farine, sucre, miso, câpres, nori, pâte de tomate…) listé à part.
 - Tofu ferme et extra-ferme restent deux articles ; bloc de tofu = 450 g.
 - Boîtes : format affiché (« 2 boîtes (540 ml) ») ; une boîte de légumineuses de 540 ml = 500 ml égouttés.
 - Grains cuits dans une recette (« riz cuit », « quinoa cuit »…) achetés secs (`cooked_ratio` du catalogue).
@@ -69,7 +72,10 @@ Ce fichier est tenu à jour à chaque changement important. Dernière mise à jo
 - Ne jamais demander ni utiliser la clé secrète (service_role) ou le mot de passe de la base Supabase. La clé publique suffit.
 - Les liens tapés par les gens (import de recette, copie de photo) passent par `src/lib/safeFetch.ts` :
   http(s) public seulement, vérifié à chaque redirection, délai et taille limités.
-- Les photos téléversées : 1 Mo max, webp/jpeg/png.
+- Les photos téléversées : 1 Mo max, webp/jpeg/png. La photo d'une recette ajoutée par lien est copiée (réduite) dans Supabase.
+- Accès (RLS) : un foyer ne voit que ses semaines et listes ; recettes du livre en lecture seule pour les autres ;
+  `is_book` non modifiable ; le dernier membre du livre ne peut pas le quitter. Limite connue (faible) : `safeFetch` vérifie
+  l'adresse avant la connexion, sans protection contre le « DNS rebinding ».
 
 ## Architecture
 - Next.js 16 (App Router), React 19, Tailwind 4, TypeScript, vitest. Aucune IA à l'exécution : tout est par règles.
@@ -77,8 +83,8 @@ Ce fichier est tenu à jour à chaque changement important. Dernière mise à jo
   API `api/import` (lecture d'une recette par lien ou texte) et `api/image` (copie de la photo d'un site).
 - `src/lib/` : `planner.ts` (suggestions), `shopping.ts` (liste), `parseIngredient.ts` / `parseRecipeText.ts` /
   `importRecipe.ts` (lecture des recettes), `units.ts`, `aisles.ts`, `i18n.ts`, `erreur.ts` (messages), `username.ts`,
-  `starter.ts` (recettes de départ), `data.ts`, `weekPlan.ts`, `safeFetch.ts`.
-- Données sources : `data/catalog.json` (234 articles, noms FR/EN, rayons, alias, équivalences), `data/recipe-meta.json`
+  `starter.ts` (recettes de départ), `data.ts`, `weekPlan.ts`, `safeFetch.ts`, `bookAccess.ts` (routes réservées au livre).
+- Données sources : `data/catalog.json` (258 articles, 1 024 alias, noms FR/EN, rayons, garde-manger, équivalences, format des boîtes, rapport cuit/sec), `data/recipe-meta.json`
   (type, protéine, saisons), `data/import-fixes.json` (corrections d'import), `data/photos/*.txt` (recettes en photo transcrites),
   `recettes/` (liens, textes, photos fournis par l'utilisateur).
 - Recettes de départ publiées dans `public/starter/` (69 recettes + images), synchronisées par Réglages → « Mettre à jour les recettes de départ ».
@@ -114,7 +120,19 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
   photos téléversées) dans `backup/` ; lancer à la main avec `npx tsx scripts/backup-recipes.ts` ou Actions → Run workflow.
   Vercel ne republie pas pour une sauvegarde seule (`vercel.json`). La lecture hebdomadaire évite aussi la mise en pause de Supabase.
 
+## Validation avant lancement (2026-09-30)
+- Six vérifications en parallèle : quantités lues (1 208 lignes contre leurs sources), conversions et équivalences,
+  liste d'épicerie (plus de 250 semaines recalculées indépendamment, FR et EN), association au catalogue, planificateur
+  (600 semaines au hasard + cas comparés à l'optimum), langues et droits d'accès.
+- Résultat : 343 tests (336 réussis, 4 limites connues documentées, 3 désactivés). Aucun ingrédient perdu, doublé ou mal
+  multiplié ; filtres stricts jamais violés.
+- Limites connues (tests `it.fails`) : le lecteur de lignes comprend mal « 30 oz … 2 cans », « + 1 c. à soupe » après le nom et
+  « 1 morceau de ½ pouce » (les lignes concernées des recettes de départ sont corrigées une à une) ; aux réglages par défaut
+  (20 portions, 5 recettes), les recettes de 1 à 3 portions sortent rarement (cinq recettes de 4 portions tombent pile).
+
 ## En attente
 - Sources manquantes : Soupe de lentilles (p. 142), Garlic Chili (après l'étape 9).
 - Recettes ajoutées dans l'application sans type de plat ou protéine : à compléter dans leur page (Préférences).
+- Après chaque mise à jour des recettes de départ : Réglages → « Mettre à jour les recettes de départ » dans le foyer livre.
+- Articles créés dans l'application par le livre : pas de nom anglais (restent en français sur une liste anglaise).
 - Idées non faites : bouton « réessayer » à la création du foyer, choix du rayon par liste plutôt que par fenêtre.
