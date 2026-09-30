@@ -1,10 +1,10 @@
 // End-to-end check of the live site and database, as a brand-new anonymous visitor.
 // Creates a throw-away household, exercises the main flows, then deletes its data and leaves it.
-// Usage: npx tsx scripts/smoke-test.ts [site=https://grocery-eight-beta.vercel.app]
+// Usage: npx tsx scripts/smoke-test.ts [site=https://momo-et-jeje-cuisinent-vege.vercel.app]
 import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "../src/lib/supabase";
 
-const SITE = process.argv[2] ?? "https://grocery-eight-beta.vercel.app";
+const SITE = process.argv[2] ?? "https://momo-et-jeje-cuisinent-vege.vercel.app";
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
 let failures = 0;
 
