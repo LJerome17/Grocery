@@ -54,10 +54,16 @@ async function main() {
   // 3. Household.
   const householdId = await step("create household", async () => must(await sb.rpc("create_household", { p_name: "TEST Claude (à supprimer)", p_display_name: "test" })) as string);
   if (!householdId) return;
+  await step("postal code (default, then changed)", async () => {
+    const h = must(await sb.from("households").select("postal_code,starter_seen").eq("id", householdId).single()) as { postal_code: string };
+    if (h.postal_code !== "H4C 0B8") throw new Error(`default ${h.postal_code}`);
+    must(await sb.from("households").update({ postal_code: "H2X 1Y4" }).eq("id", householdId));
+    return "H4C 0B8 -> H2X 1Y4";
+  });
 
   try {
     // 4. Catalogue + two starter recipes, the way the app imports them.
-    const catalog = await step("read catalogue", async () => must(await sb.from("ingredients").select("id,name,aisle,pantry,count_unit").is("household_id", null)));
+    const catalog = await step("read catalogue", async () => must(await sb.from("ingredients").select("id,name,aisle,pantry,count_unit,equiv").is("household_id", null)));
     await step("catalogue size", async () => catalog!.length);
     await step("catalogue names in French, default units", async () => {
       const names = new Set(catalog!.map((c) => c.name as string));
@@ -65,6 +71,7 @@ async function main() {
       for (const good of ["Chou frisé (kale)", "Croustilles de maïs", "Légumes d'accompagnement (au choix)", "Tomates entières (conserve)"])
         if (!names.has(good)) throw new Error(`missing "${good}"`);
       if (catalog!.find((c) => c.name === "Gingembre")?.count_unit !== "inch") throw new Error("Gingembre count_unit");
+      if (!names.has("Gochujang") || !catalog!.find((c) => c.name === "Ail")?.equiv) throw new Error("0006 not applied");
       return "ok";
     });
     const full = (await (await fetch(`${SITE}/starter/recipes.json`)).json()) as Record<string, unknown>[];
@@ -72,9 +79,8 @@ async function main() {
     const ids: string[] = [];
     for (const r of full.slice(0, 3)) {
       await step(`import "${r.title}"`, async () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { ingredients, slug, ...recipe } = r as { ingredients: Record<string, unknown>[]; slug: string };
-        const rec = must(await sb.from("recipes").insert({ ...recipe, household_id: householdId }).select("id").single()) as { id: string };
+        const rec = must(await sb.from("recipes").insert({ ...recipe, starter_slug: slug, household_id: householdId }).select("id").single()) as { id: string };
         ids.push(rec.id);
         const rows = ingredients.map(({ catalog: cat, ...i }) => ({ ...i, recipe_id: rec.id, ingredient_id: cat ? idByName.get(cat as string) ?? null : null }));
         must(await sb.from("recipe_ingredients").insert(rows));
@@ -106,6 +112,14 @@ async function main() {
         return "ok";
       });
     }
+
+    // 5b. Maxi deals for the household's postal code (unofficial source: may be empty, must not fail).
+    await step("GET /api/rabais", async () => {
+      const r = await fetch(`${SITE}/api/rabais?cp=H4C0B8`);
+      const d = (await r.json()) as { deals?: { name: string }[]; validTo?: string; unavailable?: boolean; error?: string };
+      if (!r.ok) throw new Error(d.error ?? `HTTP ${r.status}`);
+      return d.unavailable ? "circulaire indisponible" : `${d.deals!.length} rabais jusqu'au ${d.validTo}`;
+    });
 
     // 6. Server import route with the visitor's token.
     await step("POST /api/import (lien)", async () => {
