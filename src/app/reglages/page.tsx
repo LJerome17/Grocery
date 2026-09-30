@@ -46,6 +46,16 @@ export default function Reglages() {
     await reloadHousehold();
   }
 
+  async function leave() {
+    const alone = members.length <= 1;
+    const warning = alone
+      ? "Vous êtes le seul membre : les recettes de ce foyer ne seront plus accessibles. Quitter quand même ?"
+      : "Quitter ce foyer ? Vous pourrez en créer un autre ou en rejoindre un avec un code.";
+    if (!confirm(warning)) return;
+    await supabase().from("household_members").delete().eq("household_id", household!.id).eq("user_id", session!.user.id);
+    await reloadHousehold();
+  }
+
   async function copyInvite() {
     const text = `Rejoins notre foyer sur ${window.location.origin} avec le code : ${household!.invite_code}`;
     try {
@@ -90,6 +100,9 @@ export default function Reglages() {
 
       <section className="card p-4 text-sm">
         <p className="text-muted">Connecté : {session?.user.email}</p>
+        <button className="btn-ghost mt-3 w-full" onClick={leave}>
+          Quitter ce foyer
+        </button>
         <button className="btn-ghost mt-3 w-full" onClick={() => supabase().auth.signOut()}>
           Se déconnecter
         </button>

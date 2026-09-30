@@ -53,6 +53,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       .from("household_members")
       .select("households(*)")
       .eq("user_id", userId)
+      .order("household_id")
       .limit(1)
       .maybeSingle();
     setHousehold((data?.households as unknown as Household) ?? null);

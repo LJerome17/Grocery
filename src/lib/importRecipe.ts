@@ -35,9 +35,12 @@ export function extractRecipe(html: string, url: string | null = null): Imported
   const $ = cheerio.load(html);
   const fromLd = extractJsonLd($);
   const site = siteIngredients($);
-  if (fromLd && site.length) return { ...fromLd, ingredients: site, sourceUrl: url };
-  if (fromLd && fromLd.ingredients.length) return { ...fromLd, sourceUrl: url };
-  const fromHtml = extractHeuristic($);
+  const fromHtml = extractHeuristic(cheerio.load(html));
+  // Some sites put only part of the method in their structured data: prefer the page's steps when richer.
+  const steps = (r: ImportedRecipe) =>
+    r.instructions.length < 2 && fromHtml.instructions.length > r.instructions.length ? fromHtml.instructions : r.instructions;
+  if (fromLd && site.length) return { ...fromLd, ingredients: site, instructions: steps(fromLd), sourceUrl: url };
+  if (fromLd && fromLd.ingredients.length) return { ...fromLd, instructions: steps(fromLd), sourceUrl: url };
   if (fromLd) {
     // Recipe data without ingredients: keep its metadata, take the lists from the HTML.
     return {
@@ -199,7 +202,7 @@ const HEADING_RE = /^h[1-6]$/;
 
 /** Flatten the page into visual lines, remembering which ones are entirely bold or headings. */
 function pageLines($: cheerio.CheerioAPI): Line[] {
-  $("script, style, noscript, svg, nav, form, iframe, button, select").remove();
+  $("script, style, noscript, svg, nav, form, iframe, button, select, body > footer, [class~=footer], [id=footer], [class*=site-footer], [id*=site-footer]").remove();
   const lines: Line[] = [];
   let buf = "";
   let boldChars = 0;
@@ -243,7 +246,8 @@ function pageLines($: cheerio.CheerioAPI): Line[] {
 
 const INGREDIENTS_RE = /^ingr[ée]dients?\s*:?$/i;
 const METHOD_RE = /^(method|instructions?|directions?|preparation|préparation|étapes|etapes|steps|how to make( it)?|mode de préparation)\s*:?$/i;
-const STOP_RE = /^(notes?|nutrition|tips|astuces?|conseils?|video|vidéo|comments?|commentaires?|related|you may also like|print)\b/i;
+const FOOTER_RE = /©|&copy;|tous droits réservés|all rights reserved|politique de confidentialité|privacy policy|site web par|website by|infolettre|newsletter/i;
+const STOP_RE = /^(notes?|nutrition|tips|astuces?|conseils?|video|vidéo|comments?|commentaires?|related|you may also like|vous aimerez|à voir aussi|abonnez|print|imprimer)\b/i;
 
 function extractHeuristic($: cheerio.CheerioAPI): ImportedRecipe {
   const title =
@@ -277,7 +281,12 @@ function extractHeuristic($: cheerio.CheerioAPI): ImportedRecipe {
     if (end < lines.length && METHOD_RE.test(lines[end].text)) {
       for (let i = end + 1; i < lines.length && instructions.length < 40; i++) {
         const l = lines[i];
-        if (STOP_RE.test(l.text) || (l.heading && !/^(step|étape)/i.test(l.text))) break;
+        if (STOP_RE.test(l.text) || FOOTER_RE.test(l.text)) break;
+        // Short headings are sub-parts of the method ("Sauce", "Nouilles udon"); long ones start another block.
+        if (l.heading) {
+          if (/^(step|étape)/i.test(l.text) || l.text.split(/\s+/).length <= 4) continue;
+          break;
+        }
         if (l.text.length >= 25) instructions.push(l.text); // skips "Watch video", "Print", etc.
       }
     }

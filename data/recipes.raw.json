@@ -1078,10 +1078,7 @@
       "Ajouter la purée de piment, la sauce soja, le sirop d’érable, le vinaigre de riz et le beurre d’arachide. Bien mélanger.",
       "Incorporer le lait de coco en brassant.",
       "Retirer du feu et laisser refroidir.",
-      "Verser la sauce dans un saladier. Ajouter le reste des ingrédients et bien mélanger.",
-      "Des recettes végétales savoureuses et inspirantes pour cuisiner avec plaisir au quotidien.",
-      "Facebook Instagram TikTok YouTube",
-      "© 2026 La Cuisine de Jean-Philippe. Tous droits réservés. Politique de confidentialité Conditions d’utilisation"
+      "Verser la sauce dans un saladier. Ajouter le reste des ingrédients et bien mélanger."
     ],
     "method": "html",
     "warnings": [],
@@ -5595,7 +5592,11 @@
       }
     ],
     "instructions": [
-      "Dans une petite casserole, chauffer l’huile de sésame à feu moyen élevé et cuire les gousses d’ail 2 minutes en brassant souvent. Ajouter le reste des ingrédients de la sauce et laisser réduire environ 3 minutes."
+      "Dans une petite casserole, chauffer l’huile de sésame à feu moyen élevé et cuire les gousses d’ail 2 minutes en brassant souvent. Ajouter le reste des ingrédients de la sauce et laisser réduire environ 3 minutes.",
+      "Dans un bol, mélanger le tofu, la fécule de maïs et le sel.",
+      "Dans une poêle antiadhésive, chauffer l’huile à feu moyen-élevé et cuire le tofu pendant 5 à 6 minutes en brassant souvent, ou jusqu’à ce qu’il soit bien doré.",
+      "Dans une casserole d’eau bouillante salée, cuire les nouilles selon le temps de cuisson indiqué sur l’emballage. Égoutter.",
+      "Ajouter la sauce, les nouilles, le basilic et les oignons verts dans la poêle et mélanger délicatement jusqu’à ce que les nouilles soient bien enrobées de sauce. Servir avec les garnitures."
     ],
     "method": "jsonld",
     "warnings": [],

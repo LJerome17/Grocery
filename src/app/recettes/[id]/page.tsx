@@ -17,6 +17,7 @@ function RecipeView() {
   const [ingredients, setIngredients] = useState<RecipeIngredient[]>([]);
   const [portions, setPortions] = useState<number | null>(params.get("portions") ? Number(params.get("portions")) : null);
   const [editing, setEditing] = useState(false);
+  const [missing, setMissing] = useState(false);
 
   useEffect(() => {
     const sb = supabase();
@@ -24,7 +25,10 @@ function RecipeView() {
       .select(RECIPE_COLUMNS)
       .eq("id", id)
       .single()
-      .then(({ data }) => setRecipe(data as Recipe));
+      .then(({ data, error }) => {
+        if (error || !data) setMissing(true);
+        else setRecipe(data as Recipe);
+      });
     sb.from("recipe_ingredients")
       .select("*")
       .eq("recipe_id", id)
@@ -44,6 +48,15 @@ function RecipeView() {
     router.push("/recettes");
   }
 
+  if (missing)
+    return (
+      <div className="py-20 text-center">
+        <p className="text-muted">Recette introuvable.</p>
+        <Link href="/recettes" className="btn-ghost mt-4">
+          Toutes les recettes
+        </Link>
+      </div>
+    );
   if (!recipe) return <p className="py-20 text-center text-muted">Chargement…</p>;
 
   const base = recipe.servings ?? 4;

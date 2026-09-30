@@ -3,6 +3,7 @@
 import { supabase } from "./supabase";
 
 type StarterRecipe = {
+  slug: string;
   title: string;
   source_type: string;
   source_url: string | null;
@@ -41,7 +42,8 @@ export async function importStarterRecipes(householdId: string, onProgress?: (do
 
   let done = 0;
   for (const r of todo) {
-    const { ingredients, ...recipe } = r;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- slug is only a file name, not a column
+    const { ingredients, slug, ...recipe } = r;
     const { data, error } = await sb
       .from("recipes")
       .insert({ ...recipe, household_id: householdId })

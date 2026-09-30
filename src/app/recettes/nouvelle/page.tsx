@@ -11,6 +11,7 @@ import { DISH_TYPES, PROTEINS, type Ingredient } from "@/lib/db";
 import type { ImportedRecipe } from "@/lib/importRecipe";
 import { SEASON_LABEL, type Season } from "@/lib/planner";
 import { scaledQuantity } from "@/lib/shopping";
+import { resizeImage } from "@/lib/resizeImage";
 import { supabase } from "@/lib/supabase";
 import { nameKey } from "@/lib/text";
 
@@ -32,10 +33,12 @@ export default function Nouvelle() {
   const [photo, setPhoto] = useState<File | null>(null);
 
   useEffect(() => {
-    Promise.all([loadCatalog(), loadAliasIndex()]).then(([c, a]) => {
-      setCatalog(c);
-      setAliases(a);
-    });
+    Promise.all([loadCatalog(), loadAliasIndex()])
+      .then(([c, a]) => {
+        setCatalog(c);
+        setAliases(a);
+      })
+      .catch((e) => setError(`Catalogue inaccessible : ${e.message ?? e}`));
   }, []);
 
   const catalogById = useMemo(() => new Map(catalog.map((c) => [c.id, c])), [catalog]);
@@ -84,8 +87,9 @@ export default function Nouvelle() {
       const sb = supabase();
       let image_url = draft.image;
       if (photo) {
-        const path = `${householdId}/${crypto.randomUUID()}.${photo.name.split(".").pop()?.toLowerCase() || "jpg"}`;
-        const up = await sb.storage.from("recipe-images").upload(path, photo, { contentType: photo.type });
+        const small = await resizeImage(photo);
+        const path = `${householdId}/${crypto.randomUUID()}.webp`;
+        const up = await sb.storage.from("recipe-images").upload(path, small, { contentType: small.type || "image/webp" });
         if (up.error) throw up.error;
         image_url = `storage:recipe-images/${path}`;
       }

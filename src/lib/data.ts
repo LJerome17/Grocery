@@ -37,16 +37,20 @@ export async function loadCatalog(): Promise<Ingredient[]> {
 }
 
 export async function loadAliasIndex(): Promise<AliasIndex> {
-  const rows: { ingredient_id: string; alias: string }[] = [];
+  const rows: { ingredient_id: string; alias: string; household_id: string | null }[] = [];
   for (let from = 0; ; from += 1000) {
-    const { data, error } = await supabase().from("ingredient_aliases").select("ingredient_id,alias").range(from, from + 999);
+    const { data, error } = await supabase()
+      .from("ingredient_aliases")
+      .select("ingredient_id,alias,household_id")
+      .order("id")
+      .range(from, from + 999);
     if (error) throw error;
     rows.push(...(data ?? []));
     if (!data || data.length < 1000) break;
   }
-  const byId = new Map<string, string[]>();
-  for (const r of rows) byId.set(r.ingredient_id, [...(byId.get(r.ingredient_id) ?? []), r.alias]);
-  return buildAliasIndex([...byId].map(([id, aliases]) => ({ id, aliases })));
+  // Household aliases come last so they override the global catalogue (the last one wins in the index).
+  rows.sort((a, b) => Number(a.household_id !== null) - Number(b.household_id !== null));
+  return buildAliasIndex(rows.map((r) => ({ id: r.ingredient_id, aliases: [r.alias] })));
 }
 
 /** Weeks since each recipe was last planned (before `beforeWeek`). */

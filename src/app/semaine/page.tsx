@@ -11,16 +11,30 @@ import { NOT_A_MEAL, portionsPerRecipe, SEASON_LABEL, seasonOf, suggest, swapFor
 import { useKitchen } from "@/lib/useKitchen";
 import { generateList, loadWeek, saveWeek } from "@/lib/weekPlan";
 
-function Stepper({ label, value, min, max, onChange }: { label: string; value: number; min: number; max: number; onChange: (v: number) => void }) {
+function Stepper({
+  label,
+  value,
+  min,
+  max,
+  disabled,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  disabled: boolean;
+  onChange: (v: number) => void;
+}) {
   return (
     <div className="flex flex-1 flex-col items-center gap-1">
       <span className="text-xs text-muted">{label}</span>
       <div className="flex items-center gap-2">
-        <button className="btn-ghost h-9 w-9 !p-0 text-lg" onClick={() => onChange(Math.max(min, value - 1))} aria-label={`Moins de ${label}`}>
+        <button className="btn-ghost h-9 w-9 !p-0 text-lg" disabled={disabled || value <= min} onClick={() => onChange(value - 1)} aria-label={`Moins de ${label}`}>
           −
         </button>
         <span className="w-6 text-center text-lg font-semibold">{value}</span>
-        <button className="btn-ghost h-9 w-9 !p-0 text-lg" onClick={() => onChange(Math.min(max, value + 1))} aria-label={`Plus de ${label}`}>
+        <button className="btn-ghost h-9 w-9 !p-0 text-lg" disabled={disabled || value >= max} onClick={() => onChange(value + 1)} aria-label={`Plus de ${label}`}>
           +
         </button>
       </div>
@@ -110,12 +124,13 @@ export default function Semaine() {
 
   async function remove(recipeId: string) {
     const next = ids.filter((id) => id !== recipeId);
-    const s = { ...settings, suppers: next.length };
+    const s = { ...settings, suppers: Math.max(1, next.length) };
     setSettings(s);
     await persist(next, s);
   }
 
   async function add(recipeId: string) {
+    if (busy) return;
     setPicker(false);
     const next = [...ids, recipeId];
     const s = { ...settings, suppers: next.length };
@@ -128,7 +143,7 @@ export default function Semaine() {
     setBusy(true);
     try {
       await generateList(planId, items, kitchen.recipes, kitchen.ingredients, kitchen.catalog);
-      router.push("/liste");
+      router.push(`/liste?plan=${planId}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
       setBusy(false);
@@ -173,9 +188,9 @@ export default function Semaine() {
       </header>
 
       <section className="card flex gap-2 p-4">
-        <Stepper label="Soupers" value={settings.suppers} min={1} max={7} onChange={(v) => changeSettings({ ...settings, suppers: v })} />
-        <Stepper label="Personnes" value={settings.people} min={1} max={8} onChange={(v) => changeSettings({ ...settings, people: v })} />
-        <Stepper label="Lunchs" value={settings.lunches} min={0} max={14} onChange={(v) => changeSettings({ ...settings, lunches: v })} />
+        <Stepper label="Soupers" value={settings.suppers} min={1} max={7} disabled={busy} onChange={(v) => changeSettings({ ...settings, suppers: v })} />
+        <Stepper label="Personnes" value={settings.people} min={1} max={8} disabled={busy} onChange={(v) => changeSettings({ ...settings, people: v })} />
+        <Stepper label="Lunchs" value={settings.lunches} min={0} max={14} disabled={busy} onChange={(v) => changeSettings({ ...settings, lunches: v })} />
       </section>
 
       {error && <p className="text-sm text-red-700">{error}</p>}
@@ -213,7 +228,7 @@ export default function Semaine() {
                 </article>
               );
             })}
-            <button className="card flex w-40 shrink-0 flex-col items-center justify-center gap-2 text-muted" onClick={() => setPicker(true)}>
+            <button className="card flex w-40 shrink-0 flex-col items-center justify-center gap-2 text-muted" onClick={() => setPicker(true)} disabled={busy}>
               <span className="text-3xl">＋</span>
               <span className="text-sm">Ajouter</span>
             </button>

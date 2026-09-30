@@ -1,15 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useApp } from "@/components/AppProvider";
 import { AISLE_LABEL, AISLE_ORDER } from "@/lib/aisles";
 import type { ShoppingItem } from "@/lib/db";
 import { weekStart } from "@/lib/planner";
 import { supabase } from "@/lib/supabase";
 
-export default function Liste() {
+export default function ListePage() {
+  return (
+    <Suspense fallback={<p className="py-20 text-center text-muted">Chargement…</p>}>
+      <Liste />
+    </Suspense>
+  );
+}
+
+function Liste() {
   const { householdId } = useApp();
+  const requested = useSearchParams().get("plan");
   const [planId, setPlanId] = useState<string | null>(null);
   const [items, setItems] = useState<ShoppingItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -19,15 +29,21 @@ export default function Liste() {
 
   const load = useCallback(async () => {
     if (!householdId) return;
-    // Most recent plan that has a list (this week, else next week, else the latest one).
     const { data: plans } = await supabase()
       .from("week_plans")
       .select("id, week_start")
       .eq("household_id", householdId)
       .order("week_start", { ascending: false })
-      .limit(4);
+      .limit(6);
+    // The plan asked for (from "Faire la liste"), else this week, then upcoming weeks, then past ones.
     const thisWeek = weekStart(new Date());
-    const ordered = (plans ?? []).sort((a, b) => Number(b.week_start >= thisWeek) - Number(a.week_start >= thisWeek));
+    const rank = (w: string) => (w === thisWeek ? 0 : w > thisWeek ? 1 : 2);
+    const ordered = (plans ?? []).sort(
+      (a, b) =>
+        Number(b.id === requested) - Number(a.id === requested) ||
+        rank(a.week_start) - rank(b.week_start) ||
+        (rank(a.week_start) === 1 ? a.week_start.localeCompare(b.week_start) : b.week_start.localeCompare(a.week_start)),
+    );
     for (const p of ordered) {
       const { data } = await supabase().from("shopping_items").select("*").eq("plan_id", p.id).order("position");
       if (data?.length) {
@@ -40,7 +56,7 @@ export default function Liste() {
     setPlanId(ordered[0]?.id ?? null);
     setItems([]);
     setLoading(false);
-  }, [householdId]);
+  }, [householdId, requested]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- initial fetch
@@ -52,12 +68,18 @@ export default function Liste() {
     if (!planId) return;
     const channel = supabase()
       .channel(`liste-${planId}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "shopping_items", filter: `plan_id=eq.${planId}` }, (payload) => {
-        setItems((prev) => {
-          if (payload.eventType === "DELETE") return prev.filter((i) => i.id !== (payload.old as ShoppingItem).id);
-          const row = payload.new as ShoppingItem;
-          return prev.some((i) => i.id === row.id) ? prev.map((i) => (i.id === row.id ? row : i)) : [...prev, row];
-        });
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "shopping_items", filter: `plan_id=eq.${planId}` }, (payload) => {
+        const row = payload.new as ShoppingItem;
+        setItems((prev) => (prev.some((i) => i.id === row.id) ? prev : [...prev, row]));
+      })
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "shopping_items", filter: `plan_id=eq.${planId}` }, (payload) => {
+        const row = payload.new as ShoppingItem;
+        setItems((prev) => prev.map((i) => (i.id === row.id ? row : i)));
+      })
+      // Deletions cannot be filtered by plan (only the id is sent): unknown ids are simply ignored.
+      .on("postgres_changes", { event: "DELETE", schema: "public", table: "shopping_items" }, (payload) => {
+        const id = (payload.old as { id: string }).id;
+        setItems((prev) => prev.filter((i) => i.id !== id));
       })
       .subscribe();
     return () => {
