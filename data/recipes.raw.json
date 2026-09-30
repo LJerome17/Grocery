@@ -132,7 +132,7 @@
     "slug": "tofu-magique-bang-bang",
     "title": "Tofu Magique Bang Bang",
     "sourceUrl": "https://www.loouniecuisine.com/fr/recettes/plats-principaux/tofu-magique-bang-bang/",
-    "servings": null,
+    "servings": 4,
     "totalMinutes": null,
     "image": "https://www.loouniecuisine.com/app/uploads/2020/12/d730cf59-3f1e-4b3f-b9e6-6e4b4b1eaeab-819x1024.jpg",
     "ingredients": [
@@ -265,6 +265,16 @@
         "name": "oignon vert haché pour décorer",
         "note": null,
         "optional": true
+      },
+      {
+        "raw": "Légumes pour accompagner le tofu (au choix)",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Légumes pour accompagner le tofu",
+        "note": "au choix",
+        "optional": false
       }
     ],
     "instructions": [
@@ -756,7 +766,7 @@
     "slug": "tofu-piri-piri-et-chou-fleur-grilles-sauce-a-l-aneth",
     "title": "Tofu piri-piri et chou-fleur grillés, sauce à l’aneth",
     "sourceUrl": "https://www.ricardocuisine.com/recettes/10001-tofu-piri-piri-et-chou-fleur-grilles-sauce-a-l-aneth",
-    "servings": null,
+    "servings": 4,
     "totalMinutes": 45,
     "image": "https://ucarecdn.com/349f70ef-6960-4f01-b94e-e5466f4a6f58/-/crop/999x1350/1,0/-/preview/-/crop/1:1/",
     "ingredients": [
@@ -1085,18 +1095,238 @@
     "sourceType": "url"
   },
   {
-    "slug": "https-www-allrecipes-com-recipe-25311-vegetarian-moussaka",
-    "title": "",
+    "slug": "vegetarian-moussaka",
+    "title": "Vegetarian Moussaka",
     "sourceUrl": "https://www.allrecipes.com/recipe/25311/vegetarian-moussaka/",
-    "servings": null,
-    "totalMinutes": null,
+    "servings": 8,
+    "totalMinutes": 155,
     "image": null,
-    "ingredients": [],
-    "instructions": [],
-    "method": "none",
+    "ingredients": [
+      {
+        "raw": "1 eggplant, thinly sliced",
+        "section": null,
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": null,
+        "name": "eggplant",
+        "note": "thinly sliced",
+        "optional": false
+      },
+      {
+        "raw": "1 teaspoon salt, or more as needed",
+        "section": null,
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "tsp",
+        "name": "salt",
+        "note": "or more as needed",
+        "optional": false
+      },
+      {
+        "raw": "1 tablespoon olive oil, or more as needed",
+        "section": null,
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "tbsp",
+        "name": "olive oil",
+        "note": "or more as needed",
+        "optional": false
+      },
+      {
+        "raw": "1 large zucchini, thinly sliced",
+        "section": null,
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": null,
+        "name": "zucchini",
+        "note": "thinly sliced; large",
+        "optional": false
+      },
+      {
+        "raw": "2 potatoes, thinly sliced",
+        "section": null,
+        "quantity": 2,
+        "quantityMax": null,
+        "unit": null,
+        "name": "potatoes",
+        "note": "thinly sliced",
+        "optional": false
+      },
+      {
+        "raw": "1 onion, sliced",
+        "section": null,
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": null,
+        "name": "onion",
+        "note": "sliced",
+        "optional": false
+      },
+      {
+        "raw": "1 clove garlic, chopped",
+        "section": null,
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "clove",
+        "name": "garlic",
+        "note": "chopped",
+        "optional": false
+      },
+      {
+        "raw": "1 tablespoon white vinegar",
+        "section": null,
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "tbsp",
+        "name": "white vinegar",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "1 (14.5 ounce) can whole peeled tomatoes, chopped",
+        "section": null,
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "can",
+        "name": "whole peeled tomatoes",
+        "note": "chopped; 14.5 ounce",
+        "optional": false
+      },
+      {
+        "raw": "½ (14.5 ounce) can lentils, drained with liquid reserved",
+        "section": null,
+        "quantity": 0.5,
+        "quantityMax": null,
+        "unit": "can",
+        "name": "lentils",
+        "note": "drained with liquid reserved; 14.5 ounce",
+        "optional": false
+      },
+      {
+        "raw": "2 tablespoons chopped fresh parsley",
+        "section": null,
+        "quantity": 2,
+        "quantityMax": null,
+        "unit": "tbsp",
+        "name": "chopped fresh parsley",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "1 teaspoon dried oregano",
+        "section": null,
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "tsp",
+        "name": "dried oregano",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "ground black pepper to taste",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "ground black pepper",
+        "note": "to taste",
+        "optional": false
+      },
+      {
+        "raw": "1 cup crumbled feta cheese",
+        "section": null,
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "cup",
+        "name": "crumbled feta cheese",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "1 ¼ cups milk",
+        "section": "Sauce",
+        "quantity": 1.25,
+        "quantityMax": null,
+        "unit": "cup",
+        "name": "milk",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "2 tablespoons all-purpose flour",
+        "section": "Sauce",
+        "quantity": 2,
+        "quantityMax": null,
+        "unit": "tbsp",
+        "name": "all-purpose flour",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "1 ½ tablespoons butter",
+        "section": "Sauce",
+        "quantity": 1.5,
+        "quantityMax": null,
+        "unit": "tbsp",
+        "name": "butter",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "1 pinch ground nutmeg",
+        "section": "Sauce",
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "pinch",
+        "name": "ground nutmeg",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "ground black pepper to taste",
+        "section": "Sauce",
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "ground black pepper",
+        "note": "to taste",
+        "optional": false
+      },
+      {
+        "raw": "1 large egg, beaten",
+        "section": "Sauce",
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": null,
+        "name": "egg",
+        "note": "beaten; large",
+        "optional": false
+      },
+      {
+        "raw": "¼ cup grated Parmesan cheese",
+        "section": "Topping",
+        "quantity": 0.25,
+        "quantityMax": null,
+        "unit": "cup",
+        "name": "grated Parmesan cheese",
+        "note": null,
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Sprinkle eggplant slices with salt; set aside for 30 minutes. Rinse and pat dry with paper towels.",
+      "Preheat the oven to 375 degrees F (190 degrees C).",
+      "Heat olive oil in a large skillet over medium-high heat. Cook eggplant and zucchini in hot oil until lightly browned, about 3 minutes per side. Remove with a slotted spoon to drain on a paper towel-lined plate, reserving as much oil as possible in the skillet.",
+      "Add more oil to the skillet if needed and let it get hot. Cook potato slices in hot oil until browned, 3 to 5 minutes per side. Remove with a slotted spoon to drain on a paper towel-lined plate, again reserving oil in the skillet.",
+      "Sauté onion and garlic in reserved oil until lightly browned, 5 to 7 minutes. Pour in vinegar, bring to a boil, and reduce heat to medium-low; cook until liquid is reduced in volume and thick. Stir in tomatoes, lentils, 1/2 of the juice from lentils, parsley, and oregano. Season with salt and black pepper. Cover, reduce heat to medium-low, and simmer for 15 minutes.",
+      "Layer about 1/3 of the eggplant, 1/3 of the zucchini, 1/2 of the potatoes, and 1/2 of the feta in a 9x13-inch baking dish. Pour 1/2 of the tomato mixture over vegetables; repeat layering, finishing with a layer of eggplant and zucchini.",
+      "Cover and bake in the preheated oven for 25 minutes.",
+      "Meanwhile, make the sauce: Stir milk, flour, and butter for together in a small saucepan; bring to a low boil, whisking constantly, until thick and smooth. Season with nutmeg and black pepper. Remove from heat, cool for 5 minutes, and stir in beaten egg.",
+      "Pour sauce over vegetables and top with Parmesan cheese. Continue baking, uncovered, until sauce is bubbly and top is lightly brown, 25 to 30 minutes."
+    ],
+    "method": "text",
     "warnings": [],
-    "sourceType": "url",
-    "error": "Error: Le site a refusé la lecture (HTTP 403). Utilisez plutôt « coller le texte »."
+    "sourceType": "url"
   },
   {
     "slug": "mac-cheese-a-la-courge",
@@ -1556,7 +1786,7 @@
     "slug": "ramen-cremeux-a-la-courge-avec-tempeh-au-sesame-de-loounie",
     "title": "Ramen crémeux à la courge avec tempeh au sésame, de Loounie",
     "sourceUrl": "https://veroniquecloutier.com/cuisine/recette-vegane-soupe-ramen-cremeux-a-la-courge-avec-tempeh-au-sesame-de-loounie",
-    "servings": null,
+    "servings": 4,
     "totalMinutes": null,
     "image": "https://s3.amazonaws.com/rose.vero/wp-content/uploads/2024/09/23191434/ramen-cremeux-loounie.jpg",
     "ingredients": [
@@ -2581,8 +2811,8 @@
         "section": null,
         "quantity": 1,
         "quantityMax": null,
-        "unit": "piece",
-        "name": "gingembre d’un pouce",
+        "unit": "inch",
+        "name": "gingembre",
         "note": "râpé finement",
         "optional": false
       },
@@ -3286,7 +3516,7 @@
     "slug": "tofu-magique",
     "title": "Tofu Magique",
     "sourceUrl": "https://www.loouniecuisine.com/fr/recettes/plats-principaux/tofu-magique/",
-    "servings": null,
+    "servings": 4,
     "totalMinutes": null,
     "image": "https://www.loouniecuisine.com/app/uploads/2020/12/1cdfe93f-a961-4c38-8044-82195bc47e67-1-819x1024.jpg",
     "ingredients": [
@@ -3348,6 +3578,16 @@
         "unit": "ml",
         "name": "huile végétale pour la cuisson",
         "note": "1 c. à soupe",
+        "optional": false
+      },
+      {
+        "raw": "Légumes pour accompagner le tofu (au choix)",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Légumes pour accompagner le tofu",
+        "note": "au choix",
         "optional": false
       }
     ],
@@ -4136,7 +4376,7 @@
     "slug": "palak-tofu",
     "title": "Palak tofu",
     "sourceUrl": null,
-    "servings": null,
+    "servings": 4,
     "totalMinutes": null,
     "image": null,
     "ingredients": [
@@ -4467,7 +4707,7 @@
     "slug": "tofu-croustillant-sesame-et-erable",
     "title": "Tofu croustillant sésame et érable",
     "sourceUrl": null,
-    "servings": null,
+    "servings": 4,
     "totalMinutes": null,
     "image": null,
     "ingredients": [
@@ -4560,6 +4800,16 @@
         "name": "graines de sésame grillées",
         "note": "6 c. à soupe",
         "optional": false
+      },
+      {
+        "raw": "Légumes pour accompagner le tofu (au choix)",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Légumes pour accompagner le tofu",
+        "note": "au choix",
+        "optional": false
       }
     ],
     "instructions": [
@@ -4578,7 +4828,7 @@
     "slug": "mapo-tofu-udon",
     "title": "Mapo Tofu Udon",
     "sourceUrl": null,
-    "servings": null,
+    "servings": 4,
     "totalMinutes": null,
     "image": null,
     "ingredients": [
@@ -4894,8 +5144,8 @@
         "section": null,
         "quantity": 1,
         "quantityMax": null,
-        "unit": null,
-        "name": "thumb-sized piece of ginger",
+        "unit": "inch",
+        "name": "ginger",
         "note": null,
         "optional": false
       },
@@ -5015,7 +5265,7 @@
         "quantity": 3,
         "quantityMax": null,
         "unit": "inch",
-        "name": "piece ginger",
+        "name": "ginger",
         "note": "finely chopped",
         "optional": false
       },
@@ -6116,7 +6366,7 @@
     "slug": "ragout-cremeux-express-a-la-citrouille",
     "title": "Ragoût crémeux express à la citrouille",
     "sourceUrl": null,
-    "servings": null,
+    "servings": 4,
     "totalMinutes": null,
     "image": null,
     "ingredients": [
@@ -6547,7 +6797,7 @@
     "slug": "soupe-de-lentilles-epicee-a-l-oignon-brule",
     "title": "Soupe de lentilles épicée à l'oignon brûlé",
     "sourceUrl": null,
-    "servings": null,
+    "servings": 4,
     "totalMinutes": null,
     "image": null,
     "ingredients": [
@@ -7604,14 +7854,14 @@
     "slug": "saute-de-tofu-oignons-verts-et-sesame-style-philippino",
     "title": "Sauté de tofu, oignons verts et sésame style philippino",
     "sourceUrl": null,
-    "servings": 1,
+    "servings": 4,
     "totalMinutes": null,
     "image": null,
     "ingredients": [
       {
-        "raw": "5 ml (1 c. à thé) de sauce soya réduite en sodium",
+        "raw": "20 ml de sauce soya réduite en sodium (1 c. à thé)",
         "section": "Sauce",
-        "quantity": 5,
+        "quantity": 20,
         "quantityMax": null,
         "unit": "ml",
         "name": "sauce soya réduite en sodium",
@@ -7619,9 +7869,9 @@
         "optional": false
       },
       {
-        "raw": "5 ml (1 c. à thé) de sauce aux huîtres",
+        "raw": "20 ml de sauce aux huîtres (1 c. à thé)",
         "section": "Sauce",
-        "quantity": 5,
+        "quantity": 20,
         "quantityMax": null,
         "unit": "ml",
         "name": "sauce aux huîtres",
@@ -7629,9 +7879,9 @@
         "optional": false
       },
       {
-        "raw": "5 ml (1 c. à thé) de jus de lime",
+        "raw": "20 ml de jus de lime (1 c. à thé)",
         "section": "Sauce",
-        "quantity": 5,
+        "quantity": 20,
         "quantityMax": null,
         "unit": "ml",
         "name": "jus de lime",
@@ -7639,9 +7889,9 @@
         "optional": false
       },
       {
-        "raw": "2,5 ml (½ c. à thé) de sirop d'érable",
+        "raw": "10 ml de sirop d'érable (1/2 c. à thé)",
         "section": "Sauce",
-        "quantity": 2.5,
+        "quantity": 10,
         "quantityMax": null,
         "unit": "ml",
         "name": "sirop d'érable",
@@ -7649,9 +7899,9 @@
         "optional": false
       },
       {
-        "raw": "Une pincée de sucre",
+        "raw": "4 pincées de sucre",
         "section": "Sauce",
-        "quantity": 1,
+        "quantity": 4,
         "quantityMax": null,
         "unit": "pinch",
         "name": "sucre",
@@ -7659,9 +7909,9 @@
         "optional": false
       },
       {
-        "raw": "45 ml (3 c. à soupe) d'eau",
+        "raw": "180 ml de eau (3 c. à soupe)",
         "section": "Sauce",
-        "quantity": 45,
+        "quantity": 180,
         "quantityMax": null,
         "unit": "ml",
         "name": "eau",
@@ -7669,9 +7919,9 @@
         "optional": false
       },
       {
-        "raw": "5 ml (1 c. à thé) d'huile végétale",
+        "raw": "20 ml de huile végétale (1 c. à thé)",
         "section": "Sauté",
-        "quantity": 5,
+        "quantity": 20,
         "quantityMax": null,
         "unit": "ml",
         "name": "huile végétale",
@@ -7679,9 +7929,9 @@
         "optional": false
       },
       {
-        "raw": "¼ paquet (environ 110 g) de tofu extra ferme, coupé en cubes",
+        "raw": "1 paquet de tofu extra ferme (coupé en cubes; environ 110 g)",
         "section": "Sauté",
-        "quantity": 0.25,
+        "quantity": 1,
         "quantityMax": null,
         "unit": "pack",
         "name": "tofu extra ferme",
@@ -7689,9 +7939,9 @@
         "optional": false
       },
       {
-        "raw": "¼ oignon, ciselé",
+        "raw": "1 oignon (ciselé)",
         "section": "Sauté",
-        "quantity": 0.25,
+        "quantity": 1,
         "quantityMax": null,
         "unit": null,
         "name": "oignon",
@@ -7699,9 +7949,9 @@
         "optional": false
       },
       {
-        "raw": "½ gousse d'ail, hachée",
+        "raw": "2 gousses de ail (hachée)",
         "section": "Sauté",
-        "quantity": 0.5,
+        "quantity": 2,
         "quantityMax": null,
         "unit": "clove",
         "name": "ail",
@@ -7709,9 +7959,9 @@
         "optional": false
       },
       {
-        "raw": "5 ml (1 c. à thé) de gingembre frais, râpé",
+        "raw": "20 ml de gingembre frais (râpé; 1 c. à thé)",
         "section": "Sauté",
-        "quantity": 5,
+        "quantity": 20,
         "quantityMax": null,
         "unit": "ml",
         "name": "gingembre frais",
@@ -7719,9 +7969,9 @@
         "optional": false
       },
       {
-        "raw": "¼ poivron rouge, coupé en cubes",
+        "raw": "1 poivron rouge (coupé en cubes)",
         "section": "Sauté",
-        "quantity": 0.25,
+        "quantity": 1,
         "quantityMax": null,
         "unit": null,
         "name": "poivron rouge",
@@ -7729,9 +7979,9 @@
         "optional": false
       },
       {
-        "raw": "½ piment chili rouge, épépiné et tranché",
+        "raw": "2 piment chili rouge (épépiné et tranché)",
         "section": "Sauté",
-        "quantity": 0.5,
+        "quantity": 2,
         "quantityMax": null,
         "unit": null,
         "name": "piment chili rouge",
@@ -7739,9 +7989,9 @@
         "optional": false
       },
       {
-        "raw": "¼ paquet (environ 55 g) de champignons shiitakes, tranchés finement",
+        "raw": "1 paquet de champignons shiitakes (tranchés finement; environ 55 g)",
         "section": "Sauté",
-        "quantity": 0.25,
+        "quantity": 1,
         "quantityMax": null,
         "unit": "pack",
         "name": "champignons shiitakes",
@@ -7749,9 +7999,9 @@
         "optional": false
       },
       {
-        "raw": "½ paquet d'oignons verts, coupés en tronçons",
+        "raw": "2 paquets de oignons verts (coupés en tronçons)",
         "section": "Sauté",
-        "quantity": 0.5,
+        "quantity": 2,
         "quantityMax": null,
         "unit": "pack",
         "name": "oignons verts",
@@ -7759,9 +8009,9 @@
         "optional": false
       },
       {
-        "raw": "5 ml (1 c. à thé) de graines de sésame, et plus pour la présentation",
+        "raw": "20 ml de graines de sésame (et plus pour la présentation; 1 c. à thé)",
         "section": "Sauté",
-        "quantity": 5,
+        "quantity": 20,
         "quantityMax": null,
         "unit": "ml",
         "name": "graines de sésame",
@@ -7769,9 +8019,9 @@
         "optional": false
       },
       {
-        "raw": "5 ml (1 c. à thé) de mayonnaise",
+        "raw": "20 ml de mayonnaise (1 c. à thé)",
         "section": "Sauté",
-        "quantity": 5,
+        "quantity": 20,
         "quantityMax": null,
         "unit": "ml",
         "name": "mayonnaise",
@@ -7789,9 +8039,9 @@
         "optional": false
       },
       {
-        "raw": "125 ml (½ tasse) de féculents au choix",
+        "raw": "500 ml de féculents au choix (1/2 tasse)",
         "section": "Accompagnement",
-        "quantity": 125,
+        "quantity": 500,
         "quantityMax": null,
         "unit": "ml",
         "name": "féculents au choix",
@@ -7820,7 +8070,7 @@
     "slug": "sundried-tomato-pesto",
     "title": "Sundried Tomato Pesto",
     "sourceUrl": null,
-    "servings": null,
+    "servings": 4,
     "totalMinutes": null,
     "image": null,
     "ingredients": [
@@ -7921,6 +8171,16 @@
         "quantityMax": null,
         "unit": null,
         "name": "hint of balsamic vinegar",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "450 g de pâtes courtes",
+        "section": null,
+        "quantity": 450,
+        "quantityMax": null,
+        "unit": "g",
+        "name": "pâtes courtes",
         "note": null,
         "optional": false
       }
@@ -9845,7 +10105,7 @@
     "slug": "soupe-cari-arachides-avec-oeuf-mollet",
     "title": "Soupe cari arachides avec oeuf mollet",
     "sourceUrl": null,
-    "servings": 15,
+    "servings": 4,
     "totalMinutes": null,
     "image": null,
     "ingredients": [
@@ -11897,7 +12157,7 @@
     "slug": "garlic-chili",
     "title": "Garlic Chili",
     "sourceUrl": null,
-    "servings": null,
+    "servings": 2,
     "totalMinutes": null,
     "image": null,
     "ingredients": [

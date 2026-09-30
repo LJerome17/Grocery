@@ -10,6 +10,7 @@ import { extractText, getDocumentProxy } from "unpdf";
 import { fetchRecipe, type ImportedRecipe } from "../src/lib/importRecipe";
 import { parseIngredientLine } from "../src/lib/parseIngredient";
 import { parseRecipeText } from "../src/lib/parseRecipeText";
+import { scaledQuantity } from "../src/lib/shopping";
 import { nameKey } from "../src/lib/text";
 import { cleanUrl } from "../src/lib/url";
 
@@ -34,7 +35,18 @@ type Fixes = {
   pdfUrls: Record<string, string>;
   urlRewrites: Record<string, string>;
   exclude?: { titles: string[] };
+  manualForUrl?: Record<string, { file: string; totalMinutes?: number }>;
+  servings?: Record<string, number | string>;
+  scale?: Record<string, number | string>;
+  addIngredients?: Record<string, string[] | string>;
 };
+
+/** Look up a per-title fix, ignoring accents, apostrophes and the "_doc" entry. */
+function byTitle<T>(map: Record<string, T> | undefined, title: string): T | undefined {
+  if (!map) return undefined;
+  const key = nameKey(title);
+  return Object.entries(map).find(([k]) => k !== "_doc" && nameKey(k) === key)?.[1];
+}
 
 type ManifestEntry = {
   recipeFile: string | null;
@@ -68,7 +80,15 @@ async function main() {
   // Print pages and other odd links are replaced by the recipe's normal page (see urlRewrites).
   const rewrite = (u: string) => Object.entries(fixes.urlRewrites ?? {}).find(([prefix]) => u.startsWith(prefix))?.[1] ?? u;
   const urls = [...new Set((web.match(/https?:\/\/\S+/g) ?? []).map((u) => rewrite(cleanUrl(u))))];
-  for (const url of urls) out.push(await importUrl(url));
+  for (const url of urls) {
+    // Sites that block reading (Allrecipes): the recipe text was pasted by hand, the link is kept as the source.
+    const manual = fixes.manualForUrl?.[url];
+    if (manual) {
+      const r = parseRecipeText(readFileSync(join(ROOT, manual.file), "utf8"));
+      out.push({ ...r, sourceUrl: url, totalMinutes: manual.totalMinutes ?? r.totalMinutes, sourceType: "url" });
+      log(r, "manuel");
+    } else out.push(await importUrl(url));
+  }
 
   // 2. Pasted text: recipes separated by 2+ blank lines; a block without ingredients (title only) is glued to the next one.
   const txt = readFileSync(join(SRC, "Recettes en mode txt.txt"), "utf8").replace(/\r/g, "").replace(/^.*\n/, "");
@@ -124,6 +144,24 @@ async function main() {
       applied++;
       return (Array.isArray(fix) ? fix : [fix]).map((line) => parseIngredientLine(line, i.section));
     });
+  }
+  // Portions given by the user, whole-number scaling of recipes that are too small, extra ingredients.
+  for (const r of out) {
+    const servings = byTitle(fixes.servings, r.title);
+    if (typeof servings === "number") r.servings = servings;
+    const scale = byTitle(fixes.scale, r.title);
+    if (typeof scale === "number" && scale > 1) {
+      // The displayed line is rewritten too, so the recipe reads with the multiplied quantities.
+      r.ingredients = r.ingredients.map((i) => {
+        if (i.quantity === null) return i;
+        const s = { ...i, quantity: i.quantity * scale, quantityMax: i.quantityMax === null ? null : i.quantityMax * scale };
+        return { ...s, raw: `${scaledQuantity(s.quantity, s.quantityMax, s.unit, 1)} ${s.unit ? "de " : ""}${s.name}${s.note ? ` (${s.note})` : ""}` };
+      });
+      r.servings = (r.servings ?? 1) * scale;
+    }
+    const extra = byTitle(fixes.addIngredients, r.title);
+    if (Array.isArray(extra)) r.ingredients.push(...extra.map((line) => parseIngredientLine(line, null)));
+    if (servings !== undefined || scale !== undefined || extra !== undefined) applied++;
   }
   console.log(`${applied} corrections manuelles appliquées`);
 

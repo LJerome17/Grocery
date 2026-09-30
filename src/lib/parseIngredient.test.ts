@@ -33,6 +33,9 @@ describe("parseIngredientLine (English)", () => {
     ["1 cup vegetable stock ((240g))", { q: 1, u: "cup", n: "vegetable stock", note: "240g" }],
     ["Half Avocado, cubed", { q: 0.5, n: "Avocado" }],
     ["4 C. Mixed Leaf Lettuce", { q: 4, u: "cup", n: "Mixed Leaf Lettuce" }],
+    ["1 thumb-sized piece of ginger", { q: 1, u: "inch", n: "ginger" }],
+    ["3inch piece ginger, finely chopped", { q: 3, u: "inch", n: "ginger" }],
+    ["1 bout de gingembre d’un pouce, râpé finement", { q: 1, u: "inch", n: "gingembre" }],
     ["Juice of 1 lemon", { q: 1, n: "lemon", note: "juice" }],
   ])("%s", (line, expected) => {
     expect(p(line)).toMatchObject(expected);
@@ -62,7 +65,6 @@ describe("parseIngredientLine (français)", () => {
     ["Jus d'une lime", { q: 1, u: null, n: "lime", note: "jus" }],
     ["Zeste de 1 lime bien lavée", { q: 1, n: "lime bien lavée", note: "zeste" }],
     ["+/- 4 ½ tasses de bouillon de légumes", { q: 4.5, u: "cup", n: "bouillon de légumes" }],
-    ["1 bout de gingembre d’un pouce, râpé finement", { q: 1, u: "piece", n: "gingembre d’un pouce" }],
     ["Pesto végétalien maison ou du commerce - 125 ml", { q: 125, u: "ml", n: "Pesto végétalien maison ou du commerce" }],
     ["Nouilles orientales ou soba — 250 g", { q: 250, u: "g", n: "Nouilles orientales ou soba" }],
     ["Fromage Halloumi : un bloc", { q: 1, u: "block", n: "Fromage Halloumi" }],

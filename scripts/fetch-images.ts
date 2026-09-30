@@ -129,7 +129,22 @@ const manualCrops = (JSON.parse(readFileSync(join(ROOT, "data", "import-fixes.js
   [number, number, number, number]
 >;
 
+// Official photos found online for recipes that came from screenshots or pasted text (data/image-search-results.json).
+const officialImages = new Map<string, string>(
+  (existsSync(join(ROOT, "data", "image-search-results.json"))
+    ? (JSON.parse(readFileSync(join(ROOT, "data", "image-search-results.json"), "utf8")) as { slug: string; status: string; imageUrl: string | null }[])
+    : []
+  )
+    .filter((x) => x.status === "found" && x.imageUrl)
+    .map((x) => [x.slug, x.imageUrl!]),
+);
+
 async function source(r: Entry): Promise<Buffer | null> {
+  const official = officialImages.get(r.slug);
+  if (official) {
+    const buf = await download(official);
+    if (buf) return buf;
+  }
   if (r.localImage) {
     const file = readFileSync(join(PHOTOS, r.localImage));
     const crop = manualCrops[r.localImage];

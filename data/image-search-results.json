@@ -1,0 +1,442 @@
+[
+  {
+    "slug": "vegetarian-moussaka",
+    "title": "Vegetarian Moussaka",
+    "status": "uncertain",
+    "pageUrl": "https://www.allrecipes.com/recipe/25311/vegetarian-moussaka/",
+    "imageUrl": null,
+    "imageDownloadable": false,
+    "evidence": "Provided knownSourceUrl (Allrecipes recipe 25311); our ingredient list uses Allrecipes phrasing (1 (14.5 ounce) can whole peeled tomatoes, lentils with reserved liquid, bechamel with nutmeg, egg, Parmesan). Site returns 403 to WebFetch and to PowerShell with a browser UA, so page content and og:image could not be read or checked.",
+    "differences": "Page is the knownSourceUrl but Allrecipes returned 403: ingredients and image not verified; image could not be downloaded."
+  },
+  {
+    "slug": "palak-tofu",
+    "title": "Palak tofu",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Searched many palak tofu recipes (World of Vegan, The New Baguette, Veggie Inspired, etc.). None matches our list (5 garlic, 1 long green chili, 350g tofu, avocado oil, cumin+fennel, turmeric, garam masala, ground coriander, 300g spinach, 1 cup coconut cream); appears to be a social-media (TikTok) style recipe with no identifiable official page.",
+    "differences": ""
+  },
+  {
+    "slug": "bean-crispy-salad",
+    "title": "Bean Crispy Salad",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Ingredients match a TikTok recipe attributed to @cozylifewithashley (crispy rice, kidney/chickpea/pinto beans, soy-maple-lime dressing, parsley, cucumber), but no official web page found. CookUnity 'Three-Bean Crispy Rice' is a meal-kit dish, not the same recipe.",
+    "differences": ""
+  },
+  {
+    "slug": "tofu-croustillant-sesame-et-erable",
+    "title": "Tofu croustillant sésame et érable",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Searched French/Quebec sites (Radio-Canada Mordu, Julie DesGroseilliers, Telequebec, etc.); none has the same ingredient set (cornstarch, canola oil 60 ml, soy 60 ml, maple 60 ml, toasted sesame oil, rice vinegar, 90 ml sesame seeds). No trustworthy match.",
+    "differences": ""
+  },
+  {
+    "slug": "mapo-tofu-udon",
+    "title": "Mapo Tofu Udon",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Closest is umami.recipes 'Mapo Tofu Udon X' (inspired by TikTok @Audrey Lin): silken tofu 300g, 1/2 tbsp white miso, 1 tbsp nutritional yeast, 1/2 tbsp sesame paste, chili crisp, doubanjiang. That is an aggregator app page with no official photo and quantities differ (300g medium tofu vs 1 block, no dark soy/sesame oil/rice vinegar in the same amounts, frozen udon vs 500g). thecheaplazyvegan version differs clearly (2 servings, different sauce). No official page.",
+    "differences": "umami.recipes: 300g medium firm tofu, 1/2 tbsp oil, 1 spring onion, ginger paste, 1 tsp MSG, 1 tsp black vinegar; no light/dark soy, sesame oil, or 500g udon quantity."
+  },
+  {
+    "slug": "creamy-roasted-cauliflower-ramen",
+    "title": "Creamy Roasted Cauliflower Ramen",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Searches found only different recipes (Supper in the Suburbs uses soy milk/sweetcorn/edamame; Brown Girl Vegan Double Tofu Ramen; Veggie Society). None matches cauliflower + 300g silken tofu + 2 tbsp white miso + coconut milk + veg stock.",
+    "differences": ""
+  },
+  {
+    "slug": "creamy-peanut-ramen-with-enoki-bok-choy-egg",
+    "title": "Creamy Peanut Ramen with Enoki, Bok Choy & Egg",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Searches returned only similar but different peanut ramen recipes (Feasting at Home, Make It Dairy Free, Ahead of Thyme, etc.); Ahead of Thyme returned 403 and was not verified. No page confirmed with 6 tbsp peanut butter, 5.5 cups stock, enoki, baby bok choy, crumbled tofu, soft-boiled eggs, nori.",
+    "differences": ""
+  },
+  {
+    "slug": "cari-de-lentilles-corail-et-chou-fleur-roti",
+    "title": "Cari de lentilles corail et chou-fleur rôti",
+    "status": "found",
+    "pageUrl": "https://www.mob.co.uk/recipes/creamy-cauliflower-coconutty-lentils",
+    "imageUrl": "https://mob-cdn.ams3.digitaloceanspaces.com/recipes/2023/09/_1200x630_crop_center-center_82_none/Creamy-Cauliflower-Coconutty-Lentils.jpg?mtime=1695050037",
+    "imageDownloadable": true,
+    "evidence": "Mob (Mob Kitchen) 'Creamy Cauliflower & Coconutty Lentils', serves 4. Ingredient list on page is identical in items and order to ours (garlic, ginger, shallot, red chilli, roasted almonds, cauliflower, hot smoked paprika, chilli powder, curry powder, tomato puree, coconut milk, chopped tomatoes, almond butter, red lentils, stock cube, water, pickled onions, olive oil). og:image returns image/jpeg.",
+    "differences": "Quantities are behind Mob premium paywall, so not verified; items match exactly."
+  },
+  {
+    "slug": "ragout-cremeux-express-a-la-citrouille",
+    "title": "Ragoût crémeux express à la citrouille",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Source photo is a printed French-language cookbook spread (no site/author name visible; references 'Grenoblata, recette p. 53'). Not searched online further; likely printed cookbook only.",
+    "differences": ""
+  },
+  {
+    "slug": "pate-samosa",
+    "title": "Pâté samosa",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Source photo is a printed Quebec cookbook spread (section 'Les plats principaux', refers to 'Pâte au tofu p. 151'). No official web page identified.",
+    "differences": ""
+  },
+  {
+    "slug": "soupe-de-lentilles-epicee-a-l-oignon-brule",
+    "title": "Soupe de lentilles épicée à l'oignon brûlé",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Source photo is the same printed cookbook as the ragoût (page continues at p. 142). No official web page identified.",
+    "differences": ""
+  },
+  {
+    "slug": "pate-chinois",
+    "title": "Pâté chinois",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Source photo is a printed vegan cookbook spread (section 'Les plats principaux', Earth Balance/Belsoy brands); no book title/author visible and no official page checked.",
+    "differences": ""
+  },
+  {
+    "slug": "vegan-jamaican-lentil-curry",
+    "title": "Vegan Jamaican Lentil Curry",
+    "status": "found",
+    "pageUrl": "https://makeitdairyfree.com/vegan-jamaican-lentil-curry/",
+    "imageUrl": "https://makeitdairyfree.com/wp-content/uploads/2023/01/jamaican-lentil-curry-6.jpg",
+    "imageDownloadable": true,
+    "evidence": "Screenshot shows author Andrew Bernard; search confirms Make It Dairy Free page. Source photo ingredient list matches ours exactly (same quantities); og:image is image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "salade-de-nouilles-orientales-au-tempeh-caramelise",
+    "title": "Salade de nouilles orientales au tempeh caramélisé",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Printed cookbook page (p. 195, refs to p. 236/237), no site identified.",
+    "differences": ""
+  },
+  {
+    "slug": "bol-quinoa-tofu-et-arachides",
+    "title": "Bol quinoa, tofu et arachides",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Printed cookbook spread, no official page identified.",
+    "differences": ""
+  },
+  {
+    "slug": "saute-de-tofu-oignons-verts-et-sesame-style-philippino",
+    "title": "Sauté de tofu, oignons verts et sésame style philippino",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Printed cookbook spread, no official page identified.",
+    "differences": ""
+  },
+  {
+    "slug": "sundried-tomato-pesto",
+    "title": "Sundried Tomato Pesto",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Handwritten notebook recipe, no source.",
+    "differences": ""
+  },
+  {
+    "slug": "pates-cremeuses-au-mais-et-chorizo-de-tofu",
+    "title": "Pâtes crémeuses au maïs et chorizo de tofu",
+    "status": "found",
+    "pageUrl": "https://margauxfood.ca/en/recipe/creamy-corn-pasta-with-tofu-chorizo/",
+    "imageUrl": "http://margauxfood.ca/app/uploads/2024/07/pates-cremeuses-au-mais-et-chorizo-de-tofu-scaled.jpg",
+    "imageDownloadable": true,
+    "evidence": "Screenshot is Margaux (margauxfood.ca) page with same title, 4 portions and matching ingredient list; the English page URL is the one found (French version exists on same site). og:image image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "marry-me-chickpeas",
+    "title": "Marry Me Chickpeas",
+    "status": "found",
+    "pageUrl": "https://plantyou.com/marry-me-chickpeas/",
+    "imageUrl": "https://plantyou.com/wp-content/uploads/2025/04/DSC01281.png",
+    "imageDownloadable": true,
+    "evidence": "Screenshot author carleigh (Carleigh Bodrug, PlantYou); schema ingredients match ours.",
+    "differences": "Our list lacks the 3/4 cup vegetable broth present on the official page (likely omitted by mistake in transcription)."
+  },
+  {
+    "slug": "salade-de-quinoa-et-halloumi-sur-creme-d-avocat",
+    "title": "Salade de quinoa et halloumi sur crème d'avocat",
+    "status": "found",
+    "pageUrl": "https://dashofhoney.ca/en/quinoa-halloumi-salad-on-avocado-crema/",
+    "imageUrl": "https://dashofhoney.ca/wp-content/uploads/2024/03/SaladequinoaAvocat.jpg",
+    "imageDownloadable": true,
+    "evidence": "Dash of Honey page; identical ingredient list (also in the author's TikTok caption) and 4 portions/20+30 min. og:image image/jpeg (portrait 1365x2048).",
+    "differences": "Our list matches; site's French version URL not verified (English URL found)."
+  },
+  {
+    "slug": "pain-plat-d-ete-au-tofu-cremeux-facon-burrata",
+    "title": "Pain plat d'été au tofu crémeux façon burrata",
+    "status": "found",
+    "pageUrl": "https://ici.radio-canada.ca/mordu/recettes/9240/pain-plat-tofu-cremeux-burrata",
+    "imageUrl": "https://images.radio-canada.ca/q_auto,w_1200/v1/alimentation/recette/16x9/pains-plats-vegan-tofu-cremeux-burrata.jpg",
+    "imageDownloadable": true,
+    "evidence": "Mordu (Radio-Canada) recipe by Loounie, matches the source printout; ingredients identical to ours. og:image image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "aubergines-grillees-et-pois-chiches-au-cari",
+    "title": "Aubergines grillées et pois chiches au cari",
+    "status": "found",
+    "pageUrl": "https://www.ricardocuisine.com/en/recipes/10000-grilled-eggplant-with-curried-chickpeas",
+    "imageUrl": "https://ucarecdn.com/f5071ea2-6166-4b3d-a555-a64b52649881/-/crop/999x1350/1,0/-/preview/",
+    "imageDownloadable": true,
+    "evidence": "Ricardo printout; search found matching Ricardo recipe (English page; French page has the same recipe). Ingredients match ours. og:image image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "tofu-magique-general-tao-sur-le-bbq",
+    "title": "Tofu magique général Tao sur le BBQ",
+    "status": "found",
+    "pageUrl": "https://ici.radio-canada.ca/mordu/recettes/8120/tofu-magique-general-tao-bbq",
+    "imageUrl": "https://images.radio-canada.ca/q_auto,w_1200/v1/alimentation/recette/16x9/tofu-general-tao-bbq.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo shows Mordu (Radio-Canada), by Loounie. Page ingredient list and quantities fetched and identical to ours. og:image returns image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "tofu-grille-aux-olives-et-a-l-aneth",
+    "title": "Tofu grillé aux olives et à l'aneth",
+    "status": "found",
+    "pageUrl": "https://ici.radio-canada.ca/mordu/recettes/8220/tofu-grille-olives-aneth",
+    "imageUrl": "https://images.radio-canada.ca/q_auto,w_1200/v1/alimentation/recette/16x9/tofu-grille-olives-vertes-aneth.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo shows Mordu (Radio-Canada), by Loounie. Page ingredient list and quantities fetched and identical to ours. og:image returns image/jpeg.",
+    "differences": "Page yields 4 to 6 portions; ours says 4."
+  },
+  {
+    "slug": "salade-de-pates-aux-legumes-rotis-et-chevre",
+    "title": "Salade de pâtes aux légumes rôtis et chèvre",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Source photo is a page (7) from a Dash of Honey PDF/ebook, not a web page. Searched dashofhoney.ca (site search, salades category, slug guesses, web search): no matching recipe page found. Only similar different pasta salads (Italian, Mediterranean Cellentani).",
+    "differences": ""
+  },
+  {
+    "slug": "chou-fleur-roti-et-haricots-blancs-sauce-poivrons-cajou",
+    "title": "Chou-fleur rôti et haricots blancs, sauce poivrons cajou",
+    "status": "found",
+    "pageUrl": "https://dashofhoney.ca/fr/chou-fleur-roti-et-haricots-blancs-sauce-poivrons-cajou/",
+    "imageUrl": "https://dashofhoney.ca/wp-content/uploads/2025/08/Choufleurharicots1-683x1024.webp",
+    "imageDownloadable": true,
+    "evidence": "Source photo has Dash of Honey-style layout with Logan Petit Lot cashew butter; guessed Dash of Honey slug resolved. Page ingredient list identical to ours (fetched and compared). og:image is image/webp (683x1024 crop; a full-size version may exist by removing -683x1024).",
+    "differences": "Image is webp; page says 4 to 6 portions (photo) vs ours 4."
+  },
+  {
+    "slug": "cari-de-patates-douces-lentilles-et-halloumi",
+    "title": "Cari de patates douces, lentilles et halloumi",
+    "status": "found",
+    "pageUrl": "https://dashofhoney.ca/fr/cari-patates-douces-lentilles-et-halloumi/",
+    "imageUrl": "https://dashofhoney.ca/wp-content/uploads/2024/01/Caripatatesdouces.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo is the Dash of Honey page; ingredient list identical (4 servings). og:image returns image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "pates-facon-pain-a-l-ail-au-pesto-et-pois-chiches",
+    "title": "Pâtes façon «pain à l'ail» au pesto et pois chiches",
+    "status": "found",
+    "pageUrl": "https://domcooks.com/recettes/pates-facon-pain-a-lail-au-pesto-et-pois-chiches",
+    "imageUrl": "https://domcooks.com/wp-content/uploads/2025/04/pates-facon-pain-a-lail-au-pesto-et-pois-chiches.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo shows Dom Cooks page (4 personnes); ingredient list matches ours. og:image returns image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "soupe-cari-arachides-avec-oeuf-mollet",
+    "title": "Soupe cari arachides avec oeuf mollet",
+    "status": "found",
+    "pageUrl": "https://dashofhoney.ca/fr/soupe-cari-arachides-avec-oeuf-mollet/",
+    "imageUrl": "https://dashofhoney.ca/wp-content/uploads/2025/10/Soupecariarachides1.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo is a Dash of Honey recipe card (no logo visible); Dash of Honey page found by slug, ingredient list identical to ours. og:image returns image/jpeg.",
+    "differences": "Page card shows 15 portions (apparent typo, per source photo) vs ours 4; ingredients identical."
+  },
+  {
+    "slug": "mushroom-lentil-tacos-with-garlic-avocado-cream",
+    "title": "Mushroom & Lentil Tacos with Garlic Avocado Cream",
+    "status": "found",
+    "pageUrl": "https://www.pickuplimes.com/recipe/mushroom-lentil-tacos-with-a-creamy-avocado-sauce-257",
+    "imageUrl": "https://cdn.pickuplimes.com/cache/33/fe/33fe728bb4eeeb8cd4a290db6d037aa0.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo shows Pick Up Limes page (3 servings, 9 tortillas); ingredients match ours. og:image returns image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "vegan-burrito-bowl-better-than-chipotle",
+    "title": "Vegan Burrito Bowl (Better than Chipotle!)",
+    "status": "found",
+    "pageUrl": "https://rainbowplantlife.com/vegan-burrito-bowl/",
+    "imageUrl": null,
+    "imageDownloadable": false,
+    "evidence": "Source photo is the Rainbow Plant Life (Nisha Vora) recipe card, 4 servings; web search confirms page. Site returns HTTP 403 to all fetch attempts, so og:image URL not retrievable. A third-party copy (copymethat) has an image but is not official.",
+    "differences": "Our ingredients contain '[?]' placeholders for oregano quantity (page card: 1/2 tablespoon fresh or 1/2 teaspoon dried per photo, illegible)."
+  },
+  {
+    "slug": "bol-de-tofu-shawarma-au-houmous",
+    "title": "Bol de tofu shawarma au houmous",
+    "status": "found",
+    "pageUrl": "https://dashofhoney.ca/en/tofu-shawarma-bowl-with-hummus/",
+    "imageUrl": "https://dashofhoney.ca/wp-content/uploads/2022/04/Boltofushawarma.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo is the Dash of Honey page (French version); ingredients match ours. The /en/ URL is the site's slug for the same recipe (French text title); og:image returns image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "haricots-blancs-sauce-tomate-halloumi-grille",
+    "title": "Haricots blancs sauce tomate & halloumi grillé",
+    "status": "found",
+    "pageUrl": "https://dashofhoney.ca/en/white-beans-in-tomato-sauce-with-grilled-halloumi/",
+    "imageUrl": "https://dashofhoney.ca/wp-content/uploads/2021/02/whitebeansrev1.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo is the Dash of Honey page; ingredients identical to ours (4 servings). og:image returns image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "cari-vegetarien-et-fromage-a-griller",
+    "title": "Cari végétarien et fromage à griller",
+    "status": "found",
+    "pageUrl": "https://www.lesoleil.com/2021/10/08/cari-vegetarien-et-fromage-a-griller-e2d70e78346b5ac23a327653a2a2eebd/",
+    "imageUrl": "https://lescoopsdelinformation-le-soleil-prod.web.arc-cdn.net/resizer/v2/ETNF5V3HIBC5NJEMGISDDPUEEI.jpg?smart=true&auth=cb877cbb739d93953959154dfa75b3ae58a8b218b17ca6b4c0c4aa2e161b601b&width=800&height=527",
+    "imageDownloadable": true,
+    "evidence": "Source photo is a printed cookbook page (p.122, chapter Végétarien). Le Soleil (2021-10-08) publishes the excerpt from the book Folks & Forks (Éditions Pratico-Pratiques); title, 4 portions, 25 min prep/17 min cook and all quantities match. The image URL contains an auth token and was verified as image/jpeg; the og:image variant (width=657) returned 400 because of HTML-escaped ampersands, use the URL as given here. Image is the newspaper's dish photo, not the official Folks & Forks site.",
+    "differences": "Le Soleil lists chickpeas as '1/2 can (142 g)' whereas the book page says 1/2 conserve de 540 ml; otherwise identical. Le Soleil names Le Paillasson as example cheese."
+  },
+  {
+    "slug": "plaque-de-pois-chiches-et-halloumi-yogourt-au-sumac",
+    "title": "Plaque de pois chiches et halloumi, yogourt au sumac",
+    "status": "found",
+    "pageUrl": "https://dashofhoney.ca/en/chickpea-and-halloumi-sheet-pan-with-sumac-yogurt/",
+    "imageUrl": "https://dashofhoney.ca/wp-content/uploads/2024/10/IMG_8186.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo is a Dash of Honey screenshot with the same title, 4 portions, 15/30 min and identical ingredient list. og:image is image/jpeg. The page is the French recipe served at the /en/ URL (site is bilingual).",
+    "differences": ""
+  },
+  {
+    "slug": "cari-vegetarien-au-chou-fleur-et-patates-douces",
+    "title": "Cari végétarien au chou-fleur et patates douces",
+    "status": "found",
+    "pageUrl": "https://www.kpourkatrine.com/fr/recettes/cari-vegetarien-chou-fleur-patates-douces/",
+    "imageUrl": "https://kpourk-s3.kpourkatrine.com/app/uploads/2018/01/29183611/cari-de-legumes-10-version-2-reduite.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo is a K pour Katrine screenshot; title, 6 portions and ingredient list match the page. og:image is image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "bol-de-tofu-satay",
+    "title": "Bol de tofu Satay",
+    "status": "found",
+    "pageUrl": "https://dashofhoney.ca/en/satay-tofu-bowl/",
+    "imageUrl": "https://dashofhoney.ca/wp-content/uploads/2024/04/sataytofu.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo is a Dash of Honey screenshot with same title and ingredients (tofu 454 g, peanut sauce, cabbage, cucumbers). Site lists 2 portions, matches ours. og:image is image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "garlic-chili",
+    "title": "Garlic Chili",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Source photos are a phone screenshot of a video description (likely YouTube/Instagram, title card 'GARLIC CHILI') with no creator name visible. Web searches found similar garlic chili noodle recipes but none with the exact ingredient list (100 g extra firm tofu, knife pare noodles, plant-based oyster sauce, gochugaru); the one search snippet with those ingredients had no attributable page.",
+    "differences": ""
+  },
+  {
+    "slug": "bol-burrito-vege-chili-lime",
+    "title": "Bol burrito végé chili lime",
+    "status": "found",
+    "pageUrl": "https://dashofhoney.ca/en/vegetarian-chili-lime-burrito-bowl/",
+    "imageUrl": "https://dashofhoney.ca/wp-content/uploads/2026/01/Bolburritovege1.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo is a recipe page screenshot (no logo) with Dash of Honey style; search found this Dash of Honey page with same title, Clark chili lime black beans, pickled onions, sweet potatoes, tomato salsa. og:image is image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "roasted-vegetable-salad-with-crispy-chickpeas",
+    "title": "Roasted Vegetable Salad with Crispy Chickpeas",
+    "status": "found",
+    "pageUrl": "https://www.pickuplimes.com/recipe/roasted-vegetable-salad-with-crispy-chickpeas-596",
+    "imageUrl": "https://cdn.pickuplimes.com/cache/f2/17/f2179c0c96525358357bea553afd89ab.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo shows Pick Up Limes logo, 4 servings, 55 min, same ingredient list and quantities as the page found. og:image is image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "cari-de-tempeh",
+    "title": "Cari de tempeh",
+    "status": "not_found",
+    "pageUrl": null,
+    "imageUrl": null,
+    "imageDownloadable": null,
+    "evidence": "Source photo is an unbranded printed page (4 portions, 20 min prep, 25 min cook, blurb 'Donnez une dernière chance au tempeh...'). Several searches (Zeste, Radio-Canada, other blogs) found no page with this exact ingredient list (240 g tempeh, poivron rouge, courgette, échalotes françaises, cassonade, pâte de tomates).",
+    "differences": ""
+  },
+  {
+    "slug": "vegan-tuna",
+    "title": "Vegan Tuna",
+    "status": "found",
+    "pageUrl": "https://lovingitvegan.com/vegan-tuna/",
+    "imageUrl": "https://lovingitvegan.com/wp-content/uploads/2019/12/Vegan-Tuna-9.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo shows recipe card by Alison Andrews (4.99 from 204 votes, 4 servings, 181 kcal); search located Loving It Vegan's Vegan Tuna page by Alison Andrews with matching ingredients (chickpeas, nori, capers, tamari, nutritional yeast). og:image is image/jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "salade-de-couscous-perle-aux-legumes-rotis-et-tomates-sechee",
+    "title": "Salade de couscous perlé aux légumes rôtis et tomates séchées",
+    "status": "found",
+    "pageUrl": "https://dashofhoney.ca/en/roasted-veggies-pearl-couscous-salad-with-sundried-tomatoes/",
+    "imageUrl": "https://dashofhoney.ca/wp-content/uploads/2025/08/IMG_9392.webp",
+    "imageDownloadable": true,
+    "evidence": "Source photo is a Dash of Honey screenshot (4 portions, 20 min prep, 30 cook, 50 total); the English page found describes the same recipe (zucchini, red peppers, red onion, chickpeas, pearl couscous, raisins, feta, sun-dried tomato vinaigrette with white balsamic, Dijon, honey). Ingredient quantities on the page were not individually compared, only the component list. Image is image/webp, not jpeg.",
+    "differences": ""
+  },
+  {
+    "slug": "cari-rouge-a-la-citrouille-pois-chiches-et-epinards",
+    "title": "Cari rouge à la citrouille, pois chiches et épinards",
+    "status": "found",
+    "pageUrl": "https://dashofhoney.ca/en/creamy-pumpkin-thai-red-curry-coconut-milk/",
+    "imageUrl": "https://dashofhoney.ca/wp-content/uploads/2020/11/PumpkinCurry1.jpg",
+    "imageDownloadable": true,
+    "evidence": "Source photo is a Dash of Honey page (4 portions, 15+20 min) with same title and ingredient list; the search result page with the same French title matches (soy sauce, lime, 540 ml chickpeas, 4 cups spinach). The site also mentions an optional chicken addition; ours is vegetarian. og:image is image/jpeg.",
+    "differences": "The site page mentions optional shredded chicken and extra water; not in our version."
+  }
+]

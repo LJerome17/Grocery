@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useApp } from "@/components/AppProvider";
+import { messageFr } from "@/lib/erreur";
 import { RecipeImage } from "@/components/RecipeImage";
 import { AISLES } from "@/lib/aisles";
 import { matchIngredient, type AliasIndex } from "@/lib/catalog";
@@ -10,7 +11,6 @@ import { loadAliasIndex, loadCatalog } from "@/lib/data";
 import { DISH_TYPES, PROTEINS, type Ingredient } from "@/lib/db";
 import type { ImportedRecipe } from "@/lib/importRecipe";
 import { SEASON_LABEL, type Season } from "@/lib/planner";
-import { scaledQuantity } from "@/lib/shopping";
 import { resizeImage } from "@/lib/resizeImage";
 import { supabase } from "@/lib/supabase";
 import { nameKey } from "@/lib/text";
@@ -38,7 +38,7 @@ export default function Nouvelle() {
         setCatalog(c);
         setAliases(a);
       })
-      .catch((e) => setError(`Catalogue inaccessible : ${e.message ?? e}`));
+      .catch((e) => setError(`Catalogue inaccessible : ${messageFr(e)}`));
   }, []);
 
   const catalogById = useMemo(() => new Map(catalog.map((c) => [c.id, c])), [catalog]);
@@ -60,7 +60,7 @@ export default function Nouvelle() {
       setDraft(r);
       setLinks(r.ingredients.map((i) => (aliases ? matchIngredient(i.name, aliases) : null)));
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      setError(messageFr(e));
     }
     setBusy(false);
   }
@@ -72,9 +72,9 @@ export default function Nouvelle() {
     const { data, error } = await supabase()
       .from("ingredients")
       .insert({ household_id: householdId, name, aisle: AISLES.some(([k]) => k === aisle) ? aisle : "autre" })
-      .select("id,household_id,name,aisle,pantry")
+      .select("id,household_id,name,aisle,pantry,count_unit")
       .single();
-    if (error) return setError(error.message);
+    if (error) return setError(messageFr(error));
     setCatalog([...catalog, data as Ingredient]);
     setLinks(links.map((l, i) => (i === index ? data.id : l)));
   }
@@ -134,7 +134,7 @@ export default function Nouvelle() {
       for (const a of learned) await sb.from("ingredient_aliases").insert({ ...a, household_id: householdId });
       router.push(`/recettes/${recipe.id}`);
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      setError(messageFr(e));
       setBusy(false);
     }
   }
@@ -234,10 +234,7 @@ export default function Nouvelle() {
         </h2>
         {draft.ingredients.map((i, n) => (
           <div key={n} className="space-y-1.5 p-3 text-sm">
-            <p>
-              <span className="font-medium">{scaledQuantity(i.quantity, i.quantityMax, i.unit, 1)}</span> {i.name}
-              {i.note && <span className="text-muted"> ({i.note})</span>}
-            </p>
+            <p>{i.raw}</p>
             <div className="flex gap-2">
               <select
                 className={`input !py-1.5 text-sm ${links[n] ? "" : "border-accent"}`}
@@ -272,8 +269,13 @@ export default function Nouvelle() {
       )}
 
       {error && <p className="text-sm text-red-700">{error}</p>}
-      <button className="btn-primary w-full py-3" onClick={save} disabled={busy}>
-        {busy ? "Enregistrement…" : "Enregistrer la recette"}
+      {unmatched > 0 && (
+        <p className="text-sm text-accent">
+          Associez chaque ingrédient à un article du catalogue (ou créez-en un avec ＋) : c&apos;est ce nom français qui apparaîtra sur la liste d&apos;épicerie.
+        </p>
+      )}
+      <button className="btn-primary w-full py-3" onClick={save} disabled={busy || unmatched > 0}>
+        {busy ? "Enregistrement…" : unmatched > 0 ? `${unmatched} ingrédient${unmatched > 1 ? "s" : ""} à associer` : "Enregistrer la recette"}
       </button>
     </div>
   );

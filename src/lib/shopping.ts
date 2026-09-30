@@ -12,7 +12,14 @@ export type ListIngredient = {
   ingredient_id: string | null;
 };
 
-export type CatalogItem = { id: string; name: string; aisle: string; pantry: boolean };
+export type CatalogItem = {
+  id: string;
+  name: string;
+  aisle: string;
+  pantry: boolean;
+  /** Unit implied by a bare number in a recipe ("2 ail" = 2 cloves, "1 gingembre" = 1 inch). */
+  count_unit?: string | null;
+};
 
 export type ListLine = {
   key: string;
@@ -28,7 +35,7 @@ export type ListLine = {
 /** Units bought whole: 1.3 cans means buying 2. */
 const WHOLE_UNITS = new Set(["", "can", "pack", "block", "bunch", "clove", "stalk", "piece", "cube", "slice"]);
 /** Units too small to matter on a shopping list. */
-const NEGLIGIBLE_UNITS = new Set(["pinch", "sprig", "handful", "inch"]);
+const NEGLIGIBLE_UNITS = new Set(["pinch", "sprig", "handful"]);
 
 type Acc = {
   line: ListLine;
@@ -68,11 +75,12 @@ export function buildShoppingList(
       }
       if (!a.line.recipes.includes(r.title)) a.line.recipes.push(r.title);
       if (!i.optional) a.requiredSomewhere = true;
-      if (i.quantity === null || (i.unit && NEGLIGIBLE_UNITS.has(i.unit))) {
+      if (i.quantity === null || i.quantity === 0 || (i.unit && NEGLIGIBLE_UNITS.has(i.unit))) {
         a.unquantified = true;
         continue;
       }
-      const b = toBase(i.quantity * r.factor, i.unit);
+      const unit = (i.unit === null || i.unit === "piece") && cat?.count_unit ? cat.count_unit : i.unit;
+      const b = toBase(i.quantity * r.factor, unit);
       a.amounts.set(b.baseUnit, (a.amounts.get(b.baseUnit) ?? 0) + b.amount);
     }
   }

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { loadCatalog, loadRecipeIngredients, loadRecipes } from "./data";
 import type { Ingredient, Recipe, RecipeIngredient } from "./db";
+import { messageFr } from "@/lib/erreur";
 
 /** Recipes, their ingredients and the catalogue of a household. */
 export function useKitchen(householdId: string) {
@@ -22,7 +23,7 @@ export function useKitchen(householdId: string) {
       setIngredients(ing);
       setError(null);
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      setError(messageFr(e));
     } finally {
       setLoading(false);
     }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useApp } from "@/components/AppProvider";
+import { messageFr } from "@/lib/erreur";
 import { importStarterRecipes } from "@/lib/starter";
 import { supabase } from "@/lib/supabase";
 
@@ -21,9 +22,22 @@ export default function Foyer() {
     e.preventDefault();
     setBusy(true);
     setError(null);
-    const { error } = await supabase().rpc("create_household", { p_name: name, p_display_name: displayName || null });
-    if (error) setError(error.message);
-    else await reloadHousehold();
+    const { data: id, error } = await supabase().rpc("create_household", { p_name: name, p_display_name: displayName || null });
+    if (error) {
+      setError(messageFr(error));
+      setBusy(false);
+      return;
+    }
+    // Every new household starts with the Momo et Jéjé recipes (they can be removed afterwards).
+    let ok = true;
+    try {
+      await importStarterRecipes(id as string, (d, t) => setProgress(`Import des recettes : ${d} / ${t}`));
+    } catch (err) {
+      ok = false;
+      setError(`Foyer créé, mais l'import des recettes a échoué : ${messageFr(err)}`);
+    }
+    await reloadHousehold();
+    if (ok) router.push("/semaine");
     setBusy(false);
   }
 
@@ -32,41 +46,23 @@ export default function Foyer() {
     setBusy(true);
     setError(null);
     const { error } = await supabase().rpc("join_household", { p_code: code, p_display_name: displayName || null });
-    if (error) setError(error.message.includes("invalide") ? "Code d'invitation invalide." : error.message);
-    else await reloadHousehold();
-    setBusy(false);
-  }
-
-  async function loadStarter() {
-    if (!household) return;
-    setBusy(true);
-    setError(null);
-    try {
-      const n = await importStarterRecipes(household.id, (d, t) => setProgress(`${d} / ${t} recettes`));
-      setProgress(`${n} recettes importées.`);
-      router.push("/recettes");
-    } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+    if (error) setError(error.message.includes("invalide") ? "Code d'invitation invalide." : messageFr(error));
+    else {
+      await reloadHousehold();
+      router.push("/semaine");
     }
     setBusy(false);
   }
 
   if (!session) return null;
-
   if (household) {
     return (
-      <div className="space-y-4 pt-6">
-        <h1 className="text-2xl font-bold">Bienvenue, {household.name} 🎉</h1>
-        <div className="card space-y-3 p-5">
-          <p>Voulez-vous partir avec les 68 recettes de Momo et Jéjé ? Vous pourrez retirer celles qui ne vous plaisent pas.</p>
-          <button className="btn-primary w-full" onClick={loadStarter} disabled={busy}>
-            {busy ? progress ?? "Import…" : "Importer les recettes de départ"}
-          </button>
-          <button className="btn-ghost w-full" onClick={() => router.push("/recettes")} disabled={busy}>
-            Partir de zéro
-          </button>
-          {error && <p className="text-sm text-red-700">{error}</p>}
-        </div>
+      <div className="space-y-3 pt-10 text-center">
+        <p className="text-muted">Bienvenue, {household.name} !</p>
+        {error && <p className="text-sm text-red-700">{error}</p>}
+        <button className="btn-primary" onClick={() => router.push("/semaine")}>
+          Planifier la semaine
+        </button>
       </div>
     );
   }
@@ -75,7 +71,7 @@ export default function Foyer() {
     <div className="space-y-5 pt-6">
       <div className="text-center">
         <div className="text-5xl">🥕</div>
-        <p className="mt-2 font-semibold">Momo et Jéjé mangent végé</p>
+        <p className="mt-2 font-semibold">Momo et Jéjé cuisinent végé</p>
       </div>
       <h1 className="text-2xl font-bold">Votre foyer</h1>
       <p className="text-sm text-muted">
@@ -87,7 +83,7 @@ export default function Foyer() {
         <h2 className="font-semibold">Créer un foyer</h2>
         <input className="input" value={name} onChange={(e) => setName(e.target.value)} required />
         <button className="btn-primary w-full" disabled={busy}>
-          Créer
+          {busy && progress ? progress : "Créer"}
         </button>
       </form>
 

@@ -78,7 +78,8 @@
         "ail entieres",
         "gousse d ail",
         "gousses d ail"
-      ]
+      ],
+      "count_unit": "clove"
     },
     {
       "name": "Oignon jaune",
@@ -138,7 +139,8 @@
         "gingembre frais",
         "ginger",
         "ginger root"
-      ]
+      ],
+      "count_unit": "inch"
     },
     {
       "name": "Céleri",
@@ -211,7 +213,7 @@
       ]
     },
     {
-      "name": "Kale",
+      "name": "Chou frisé (kale)",
       "aisle": "fruits-legumes",
       "aliases": [
         "kale",
@@ -492,6 +494,16 @@
         "corn on the cob",
         "ears of corn",
         "mais"
+      ]
+    },
+    {
+      "name": "Légumes d'accompagnement (au choix)",
+      "aisle": "fruits-legumes",
+      "aliases": [
+        "legumes pour accompagner le tofu",
+        "legumes pour accompagner",
+        "legumes d accompagnement",
+        "legumes au choix"
       ]
     },
     {
@@ -896,7 +908,10 @@
         "lentilles",
         "lentilles brunes",
         "cooked brown lentils",
-        "brown lentils"
+        "brown lentils",
+        "lentils",
+        "canned lentils",
+        "lentilles en conserve"
       ]
     },
     {
@@ -920,6 +935,18 @@
         "coulis de tomates",
         "tomates broyees",
         "crushed tomatoes"
+      ]
+    },
+    {
+      "name": "Tomates entières (conserve)",
+      "aisle": "conserves",
+      "ml_per_can": 796,
+      "aliases": [
+        "whole peeled tomatoes",
+        "peeled tomatoes",
+        "tomates entieres",
+        "tomates entieres pelees",
+        "tomates pelees"
       ]
     },
     {
@@ -1021,7 +1048,7 @@
       ]
     },
     {
-      "name": "Doubanjiang",
+      "name": "Pâte de fèves pimentée (doubanjiang)",
       "aisle": "international",
       "aliases": [
         "doubanjiang",
@@ -1228,7 +1255,7 @@
       ]
     },
     {
-      "name": "Sauce BBQ",
+      "name": "Sauce barbecue",
       "aisle": "condiments",
       "aliases": [
         "sauce bbq",
@@ -1679,12 +1706,14 @@
       ]
     },
     {
-      "name": "Chips de maïs",
+      "name": "Croustilles de maïs",
       "aisle": "collations",
       "aliases": [
         "chips de mais",
         "tortilla chips",
-        "nachos"
+        "nachos",
+        "croustilles de mais",
+        "croustilles de tortilla"
       ]
     },
     {
@@ -2191,11 +2220,12 @@
       ]
     },
     {
-      "name": "Chips de pita",
+      "name": "Croustilles de pita",
       "aisle": "collations",
       "aliases": [
         "chips de pita",
-        "pita chips"
+        "pita chips",
+        "croustilles de pita"
       ]
     },
     {

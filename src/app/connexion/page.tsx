@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { messageFr } from "@/lib/erreur";
 
 export default function Connexion() {
   const router = useRouter();
@@ -21,10 +22,10 @@ export default function Connexion() {
     const sb = supabase();
     if (mode === "login") {
       const { error } = await sb.auth.signInWithPassword({ email, password });
-      if (error) setError(error.message === "Invalid login credentials" ? "Courriel ou mot de passe incorrect." : error.message);
+      if (error) setError(messageFr(error));
     } else {
       const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin } });
-      if (error) setError(error.message);
+      if (error) setError(messageFr(error));
       else if (!data.session) setMessage("Compte créé. Ouvrez le courriel de confirmation, puis revenez vous connecter.");
     }
     setBusy(false);
@@ -43,7 +44,7 @@ export default function Connexion() {
     <div className="pt-10">
       <div className="mb-8 text-center">
         <div className="text-5xl">🥕</div>
-        <h1 className="mt-3 text-2xl font-bold">Momo et Jéjé mangent végé</h1>
+        <h1 className="mt-3 text-2xl font-bold">Momo et Jéjé cuisinent végé</h1>
         <p className="mt-1 text-sm text-muted">Les recettes de la semaine et la liste d&apos;épicerie, sans y penser.</p>
       </div>
 

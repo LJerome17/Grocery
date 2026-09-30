@@ -195,6 +195,8 @@ export function parseIngredientLine(rawInput: string, section: string | null = n
       unit = containerAfter.unit;
       s = containerAfter.rest;
     }
+    // "3 inch piece ginger", "1 thumb-sized piece of ginger": the size unit is the measure, "piece" is noise.
+    if (unit === "inch") s = s.replace(/^(?:piece|morceau|bout)\s+(?:of\s+|de\s+|d['’]\s*)?/i, "");
     s = s.replace(/^(?:of|de|du|des)\s+/i, "").replace(/^d['’]\s*/i, "");
     // Container size: "1 boîte de 796 ml de tomates" -> note "796 ml", name "tomates".
     const container = s.match(new RegExp(String.raw`^(${SIZE_AMOUNT})\s+(?:(?:of|de|du|des)\s+|d['’]\s*)?`, "i"));
@@ -227,6 +229,15 @@ export function parseIngredientLine(rawInput: string, section: string | null = n
   if (trailing && trailing.index! > 0) {
     notes.push(trailing[0].trim());
     s = s.slice(0, trailing.index);
+  }
+
+  // "1 bout de gingembre d'un pouce" -> 1 inch of ginger.
+  const inches = s.match(/\s+(?:d['’]\s*(un|une|\d+(?:[.,]\d+)?)|of an?)\s+(?:pouces?|po|inch(?:es)?)\b/i);
+  if (inches && (unit === null || unit === "piece")) {
+    const n = inches[1] && /\d/.test(inches[1]) ? parseNumber(inches[1]) : 1;
+    quantity = (quantity ?? 1) * n;
+    unit = "inch";
+    s = s.slice(0, inches.index) + s.slice(inches.index! + inches[0].length);
   }
 
   const name = cleanSpaces(s).replace(/[.;:,]+$/, "");

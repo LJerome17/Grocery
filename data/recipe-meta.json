@@ -343,7 +343,7 @@
       ]
     },
     "Sundried Tomato Pesto": {
-      "dish_type": "accompagnement",
+      "dish_type": "pâtes",
       "protein": "végé",
       "seasons": [
         "printemps",
@@ -575,6 +575,14 @@
       "protein": "légumineuses",
       "seasons": [
         "automne"
+      ]
+    },
+    "Vegetarian Moussaka": {
+      "dish_type": "four",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne",
+        "hiver"
       ]
     }
   }

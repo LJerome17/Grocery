@@ -15,6 +15,12 @@ const catalog = read<{ ingredients: { name: string; aliases: string[] }[] }>("ca
 const meta = read<{ recipes: Record<string, { dish_type: string; protein: string; seasons: string[] }> }>("recipe-meta.json").recipes;
 const recipes = read<Entry[]>("recipes.raw.json").filter((r) => !r.error);
 const index = buildAliasIndex(catalog.map((c) => ({ id: c.name, aliases: c.aliases })));
+// Official pages found online for screenshot/pasted recipes: shown as "Recette originale".
+const found = new Map(
+  (existsSync(join(ROOT, "data", "image-search-results.json")) ? read<{ slug: string; status: string; pageUrl: string | null }[]>("image-search-results.json") : [])
+    .filter((x) => x.status === "found" && x.pageUrl)
+    .map((x) => [x.slug, x.pageUrl!]),
+);
 
 mkdirSync(join(OUT, "images"), { recursive: true });
 const out = recipes.map((r) => {
@@ -25,7 +31,7 @@ const out = recipes.map((r) => {
     slug: r.slug,
     title: r.title,
     source_type: r.sourceType,
-    source_url: r.sourceUrl,
+    source_url: r.sourceUrl ?? found.get(r.slug) ?? null,
     image_url: existsSync(img) ? `/starter/images/${r.slug}.webp` : null,
     servings: r.servings,
     total_minutes: r.totalMinutes,

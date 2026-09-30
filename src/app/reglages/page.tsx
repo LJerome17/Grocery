@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useApp } from "@/components/AppProvider";
 import type { Household } from "@/lib/db";
 import { supabase } from "@/lib/supabase";
+import { messageFr } from "@/lib/erreur";
 
 function Rule({ label, help, value, min, max, onChange }: { label: string; help: string; value: number; min: number; max: number; onChange: (v: number) => void }) {
   return (
@@ -39,7 +40,7 @@ function ProtectAccount() {
     const sb = supabase();
     const a = await sb.auth.updateUser({ email });
     const b = a.error ? a : await sb.auth.updateUser({ password });
-    setMsg(b.error ? `Erreur : ${b.error.message}` : "C'est fait : vous pouvez vous connecter avec ce courriel sur n'importe quel appareil.");
+    setMsg(b.error ? messageFr(b.error) : "C'est fait : vous pouvez vous connecter avec ce courriel sur n'importe quel appareil.");
     setBusy(false);
   }
 

@@ -38,7 +38,7 @@ export const UNITS: UnitDef[] = [
   { key: "cube", dim: "count", factor: 1, label: ["cube", "cubes"], aliases: ["cube", "cubes"] },
   { key: "block", dim: "count", factor: 1, label: ["bloc", "blocs"], aliases: ["block", "blocks", "bloc", "blocs"] },
   { key: "piece", dim: "count", factor: 1, label: ["morceau", "morceaux"], aliases: ["piece", "pieces", "morceau", "morceaux", "bout", "bouts"] },
-  { key: "inch", dim: "count", factor: 1, label: ["po", "po"], aliases: ["inch", "inches", "pouce", "pouces", "po"] },
+  { key: "inch", dim: "count", factor: 1, label: ["pouce", "pouces"], aliases: ["inch", "inches", "pouce", "pouces", "po", "thumb-sized piece", "thumb sized piece", "thumb-size piece", "thumb"] },
 ];
 
 export const UNIT_BY_KEY: Record<string, UnitDef> = Object.fromEntries(UNITS.map((u) => [u.key, u]));

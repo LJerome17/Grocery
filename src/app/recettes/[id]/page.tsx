@@ -6,7 +6,6 @@ import { Suspense, useEffect, useState } from "react";
 import { RecipeImage } from "@/components/RecipeImage";
 import { DISH_TYPES, PROTEINS, RECIPE_COLUMNS, type Recipe, type RecipeIngredient } from "@/lib/db";
 import { SEASON_LABEL, type Season } from "@/lib/planner";
-import { scaledQuantity, scaleFactor } from "@/lib/shopping";
 import { supabase } from "@/lib/supabase";
 
 function RecipeView() {
@@ -15,7 +14,8 @@ function RecipeView() {
   const router = useRouter();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [ingredients, setIngredients] = useState<RecipeIngredient[]>([]);
-  const [portions, setPortions] = useState<number | null>(params.get("portions") ? Number(params.get("portions")) : null);
+  // Whole multiplier from the week (?fois=2); quantities are otherwise shown exactly as written.
+  const times = Math.max(1, Math.round(Number(params.get("fois") ?? 1)) || 1);
   const [editing, setEditing] = useState(false);
   const [missing, setMissing] = useState(false);
 
@@ -60,8 +60,6 @@ function RecipeView() {
   if (!recipe) return <p className="py-20 text-center text-muted">Chargement…</p>;
 
   const base = recipe.servings ?? 4;
-  const shownPortions = portions ?? base;
-  const factor = scaleFactor(shownPortions, recipe.servings);
 
   return (
     <article className="space-y-5">
@@ -91,15 +89,9 @@ function RecipeView() {
       <section className="card p-4">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="font-semibold">Ingrédients</h2>
-          <div className="flex items-center gap-2 text-sm">
-            <button className="btn-ghost h-8 w-8 !p-0" onClick={() => setPortions(Math.max(1, shownPortions - 1))}>
-              −
-            </button>
-            <span>{shownPortions} portions</span>
-            <button className="btn-ghost h-8 w-8 !p-0" onClick={() => setPortions(shownPortions + 1)}>
-              +
-            </button>
-          </div>
+          <span className="text-sm text-muted">
+            {times > 1 ? `Recette ×${times} · ${base * times} portions` : `${base} portion${base > 1 ? "s" : ""}`}
+          </span>
         </div>
         <ul className="space-y-1.5 text-sm">
           {ingredients.map((i, n) => {
@@ -107,14 +99,13 @@ function RecipeView() {
             return (
               <li key={i.id}>
                 {header && <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-muted">{header}</p>}
-                <span className="font-medium">{scaledQuantity(i.quantity, i.quantity_max, i.unit, factor)}</span> {i.name}
-                {i.note && <span className="text-muted"> ({i.note})</span>}
-                {i.optional && <span className="text-muted"> (facultatif)</span>}
+                {i.raw}
               </li>
             );
           })}
         </ul>
-        {!recipe.servings && <p className="mt-3 text-xs text-muted">Nombre de portions d&apos;origine inconnu : 4 supposées.</p>}
+        {times > 1 && <p className="mb-3 rounded-lg bg-brand-soft p-2 text-sm text-brand">Recette ×{times} cette semaine : multipliez chaque quantité par {times}.</p>}
+        {!recipe.servings && <p className="mt-3 text-xs text-muted">Nombre de portions inconnu : 4 supposées. Indiquez-le dans Préférences.</p>}
       </section>
 
       {recipe.instructions.length > 0 && (

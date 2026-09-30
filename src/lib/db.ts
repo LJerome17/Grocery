@@ -50,21 +50,28 @@ export type Ingredient = {
   name: string;
   aisle: string;
   pantry: boolean;
+  count_unit: string | null;
 };
 
 export type WeekPlan = {
   id: string;
   household_id: string;
   week_start: string;
+  /** Maximum number of recipes wanted (the column predates the portions model). */
   suppers: number;
-  people: number;
-  lunches: number;
+  /** Portions wanted for the week. */
+  portions: number;
+  /** Seasons ticked for the suggestions (null = the current season). */
+  seasons: string[] | null;
+  exclude_dish_types: string[];
 };
 
 export type WeekPlanRecipe = {
   id: string;
   plan_id: string;
   recipe_id: string;
+  /** Whole number: the recipe is made ×1, ×2… (quantities never adapted otherwise). */
+  multiplier: number;
   portions: number;
   position: number;
   cooked: boolean;

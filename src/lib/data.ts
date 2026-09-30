@@ -31,7 +31,7 @@ export async function loadRecipeIngredients(recipeIds: string[]): Promise<Recipe
 }
 
 export async function loadCatalog(): Promise<Ingredient[]> {
-  const { data, error } = await supabase().from("ingredients").select("id,household_id,name,aisle,pantry").order("name");
+  const { data, error } = await supabase().from("ingredients").select("id,household_id,name,aisle,pantry,count_unit").order("name");
   if (error) throw error;
   return (data ?? []) as Ingredient[];
 }
@@ -88,6 +88,7 @@ export function toPlannerRecipes(
   }
   return recipes.map((r) => ({
     id: r.id,
+    servings: r.servings && r.servings > 0 ? r.servings : undefined,
     dishType: r.dish_type,
     protein: r.protein,
     seasons: r.seasons,

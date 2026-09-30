@@ -2,9 +2,16 @@
 
 import { NO_AISLE } from "./aisles";
 import type { Ingredient, Recipe, RecipeIngredient, WeekPlan, WeekPlanRecipe } from "./db";
-import { portionsPerRecipe } from "./planner";
-import { buildShoppingList, scaleFactor, type CatalogItem } from "./shopping";
+import { DEFAULT_SERVINGS, type Planned } from "./planner";
+import { buildShoppingList, type CatalogItem } from "./shopping";
 import { supabase } from "./supabase";
+
+export type WeekSettings = {
+  portions: number;
+  recipes: number;
+  seasons: string[];
+  excludeDishTypes: string[];
+};
 
 export async function loadWeek(householdId: string, week: string): Promise<{ plan: WeekPlan | null; items: WeekPlanRecipe[] }> {
   const { data: plan, error } = await supabase()
@@ -23,24 +30,42 @@ export async function loadWeek(householdId: string, week: string): Promise<{ pla
 export async function saveWeek(
   householdId: string,
   week: string,
-  settings: { suppers: number; people: number; lunches: number },
-  recipeIds: string[],
+  settings: WeekSettings,
+  planned: Planned[],
+  servingsOf: (recipeId: string) => number,
 ): Promise<{ plan: WeekPlan; items: WeekPlanRecipe[] }> {
   const sb = supabase();
   const { data: plan, error } = await sb
     .from("week_plans")
-    .upsert({ household_id: householdId, week_start: week, ...settings }, { onConflict: "household_id,week_start" })
+    .upsert(
+      {
+        household_id: householdId,
+        week_start: week,
+        suppers: settings.recipes,
+        portions: settings.portions,
+        seasons: settings.seasons,
+        exclude_dish_types: settings.excludeDishTypes,
+      },
+      { onConflict: "household_id,week_start" },
+    )
     .select("*")
     .single();
   if (error) throw error;
-  const portions = portionsPerRecipe(recipeIds.length, settings.people, settings.lunches);
   const del = await sb.from("week_plan_recipes").delete().eq("plan_id", plan.id);
   if (del.error) throw del.error;
-  const rows = recipeIds.map((recipe_id, position) => ({ plan_id: plan.id, recipe_id, position, portions: portions[position] }));
+  const rows = planned.map((p, position) => ({
+    plan_id: plan.id,
+    recipe_id: p.id,
+    position,
+    multiplier: p.multiplier,
+    portions: p.multiplier * servingsOf(p.id),
+  }));
   const { data: items, error: e2 } = rows.length ? await sb.from("week_plan_recipes").insert(rows).select("*") : { data: [], error: null };
   if (e2) throw e2;
   return { plan: plan as WeekPlan, items: ((items ?? []) as WeekPlanRecipe[]).sort((a, b) => a.position - b.position) };
 }
+
+export const servingsOf = (r: Pick<Recipe, "servings"> | undefined) => (r?.servings && r.servings > 0 ? r.servings : DEFAULT_SERVINGS);
 
 /** Replace the generated lines of the plan's list (manual additions are kept). Returns the number of lines. */
 export async function generateList(
@@ -55,11 +80,12 @@ export async function generateList(
   const recipeById = new Map(recipes.map((r) => [r.id, r]));
   const cat = new Map<string, CatalogItem>(catalog.map((c) => [c.id, c]));
 
+  // Quantities as written in the recipe, times the whole multiplier: never adapted otherwise.
   const lines = buildShoppingList(
     items
       .map((it) => ({ it, r: recipeById.get(it.recipe_id) }))
       .filter((x): x is { it: WeekPlanRecipe; r: Recipe } => !!x.r)
-      .map(({ it, r }) => ({ title: r.title, factor: scaleFactor(it.portions, r.servings), ingredients: byRecipe.get(r.id) ?? [] })),
+      .map(({ it, r }) => ({ title: r.title, factor: it.multiplier || 1, ingredients: byRecipe.get(r.id) ?? [] })),
     cat,
   ).filter((l) => l.aisle !== NO_AISLE);
 

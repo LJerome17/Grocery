@@ -10,9 +10,9 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Momo et Jéjé mangent végé",
+  title: "Momo et Jéjé cuisinent végé",
   description: "Recettes de la semaine et liste d'épicerie automatique",
-  applicationName: "Momo et Jéjé mangent végé",
+  applicationName: "Momo et Jéjé cuisinent végé",
   appleWebApp: { capable: true, title: "Momo & Jéjé", statusBarStyle: "default" },
   icons: { icon: "/icon-192.png", apple: "/icon-192.png" },
   manifest: "/manifest.webmanifest",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { portionsPerRecipe, seasonOf, suggest, swapFor, weekStart, type PlannerRecipe, type Rules } from "./planner";
+import { assignMultipliers, planWeek, seasonOf, suggest, swapFor, weekStart, type PlannerRecipe, type Rules } from "./planner";
 import { buildShoppingList, type CatalogItem } from "./shopping";
 
 const rules: Rules = { maxSameDishType: 1, maxSameProtein: 2, cooldownWeeks: 3 };
@@ -25,9 +25,70 @@ describe("calendar helpers", () => {
     expect(weekStart(new Date(2026, 8, 29))).toBe("2026-09-28"); // Tuesday
     expect(weekStart(new Date(2026, 9, 4))).toBe("2026-09-28"); // Sunday
   });
-  it("spreads lunches over the suppers", () => {
-    expect(portionsPerRecipe(4, 2, 5)).toEqual([4, 3, 3, 3]);
-    expect(portionsPerRecipe(3, 2, 0)).toEqual([2, 2, 2]);
+});
+
+describe("portions: whole multipliers only", () => {
+  it("reaches the target with the least extra", () => {
+    expect(assignMultipliers([4, 4, 4, 4, 4], 19)).toEqual([1, 1, 1, 1, 1]); // 20 = 1 extra
+    expect(assignMultipliers([4, 4, 4, 4], 19)).toEqual([2, 1, 1, 1]); // 20
+    expect(assignMultipliers([1, 4, 4], 12)).toEqual([4, 1, 1]); // the 1-portion bowl ×4
+    expect(assignMultipliers([6, 4], 10)).toEqual([1, 1]);
+  });
+  it("never goes under the target", () => {
+    for (const target of [1, 7, 13, 19, 25, 40]) {
+      const s = [2, 4, 6, 3, 4];
+      const m = assignMultipliers(s, target);
+      expect(m.every((k) => Number.isInteger(k) && k >= 1)).toBe(true);
+      expect(m.reduce((a, k, i) => a + k * s[i], 0)).toBeGreaterThanOrEqual(target);
+    }
+  });
+  it("plans a week that meets the target", () => {
+    const pool = [
+      r("a", "bol", "tofu", { servings: 4 }),
+      r("b", "salade", "végé", { servings: 6 }),
+      r("c", "soupe", "légumineuses", { servings: 4 }),
+      r("d", "pâtes", "fromage", { servings: 2 }),
+      r("e", "mijoté", "tempeh", { servings: 4 }),
+    ];
+    const plan = planWeek(pool, 3, 12, rules, "automne", { random: noRandom });
+    const sv = (id: string) => pool.find((p) => p.id === id)!.servings!;
+    expect(plan).toHaveLength(3);
+    expect(plan.reduce((a, p) => a + p.multiplier * sv(p.id), 0)).toBeGreaterThanOrEqual(12);
+  });
+});
+
+describe("fewer recipes when the portions are reached exactly", () => {
+  it("12 portions, up to 3 recipes: moussaka (8) + one of 4 is enough", () => {
+    const pool = [
+      r("moussaka", "four", "légumineuses", { servings: 8 }),
+      r("bol", "bol", "tofu", { servings: 4 }),
+      r("soupe", "soupe", "végé", { servings: 6 }),
+    ];
+    const plan = planWeek(pool, 3, 12, rules, "automne", { random: noRandom });
+    const sv = (id: string) => pool.find((p) => p.id === id)!.servings!;
+    expect(plan.reduce((a, p) => a + p.multiplier * sv(p.id), 0)).toBe(12);
+    expect(plan.length).toBeLessThan(3);
+  });
+  it("keeps the number asked when it lands exactly", () => {
+    const pool = ["a", "b", "c", "d", "e"].map((id, i) => r(id, `type${i}`, `p${i}`, { servings: 4 }));
+    expect(planWeek(pool, 5, 20, rules, "automne", { random: noRandom })).toHaveLength(5);
+  });
+});
+
+describe("category filters", () => {
+  const pool = [
+    r("ete", "salade", "végé", { seasons: ["ete"] }),
+    r("hiver", "soupe", "végé", { seasons: ["hiver"] }),
+    r("toute", "bol", "tofu"),
+    r("ramen", "ramen", "tofu"),
+  ];
+  it("never proposes a season that was unticked, even to fill the week", () => {
+    const ids = suggest(pool, 4, rules, "hiver", { random: noRandom, filters: { seasons: ["hiver"] } });
+    expect(ids).not.toContain("ete");
+    expect(ids).toHaveLength(3);
+  });
+  it("leaves out excluded dish types", () => {
+    expect(suggest(pool, 4, rules, "hiver", { random: noRandom, filters: { excludeDishTypes: ["ramen"] } })).not.toContain("ramen");
   });
 });
 

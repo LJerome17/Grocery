@@ -17,6 +17,9 @@
   "urlRewrites": {
     "https://dashofhoney.ca/fr/wpzoom_rcb_print/25056/": "https://dashofhoney.ca/fr/lasagne-au-pesto-petits-pois-et-courgette/"
   },
+  "manualForUrl": {
+    "https://www.allrecipes.com/recipe/25311/vegetarian-moussaka/": { "file": "data/manual/vegetarian-moussaka.txt", "totalMinutes": 155 }
+  },
   "exclude": {
     "_doc": "recipe titles removed at the user's request (source files are kept)",
     "titles": [
@@ -32,6 +35,33 @@
       297,
       450
     ]
+  },
+  "servings": {
+    "_doc": "recipe title -> portions it makes (given by the user, 2026-09-29); matched ignoring accents and punctuation",
+    "Garlic Chili": 2,
+    "Mapo Tofu Udon": 4,
+    "Palak tofu": 4,
+    "Ragoût crémeux express à la citrouille": 4,
+    "Ramen crémeux à la courge avec tempeh au sésame, de Loounie": 4,
+    "Soupe de lentilles épicée à l'oignon brûlé": 4,
+    "Sundried Tomato Pesto": 4,
+    "Tofu croustillant sésame et érable": 4,
+    "Tofu Magique": 4,
+    "Tofu Magique Bang Bang": 4,
+    "Tofu piri-piri et chou-fleur grillés, sauce à l'aneth": 4,
+    "Bol quinoa, tofu et arachides": 1,
+    "Soupe cari arachides avec oeuf mollet": 4
+  },
+  "scale": {
+    "_doc": "recipe title -> whole factor applied to every quantity, with the portions multiplied too (base recipe too small)",
+    "Sauté de tofu, oignons verts et sésame style philippino": 4
+  },
+  "addIngredients": {
+    "_doc": "recipe title -> ingredient lines appended (user request: make it a full meal)",
+    "Sundried Tomato Pesto": ["450 g de pâtes courtes"],
+    "Tofu croustillant sésame et érable": ["Légumes pour accompagner le tofu (au choix)"],
+    "Tofu Magique": ["Légumes pour accompagner le tofu (au choix)"],
+    "Tofu Magique Bang Bang": ["Légumes pour accompagner le tofu (au choix)"]
   },
   "titles": {
     "1 bloc de tofu ferme": "Tofu croustillant sésame et érable",
