@@ -29,6 +29,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [authReady, setAuthReady] = useState(false);
   // User id whose household has been loaded ("" = signed out), to know when loading is over.
   const [loadedFor, setLoadedFor] = useState<string | null>(null);
+  const [offline, setOffline] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -56,13 +57,19 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setLoadedFor("");
       return;
     }
-    const { data } = await supabase()
+    const { data, error } = await supabase()
       .from("household_members")
       .select("households(*)")
       .eq("user_id", userId)
       .order("household_id")
       .limit(1)
       .maybeSingle();
+    // A network failure must not look like "no household" (that would send people to create a second one).
+    if (error) {
+      setOffline(true);
+      return;
+    }
+    setOffline(false);
     setHousehold((data?.households as unknown as Household) ?? null);
     setLoadedFor(userId);
   }, [userId]);
@@ -87,6 +94,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     } else if (!household && pathname !== "/foyer") router.replace("/foyer");
     else if (household && pathname === "/") router.replace("/semaine");
   }, [loading, session, household, pathname, router]);
+
+  if (offline) {
+    return (
+      <div className="px-4 py-24 text-center">
+        <p className="text-lg font-semibold">Connexion impossible</p>
+        <p className="mt-1 text-sm text-muted">Vérifiez votre connexion Internet, puis réessayez.</p>
+        <button className="btn-primary mt-5" onClick={() => reloadHousehold()}>
+          Réessayer
+        </button>
+      </div>
+    );
+  }
 
   return <Ctx.Provider value={{ session, household, loading, reloadHousehold }}>{children}</Ctx.Provider>;
 }

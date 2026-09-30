@@ -57,6 +57,9 @@ export const DEFAULT_SERVINGS = 4;
 
 export type Planned = { id: string; multiplier: number };
 
+/** Each extra multiple (×2, ×3…) counts like 2 extra portions: variety wins over cooking one recipe many times. */
+const MULTIPLY_COST = 2;
+
 /**
  * Whole multipliers (×1, ×2…) so the recipes reach at least `target` portions with as little extra as possible.
  * Quantities are never adapted otherwise: a recipe for 4 is cooked for 4, 8, 12…
@@ -99,8 +102,9 @@ export function totalPortions(plan: Planned[], servingsOf: (id: string) => numbe
 }
 
 /**
- * Pick `count` recipes reaching at least `target` portions: several varied draws are compared and the one
- * with the least extra portions wins (the draws themselves follow the season and variety rules).
+ * Pick at most `count` recipes reaching at least `target` portions with the least extra (user rule: the number
+ * of recipes is a maximum; less extra wins over more recipes). Several varied draws per number of recipes are
+ * compared; the draws themselves follow the season and variety rules.
  */
 export function planWeek(
   recipes: PlannerRecipe[],
@@ -113,28 +117,40 @@ export function planWeek(
   const servings = new Map(recipes.map((r) => [r.id, r.servings ?? DEFAULT_SERVINGS]));
   const draw = (n: number) => {
     let best: { plan: Planned[]; extra: number; cost: number } | null = null;
-    for (let d = 0; d < (opts.draws ?? 40); d++) {
-      const ids = suggest(recipes, n, rules, season, { keep: opts.keep, avoid: opts.avoid, random: opts.random, filters: opts.filters });
+    for (let d = 0; d < (opts.draws ?? 30); d++) {
+      const keep = opts.keep?.slice(0, n);
+      const ids = suggest(recipes, n, rules, season, { keep, avoid: opts.avoid, random: opts.random, filters: opts.filters });
       const mult = assignMultipliers(ids.map((id) => servings.get(id)!), target);
       const plan = ids.map((id, i) => ({ id, multiplier: mult[i] }));
       const extra = totalPortions(plan, (id) => servings.get(id)!) - target;
       // The least extra, and as few multiplied recipes as possible (more variety).
-      const cost = extra + mult.reduce((a, k) => a + (k - 1), 0) * 0.5;
+      const cost = extra + mult.reduce((a, k) => a + (k - 1), 0) * MULTIPLY_COST;
       if (!best || cost < best.cost) best = { plan, extra, cost };
       if (extra === 0 && mult.every((k) => k === 1)) break;
     }
     return best;
   };
 
-  const full = draw(count);
-  if (!full || full.extra === 0) return full?.plan ?? [];
-  // The number of recipes is a maximum: fewer recipes are fine when, as written (no multiplying),
-  // they reach the portions exactly (e.g. 12 portions: an 8-portion moussaka + a 4-portion recipe).
-  for (let n = count - 1; n >= Math.max(1, opts.keep?.length ?? 0); n--) {
-    const fewer = draw(n);
-    if (fewer && fewer.extra === 0 && fewer.plan.every((p) => p.multiplier === 1)) return fewer.plan;
+  // From the maximum down: the least costly week wins; on a tie, the one with more recipes (more variety).
+  let best: { plan: Planned[]; cost: number } | null = null;
+  for (let n = count; n >= 1; n--) {
+    const candidate = draw(n);
+    if (candidate && (!best || candidate.cost < best.cost - 1e-9)) best = candidate;
   }
-  return full.plan;
+  return best?.plan ?? [];
+}
+
+/** Whether a week respects the variety rules (the planner relaxes them when there are not enough recipes). */
+export function respectsRules(plan: Planned[], recipes: PlannerRecipe[], rules: Rules): boolean {
+  const byId = new Map(recipes.map((r) => [r.id, r]));
+  const picked = plan.map((p) => byId.get(p.id)).filter((r): r is PlannerRecipe => !!r);
+  const count = (key: "dishType" | "protein", v: string | null) => (v ? picked.filter((r) => r[key] === v).length : 0);
+  return picked.every(
+    (r) =>
+      count("dishType", r.dishType) <= rules.maxSameDishType &&
+      count("protein", r.protein) <= rules.maxSameProtein &&
+      (r.weeksSinceEaten === null || r.weeksSinceEaten >= rules.cooldownWeeks),
+  );
 }
 
 /** Replacement for one recipe of the week that keeps the portion target as well as possible. */
@@ -158,7 +174,7 @@ export function swapInPlan(
     const ids = current.map((id) => (id === replaceId ? next : id));
     const mult = assignMultipliers(ids.map((id) => servings.get(id)!), target);
     const candidate = ids.map((id, i) => ({ id, multiplier: mult[i] }));
-    const cost = totalPortions(candidate, (id) => servings.get(id)!) - target + mult.reduce((a, m) => a + (m - 1), 0) * 0.5 + k * 0.3;
+    const cost = totalPortions(candidate, (id) => servings.get(id)!) - target + mult.reduce((a, m) => a + (m - 1), 0) * MULTIPLY_COST + k * 0.3;
     if (!best || cost < best.cost) best = { plan: candidate, cost };
   }
   return best?.plan ?? null;
@@ -223,7 +239,8 @@ export type Filters = {
 
 export function passesFilters(r: PlannerRecipe, f: Filters | undefined): boolean {
   if (!f) return true;
-  if (f.seasons?.length && r.seasons.length && !r.seasons.some((s) => f.seasons!.includes(s))) return false;
+  // A recipe with every season unticked is never proposed when seasons are filtered.
+  if (f.seasons?.length && !r.seasons.some((s) => f.seasons!.includes(s))) return false;
   if (r.dishType && f.excludeDishTypes?.includes(r.dishType)) return false;
   return true;
 }

@@ -77,9 +77,16 @@
         "ail hache",
         "ail entieres",
         "gousse d ail",
-        "gousses d ail"
+        "gousses d ail",
+        "tete d ail",
+        "tetes d ail"
       ],
-      "count_unit": "clove"
+      "count_unit": "clove",
+      "equiv": {
+        "unit": "clove",
+        "ml": 5,
+        "head": 10
+      }
     },
     {
       "name": "Oignon jaune",
@@ -92,7 +99,11 @@
         "onion",
         "onions",
         "yellow onion"
-      ]
+      ],
+      "equiv": {
+        "unit": "",
+        "ml": 250
+      }
     },
     {
       "name": "Oignon rouge",
@@ -102,7 +113,11 @@
         "oignons rouges",
         "red onion",
         "red onions"
-      ]
+      ],
+      "equiv": {
+        "unit": "",
+        "ml": 250
+      }
     },
     {
       "name": "Oignon vert",
@@ -118,7 +133,14 @@
         "scallion",
         "scallions",
         "echalote verte"
-      ]
+      ],
+      "equiv": {
+        "unit": "",
+        "ml": 15,
+        "pack": 6,
+        "bunch": 6,
+        "stalk": 1
+      }
     },
     {
       "name": "Échalote française",
@@ -140,7 +162,12 @@
         "ginger",
         "ginger root"
       ],
-      "count_unit": "inch"
+      "count_unit": "inch",
+      "equiv": {
+        "unit": "inch",
+        "ml": 15,
+        "g": 15
+      }
     },
     {
       "name": "Céleri",
@@ -148,7 +175,8 @@
       "aliases": [
         "celeri",
         "celery"
-      ]
+      ],
+      "count_unit": "stalk"
     },
     {
       "name": "Carotte",
@@ -158,7 +186,11 @@
         "carottes",
         "carrot",
         "carrots"
-      ]
+      ],
+      "equiv": {
+        "unit": "",
+        "ml": 125
+      }
     },
     {
       "name": "Aubergine",
@@ -176,7 +208,11 @@
         "courgette",
         "courgettes",
         "zucchini"
-      ]
+      ],
+      "equiv": {
+        "unit": "",
+        "ml": 500
+      }
     },
     {
       "name": "Courge musquée (butternut)",
@@ -201,7 +237,9 @@
       "aisle": "fruits-legumes",
       "aliases": [
         "brocoli",
-        "broccoli"
+        "broccoli",
+        "couronne de brocoli",
+        "couronnes de brocoli"
       ]
     },
     {
@@ -228,7 +266,12 @@
         "bebes epinards",
         "spinach",
         "baby spinach"
-      ]
+      ],
+      "equiv": {
+        "unit": "g",
+        "ml": 8.33,
+        "bunch": 250
+      }
     },
     {
       "name": "Roquette",
@@ -263,7 +306,11 @@
         "tomates",
         "tomato",
         "tomatoes"
-      ]
+      ],
+      "equiv": {
+        "unit": "",
+        "ml": 250
+      }
     },
     {
       "name": "Tomates cerises",
@@ -273,7 +320,12 @@
         "cherry tomatoes",
         "grape tomatoes"
       ],
-      "count_unit": "punnet"
+      "count_unit": "punnet",
+      "equiv": {
+        "unit": "punnet",
+        "ml": 551,
+        "g": 285
+      }
     },
     {
       "name": "Concombre",
@@ -283,7 +335,11 @@
         "concombres",
         "cucumber",
         "cucumbers"
-      ]
+      ],
+      "equiv": {
+        "unit": "",
+        "ml": 375
+      }
     },
     {
       "name": "Poivron rouge",
@@ -295,6 +351,20 @@
         "poivrons rouges",
         "red bell pepper",
         "bell pepper"
+      ],
+      "equiv": {
+        "unit": "",
+        "ml": 250
+      }
+    },
+    {
+      "name": "Poivron vert",
+      "aisle": "fruits-legumes",
+      "aliases": [
+        "poivron vert",
+        "poivrons verts",
+        "green bell pepper",
+        "green pepper"
       ]
     },
     {
@@ -337,7 +407,11 @@
         "patates douces",
         "sweet potato",
         "sweet potatoes"
-      ]
+      ],
+      "equiv": {
+        "unit": "",
+        "ml": 500
+      }
     },
     {
       "name": "Pomme de terre",
@@ -347,7 +421,11 @@
         "pommes de terre",
         "potato",
         "potatoes"
-      ]
+      ],
+      "equiv": {
+        "unit": "",
+        "g": 200
+      }
     },
     {
       "name": "Pomme",
@@ -369,7 +447,11 @@
         "lemons",
         "jus de citron",
         "lemon juice"
-      ]
+      ],
+      "equiv": {
+        "unit": "",
+        "ml": 45
+      }
     },
     {
       "name": "Lime",
@@ -378,8 +460,13 @@
         "lime",
         "limes",
         "jus de lime",
-        "lime juice"
-      ]
+        "lime juice",
+        "citron vert"
+      ],
+      "equiv": {
+        "unit": "",
+        "ml": 30
+      }
     },
     {
       "name": "Avocat",
@@ -431,7 +518,11 @@
         "cilantro",
         "fresh cilantro",
         "fresh coriander"
-      ]
+      ],
+      "equiv": {
+        "unit": "bunch",
+        "ml": 250
+      }
     },
     {
       "name": "Persil frais",
@@ -442,7 +533,11 @@
         "persil plat",
         "parsley",
         "fresh parsley"
-      ]
+      ],
+      "equiv": {
+        "unit": "bunch",
+        "ml": 250
+      }
     },
     {
       "name": "Basilic frais",
@@ -453,7 +548,11 @@
         "basil",
         "fresh basil",
         "fresh basil leaves"
-      ]
+      ],
+      "equiv": {
+        "unit": "bunch",
+        "ml": 250
+      }
     },
     {
       "name": "Menthe fraîche",
@@ -463,7 +562,11 @@
         "feuilles de menthe",
         "fresh mint",
         "fresh mint leaves"
-      ]
+      ],
+      "equiv": {
+        "unit": "bunch",
+        "ml": 250
+      }
     },
     {
       "name": "Aneth frais",
@@ -471,7 +574,11 @@
       "aliases": [
         "aneth",
         "dill"
-      ]
+      ],
+      "equiv": {
+        "unit": "bunch",
+        "ml": 250
+      }
     },
     {
       "name": "Ciboulette",
@@ -499,8 +606,7 @@
         "epis de mais",
         "mais en epi",
         "corn on the cob",
-        "ears of corn",
-        "mais"
+        "ears of corn"
       ]
     },
     {
@@ -511,6 +617,23 @@
         "legumes pour accompagner",
         "legumes d accompagnement",
         "legumes au choix"
+      ]
+    },
+    {
+      "name": "Thym frais",
+      "aisle": "fruits-legumes",
+      "aliases": [
+        "thym frais",
+        "fresh thyme",
+        "branches de thym"
+      ]
+    },
+    {
+      "name": "Origan frais",
+      "aisle": "fruits-legumes",
+      "aliases": [
+        "origan frais",
+        "fresh oregano"
       ]
     },
     {
@@ -529,7 +652,12 @@
         "tofu ferme",
         "firm tofu",
         "sofritas"
-      ]
+      ],
+      "equiv": {
+        "unit": "block",
+        "g": 450,
+        "pack": 1
+      }
     },
     {
       "name": "Tofu extra-ferme",
@@ -537,7 +665,12 @@
       "aliases": [
         "tofu extra ferme",
         "extra firm tofu"
-      ]
+      ],
+      "equiv": {
+        "unit": "block",
+        "g": 450,
+        "pack": 1
+      }
     },
     {
       "name": "Tofu soyeux",
@@ -552,7 +685,11 @@
       "aisle": "refrigeres",
       "aliases": [
         "tempeh"
-      ]
+      ],
+      "equiv": {
+        "unit": "pack",
+        "g": 240
+      }
     },
     {
       "name": "Haché végé",
@@ -626,7 +763,12 @@
         "lait vegetal",
         "boisson vegetale",
         "plant milk",
-        "oat milk"
+        "oat milk",
+        "lait d amande",
+        "almond milk",
+        "lait de riz",
+        "rice milk",
+        "lait d avoine"
       ]
     },
     {
@@ -685,7 +827,9 @@
       "aliases": [
         "vegan parmesan",
         "parmesan vegane",
-        "vegan parm"
+        "vegan parm",
+        "parmesan vegetal",
+        "parmesan vegan"
       ]
     },
     {
@@ -735,6 +879,18 @@
         "soft flour tortillas",
         "small soft flour tortillas",
         "tortillas de farine"
+      ]
+    },
+    {
+      "name": "Pâte à tarte",
+      "aisle": "surgeles",
+      "aliases": [
+        "pate a tarte",
+        "pates a tarte",
+        "abaisse",
+        "abaisses",
+        "pie crust",
+        "pie dough"
       ]
     },
     {
@@ -835,7 +991,32 @@
         "ramen noodles",
         "nouilles instantanees"
       ],
-      "count_unit": "portion"
+      "count_unit": "portion",
+      "equiv": {
+        "unit": "portion",
+        "pack": 1,
+        "g": 100
+      }
+    },
+    {
+      "name": "Lentilles brunes ou vertes (sèches)",
+      "aisle": "cereales",
+      "aliases": [
+        "lentilles brunes seches",
+        "lentilles vertes seches",
+        "lentilles seches",
+        "dried brown lentils",
+        "dried green lentils",
+        "dried lentils",
+        "lentilles vertes",
+        "lentilles du puy",
+        "green lentils",
+        "french lentils"
+      ],
+      "equiv": {
+        "unit": "g",
+        "ml": 1.25
+      }
     },
     {
       "name": "Lentilles corail",
@@ -845,7 +1026,11 @@
         "red lentils",
         "red split lentils",
         "lentilles rouges"
-      ]
+      ],
+      "equiv": {
+        "unit": "g",
+        "ml": 1.25
+      }
     },
     {
       "name": "Chapelure panko",
@@ -873,7 +1058,12 @@
         "pois chiches",
         "chickpeas",
         "cooked chickpeas"
-      ]
+      ],
+      "equiv": {
+        "unit": "can",
+        "ml": 375,
+        "g": 400
+      }
     },
     {
       "name": "Haricots noirs (conserve)",
@@ -882,7 +1072,12 @@
       "aliases": [
         "haricots noirs",
         "black beans"
-      ]
+      ],
+      "equiv": {
+        "unit": "can",
+        "ml": 375,
+        "g": 400
+      }
     },
     {
       "name": "Haricots blancs (conserve)",
@@ -892,7 +1087,12 @@
         "haricot blanc",
         "haricots blancs",
         "white beans"
-      ]
+      ],
+      "equiv": {
+        "unit": "can",
+        "ml": 375,
+        "g": 400
+      }
     },
     {
       "name": "Haricots rouges (conserve)",
@@ -902,7 +1102,12 @@
         "haricots rouges",
         "kidney beans",
         "cooked kidney beans"
-      ]
+      ],
+      "equiv": {
+        "unit": "can",
+        "ml": 375,
+        "g": 400
+      }
     },
     {
       "name": "Haricots pinto (conserve)",
@@ -912,21 +1117,32 @@
         "haricots pinto",
         "pinto beans",
         "cooked pinto beans"
-      ]
+      ],
+      "equiv": {
+        "unit": "can",
+        "ml": 375,
+        "g": 400
+      }
     },
     {
       "name": "Lentilles brunes (conserve)",
       "aisle": "conserves",
       "ml_per_can": 540,
       "aliases": [
-        "lentilles",
         "lentilles brunes",
         "cooked brown lentils",
         "brown lentils",
         "lentils",
         "canned lentils",
-        "lentilles en conserve"
-      ]
+        "lentilles en conserve",
+        "lentilles cuites",
+        "cooked lentils"
+      ],
+      "equiv": {
+        "unit": "can",
+        "ml": 375,
+        "g": 400
+      }
     },
     {
       "name": "Tomates en dés (conserve)",
@@ -938,7 +1154,11 @@
         "chopped tomatoes",
         "diced tomatoes"
       ],
-      "count_unit": "can"
+      "count_unit": "can",
+      "equiv": {
+        "unit": "can",
+        "ml": 796
+      }
     },
     {
       "name": "Sauce tomate (conserve)",
@@ -963,7 +1183,22 @@
         "tomates entieres pelees",
         "tomates pelees"
       ],
-      "count_unit": "can"
+      "count_unit": "can",
+      "equiv": {
+        "unit": "can",
+        "ml": 796
+      }
+    },
+    {
+      "name": "Poivrons rouges rôtis (pot)",
+      "aisle": "conserves",
+      "aliases": [
+        "poivrons rouges rotis",
+        "poivron rouge roti",
+        "poivrons rotis",
+        "roasted red peppers",
+        "roasted red pepper"
+      ]
     },
     {
       "name": "Pâte de tomate",
@@ -980,7 +1215,9 @@
       "aisle": "conserves",
       "aliases": [
         "tomates sechees",
-        "sun dried tomatoes"
+        "sun dried tomatoes",
+        "sundried tomatoes",
+        "sundried tomato"
       ]
     },
     {
@@ -989,9 +1226,14 @@
       "ml_per_can": 400,
       "aliases": [
         "lait de coco",
-        "coconut milk"
+        "coconut milk",
+        "lait de coconut"
       ],
-      "count_unit": "can"
+      "count_unit": "can",
+      "equiv": {
+        "unit": "can",
+        "ml": 400
+      }
     },
     {
       "name": "Crème de coco",
@@ -1000,7 +1242,11 @@
       "aliases": [
         "creme de coco",
         "coconut cream"
-      ]
+      ],
+      "equiv": {
+        "unit": "can",
+        "ml": 400
+      }
     },
     {
       "name": "Bouillon de légumes",
@@ -1011,10 +1257,13 @@
         "vegetable broth",
         "vegetable bouillon paste",
         "vegetable stock cube",
-        "cube de bouillon",
-        "bouillon"
+        "cube de bouillon"
       ],
-      "count_unit": "cube"
+      "count_unit": "cube",
+      "equiv": {
+        "unit": "ml",
+        "cube": 500
+      }
     },
     {
       "name": "Bouillon aux champignons",
@@ -1038,6 +1287,17 @@
       "aliases": [
         "capres",
         "capers"
+      ]
+    },
+    {
+      "name": "Oignons marinés",
+      "aisle": "conserves",
+      "aliases": [
+        "oignons marines",
+        "oignon marine",
+        "pickled onions",
+        "pickled red onions",
+        "oignons rouges marines"
       ]
     },
     {
@@ -1069,8 +1329,7 @@
       "name": "Pâte de fèves pimentée (doubanjiang)",
       "aisle": "international",
       "aliases": [
-        "doubanjiang",
-        "gochujang"
+        "doubanjiang"
       ]
     },
     {
@@ -1154,7 +1413,8 @@
         "chili croquant",
         "huile piquante",
         "huile pimentee",
-        "chili crisp"
+        "chili crisp",
+        "huile epicee"
       ]
     },
     {
@@ -1186,7 +1446,8 @@
       "pantry": true,
       "aliases": [
         "vinaigre de riz",
-        "rice vinegar"
+        "rice vinegar",
+        "vinaigre riz"
       ]
     },
     {
@@ -1256,6 +1517,16 @@
       ]
     },
     {
+      "name": "Harissa",
+      "aisle": "condiments",
+      "pantry": true,
+      "aliases": [
+        "harissa",
+        "pate harissa",
+        "pate de harissa"
+      ]
+    },
+    {
       "name": "Sauce piquante",
       "aisle": "condiments",
       "pantry": true,
@@ -1319,6 +1590,18 @@
       ]
     },
     {
+      "name": "Beurre d'amande ou de cajou",
+      "aisle": "condiments",
+      "pantry": true,
+      "aliases": [
+        "beurre d amande",
+        "beurre de cajou",
+        "beurre de noix de cajou",
+        "almond butter",
+        "cashew butter"
+      ]
+    },
+    {
       "name": "Tahini",
       "aisle": "condiments",
       "pantry": true,
@@ -1346,7 +1629,9 @@
       "pantry": true,
       "aliases": [
         "fecule de mais",
-        "cornstarch"
+        "cornstarch",
+        "corn starch",
+        "fecule"
       ]
     },
     {
@@ -1552,7 +1837,8 @@
       "pantry": true,
       "aliases": [
         "piment de cayenne",
-        "cayenne"
+        "cayenne",
+        "poivre de cayenne"
       ]
     },
     {
@@ -1575,7 +1861,10 @@
         "dried chilli flakes",
         "red pepper flakes",
         "piment rouge broye",
-        "crushed red pepper"
+        "crushed red pepper",
+        "red chili flakes",
+        "red chilli flakes",
+        "flocons de chili"
       ]
     },
     {
@@ -1711,7 +2000,9 @@
       "aliases": [
         "graines de citrouille",
         "pumpkin seeds",
-        "roasted pumpkin seeds"
+        "roasted pumpkin seeds",
+        "graines de courge",
+        "pepitas"
       ]
     },
     {
@@ -1737,7 +2028,7 @@
       ]
     },
     {
-      "name": "Edamames",
+      "name": "Édamames",
       "aisle": "surgeles",
       "aliases": [
         "edamame",
@@ -1759,8 +2050,9 @@
       "aisle": "surgeles",
       "aliases": [
         "mais en grains",
-        "corn",
-        "corn kernels"
+        "corn kernels",
+        "frozen corn",
+        "mais surgele"
       ]
     },
     {
@@ -1886,7 +2178,6 @@
       "name": "Mozzarella fraîche",
       "aisle": "laitiers",
       "aliases": [
-        "mozzarella",
         "mozzarella fraiche",
         "boule de mozzarella",
         "fresh mozzarella",
@@ -1971,12 +2262,10 @@
       "name": "Pain de campagne (levain)",
       "aisle": "boulangerie",
       "aliases": [
-        "pain",
         "pain de campagne",
         "pain au levain",
         "sourdough",
-        "sourdough bread",
-        "bread"
+        "sourdough bread"
       ]
     },
     {
@@ -2004,7 +2293,9 @@
         "nouilles soba",
         "knife pare noodles",
         "knife cut noodles",
-        "noodles"
+        "noodles",
+        "egg noodles",
+        "nouilles aux oeufs"
       ],
       "count_unit": "portion"
     },
@@ -2098,14 +2389,34 @@
       "count_unit": "portion"
     },
     {
+      "name": "Gochujang",
+      "aisle": "international",
+      "pantry": true,
+      "aliases": [
+        "gochujang",
+        "pate de piment coreenne"
+      ]
+    },
+    {
+      "name": "Sauce aux huîtres végétale (champignons)",
+      "aisle": "international",
+      "pantry": true,
+      "aliases": [
+        "plantbased oyster sauce",
+        "plant based oyster sauce",
+        "vegan oyster sauce",
+        "vegetarian oyster sauce",
+        "sauce aux huitres vegetale",
+        "sauce aux huitres vegetarienne"
+      ]
+    },
+    {
       "name": "Sauce aux huîtres",
       "aisle": "international",
       "pantry": true,
       "aliases": [
         "sauce aux huitres",
-        "oyster sauce",
-        "plantbased oyster sauce",
-        "vegan oyster sauce"
+        "oyster sauce"
       ]
     },
     {
@@ -2221,7 +2532,6 @@
       "aisle": "noix",
       "aliases": [
         "raisins secs",
-        "raisins",
         "raisins sec"
       ]
     },
@@ -2240,8 +2550,7 @@
       "aliases": [
         "noix au choix",
         "noix melangees",
-        "mixed nuts",
-        "noix"
+        "mixed nuts"
       ]
     },
     {

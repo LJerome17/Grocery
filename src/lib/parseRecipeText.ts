@@ -5,11 +5,13 @@ import type { ImportedRecipe } from "./importRecipe";
 import { parseServings } from "./importRecipe";
 import { isSectionHeader, parseIngredientLine, type ParsedIngredient } from "./parseIngredient";
 import { cleanSpaces } from "./text";
+import { cleanUrl } from "./url";
 
 const INGREDIENTS_RE = /^ingr[ée]dients?\s*:?$/i;
 const METHOD_RE = /^(method|instructions?|directions?|pr[ée]paration|[ée]tapes|steps|mode de pr[ée]paration|before you start|avant de commencer)\s*:?$/i;
 const NOTES_RE = /^(notes?|tips|notes? \/ tips|astuces?|conseils?)\s*:?$/i;
-const SERVINGS_LINE_RE = /^[~\s]*(?:serves|servings|yield|makes|portions?|rendement|pour|for)\b.*\d|^\s*[~\s]*\d+\s*(?:servings|portions|personnes)/i;
+// "Serves: 4", "~ For 3 servings ~", "4 portions" alone on its line (but not "4 portions ramen noodles").
+const SERVINGS_LINE_RE = /^[~\s]*(?:serves|servings|yield|makes|portions?|rendement|pour|for)\b[^a-z]*\d[^a-z]*(?:servings|portions|personnes)?[\s~.]*$|^[~\s]*(?:for|pour)\s+\d+\s*(?:servings|portions|personnes)[\s~.]*$|^[~\s]*\d+\s*(?:servings|portions|personnes)[\s~.]*$/i;
 const STEP_RE = /^\s*(?:\d+[.)]|étape \d+|step \d+)\s*/i;
 const QTY_START_RE = /^[\s\-•*]*(?:[\d½¼¾⅓⅔⅛]|a |an |une? )/i;
 // Words that mark a sub-list inside the ingredients ("Dressing", "Salad base", "Pour la sauce").
@@ -17,8 +19,11 @@ const HEADER_WORD_RE = /\b(sauce|dressing|vinaigrette|marinade|garniture|garnish
 
 function isTextSectionHeader(line: string, prevBlank: boolean, next: string | undefined): boolean {
   if (isSectionHeader({ text: line })) return true;
-  if (/\d|,/.test(line) || line.split(/\s+/).length > 4) return false;
-  if (HEADER_WORD_RE.test(line)) return true;
+  if (/[\d½¼¾⅓⅔⅛⅜⅝⅞]|,/.test(line) || line.split(/\s+/).length > 4) return false;
+  // "Sauce" introduces a sub-list; "Pâte à tarte" as the LAST line is an ingredient, not a header,
+  // and neither is "Pour servir: persil" (something after the colon).
+  if (/:\s*\S/.test(line)) return false;
+  if (HEADER_WORD_RE.test(line)) return !!next;
   return prevBlank && !!next && QTY_START_RE.test(next);
 }
 
@@ -31,9 +36,11 @@ export function parseRecipeText(text: string): ImportedRecipe {
   const methodStart = lines.findIndex((l, i) => i > ingStart && METHOD_RE.test(l.trim()));
 
   // Title: first line, unless the text starts straight with ingredients or with "Serves 4".
+  // A link on the title line ("Palak tofu (https://…)") is the original recipe, not part of the title.
   const first = nonEmpty[0] ?? "";
-  const title =
-    first && !QTY_START_RE.test(first) && !INGREDIENTS_RE.test(first) && !SERVINGS_LINE_RE.test(first) ? cleanSpaces(first) : "";
+  const firstIsTitle = !!first && !QTY_START_RE.test(first) && !INGREDIENTS_RE.test(first) && !SERVINGS_LINE_RE.test(first);
+  const link = firstIsTitle ? first.match(/https?:\/\/[^\s)]+/)?.[0] ?? null : null;
+  const title = firstIsTitle ? cleanSpaces(first.replace(/\(?\s*https?:\/\/[^\s)]+\s*\)?/, "")) : "";
   if (!title) warnings.push("Titre manquant.");
 
   let servings: number | null = null;
@@ -67,7 +74,7 @@ export function parseRecipeText(text: string): ImportedRecipe {
     const prevBlank = i > from && !lines[i - 1].trim();
     const next = lines.slice(i + 1, to).find((l) => l.trim())?.trim();
     if (isTextSectionHeader(line, prevBlank, next)) {
-      section = line.replace(/:\s*$/, "").replace(/^(for the|pour (le|la|les|l['’]))\s*/i, "").trim();
+      section = line.replace(/:\s*$/, "").replace(/^(for the|pour (les|le|la|l['’]))\s*/i, "").trim();
       continue;
     }
     const p = parseIngredientLine(line, section);
@@ -78,6 +85,9 @@ export function parseRecipeText(text: string): ImportedRecipe {
   const instructions: string[] = [];
   const notes: string[] = [];
   let inNotes = false;
+  // "1. Prep" followed by un-numbered lines is one step with sub-steps: "Prep : slice…. Dice…."
+  let grouping = false;
+  const sentence = (s: string) => (/[.!?:]$/.test(s) ? s : `${s}.`);
   for (let i = methodStart >= 0 ? methodStart + 1 : to; i < lines.length; i++) {
     const line = cleanSpaces(lines[i]);
     if (!line) continue;
@@ -86,12 +96,25 @@ export function parseRecipeText(text: string): ImportedRecipe {
       continue;
     }
     if (METHOD_RE.test(line)) continue;
-    (inNotes ? notes : instructions).push(line.replace(STEP_RE, ""));
+    if (inNotes) {
+      notes.push(line);
+      continue;
+    }
+    const numbered = STEP_RE.test(line);
+    const text = line.replace(STEP_RE, "");
+    if (numbered) {
+      grouping = text.split(/\s+/).length <= 5 && !/[.!?]$/.test(text); // a short title, not a sentence
+      instructions.push(grouping ? `${text} :` : text);
+    } else if (grouping && instructions.length) {
+      const last = instructions.length - 1;
+      instructions[last] = `${instructions[last].endsWith(":") ? instructions[last] : sentence(instructions[last])} ${text}`;
+    } else instructions.push(text);
   }
+  for (let n = 0; n < instructions.length; n++) instructions[n] = sentence(instructions[n]).replace(/ :\.$/, ".");
 
   return {
     title,
-    sourceUrl: null,
+    sourceUrl: link ? cleanUrl(link) : null,
     servings,
     totalMinutes: null,
     image: null,

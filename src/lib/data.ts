@@ -31,7 +31,7 @@ export async function loadRecipeIngredients(recipeIds: string[]): Promise<Recipe
 }
 
 export async function loadCatalog(): Promise<Ingredient[]> {
-  const { data, error } = await supabase().from("ingredients").select("id,household_id,name,aisle,pantry,count_unit").order("name");
+  const { data, error } = await supabase().from("ingredients").select("id,household_id,name,aisle,pantry,count_unit,equiv").order("name");
   if (error) throw error;
   return (data ?? []) as Ingredient[];
 }
@@ -78,6 +78,8 @@ export function toPlannerRecipes(
   ingredients: RecipeIngredient[],
   catalog: Ingredient[],
   history: Map<string, number>,
+  /** Catalogue ingredient ids on sale this week. */
+  onSale: Set<string> = new Set(),
 ): PlannerRecipe[] {
   const pantry = new Set(catalog.filter((c) => c.pantry).map((c) => c.id));
   const perRecipe = new Map<string, Set<string>>();
@@ -96,5 +98,6 @@ export function toPlannerRecipes(
     ingredientIds: [...(perRecipe.get(r.id) ?? [])],
     weeksSinceEaten: history.get(r.id) ?? null,
     active: r.active,
+    dealCount: [...(perRecipe.get(r.id) ?? [])].filter((id) => onSale.has(id)).length,
   }));
 }

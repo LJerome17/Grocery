@@ -2,7 +2,7 @@
 //   public/starter/recipes.json   recipes + ingredients (catalogue names, resolved to ids in the app)
 //   public/starter/images/*.webp  one picture per recipe
 // Usage: npx tsx scripts/build-starter.ts
-import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { buildAliasIndex, matchIngredient } from "../src/lib/catalog";
 import type { Entry } from "./import-local";
@@ -23,6 +23,9 @@ const found = new Map(
 );
 
 mkdirSync(join(OUT, "images"), { recursive: true });
+// Pictures of recipes that no longer exist (renamed or removed) are not published.
+const keep = new Set(recipes.map((r) => `${r.slug}.webp`));
+for (const f of readdirSync(join(OUT, "images"))) if (!keep.has(f)) rmSync(join(OUT, "images", f));
 const out = recipes.map((r) => {
   const img = join(ROOT, "data", "images", `${r.slug}.webp`);
   if (existsSync(img)) copyFileSync(img, join(OUT, "images", `${r.slug}.webp`));

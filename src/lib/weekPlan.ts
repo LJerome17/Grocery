@@ -90,6 +90,9 @@ export async function generateList(
   ).filter((l) => l.aisle !== NO_AISLE);
 
   const sb = supabase();
+  // Someone may be at the store ticking items: what is already ticked stays ticked in the new list.
+  const { data: previous } = await sb.from("shopping_items").select("ingredient_id,label,checked").eq("plan_id", planId).eq("checked", true);
+  const ticked = new Set((previous ?? []).map((p) => p.ingredient_id ?? `label:${p.label}`));
   const del = await sb.from("shopping_items").delete().eq("plan_id", planId).eq("manual", false);
   if (del.error) throw del.error;
   const rows = lines.map((l, position) => ({
@@ -100,7 +103,7 @@ export async function generateList(
     aisle: l.aisle,
     pantry: l.pantry,
     manual: false,
-    checked: false,
+    checked: ticked.has(l.ingredientId ?? `label:${l.optional ? `${l.label} (facultatif)` : l.label}`),
     position,
   }));
   if (rows.length) {

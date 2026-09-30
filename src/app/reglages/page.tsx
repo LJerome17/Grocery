@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useApp } from "@/components/AppProvider";
 import type { Household } from "@/lib/db";
+import { syncStarterRecipes } from "@/lib/starter";
 import { supabase } from "@/lib/supabase";
 import { messageFr } from "@/lib/erreur";
 
@@ -63,6 +64,8 @@ export default function Reglages() {
   const { household, session, reloadHousehold } = useApp();
   const [members, setMembers] = useState<{ display_name: string | null; user_id: string }[]>([]);
   const [copied, setCopied] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [syncMsg, setSyncMsg] = useState<string | null>(null);
 
   useEffect(() => {
     if (!household) return;
@@ -90,8 +93,20 @@ export default function Reglages() {
     await reloadHousehold();
   }
 
+  async function sync() {
+    setSyncing(true);
+    setSyncMsg(null);
+    try {
+      const r = await syncStarterRecipes(household!.id, (d, t) => setSyncMsg(`Mise à jour : ${d} / ${t}`));
+      setSyncMsg(`${r.updated} recette${r.updated > 1 ? "s" : ""} mise${r.updated > 1 ? "s" : ""} à jour${r.added ? `, ${r.added} ajoutée${r.added > 1 ? "s" : ""}` : ""}. Refaites la liste d'épicerie pour en profiter.`);
+    } catch (e) {
+      setSyncMsg(messageFr(e));
+    }
+    setSyncing(false);
+  }
+
   async function copyInvite() {
-    const text = `Rejoins notre foyer sur ${window.location.origin} avec le code : ${household!.invite_code}`;
+    const text = `Rejoignez notre foyer sur ${window.location.origin} avec le code : ${household!.invite_code}`;
     try {
       if (navigator.share) await navigator.share({ text });
       else {
@@ -130,6 +145,31 @@ export default function Reglages() {
         <Rule label="Même type de plat" help="Maximum par semaine (ex. 1 ramen)" value={household.max_same_dish_type} min={1} max={7} onChange={(v) => update({ max_same_dish_type: v })} />
         <Rule label="Même protéine" help="Maximum par semaine (ex. 2 tofu)" value={household.max_same_protein} min={1} max={7} onChange={(v) => update({ max_same_protein: v })} />
         <Rule label="Pause avant de revoir une recette" help="En semaines" value={household.repeat_cooldown_weeks} min={0} max={12} onChange={(v) => update({ repeat_cooldown_weeks: v })} />
+      </section>
+
+      <section className="card space-y-2 p-4">
+        <h2 className="font-semibold">Circulaire Maxi</h2>
+        <label className="block text-sm">
+          <span className="text-xs text-muted">Code postal (la circulaire varie selon la région)</span>
+          <input
+            className="input mt-1 uppercase"
+            defaultValue={household.postal_code ?? "H4C 0B8"}
+            maxLength={7}
+            onBlur={(e) => {
+              const v = e.target.value.trim().toUpperCase();
+              if (/^[A-Z]\d[A-Z] ?\d[A-Z]\d$/.test(v) && v !== household.postal_code) update({ postal_code: v });
+            }}
+          />
+        </label>
+      </section>
+
+      <section className="card space-y-2 p-4">
+        <h2 className="font-semibold">Recettes de départ</h2>
+        <p className="text-sm text-muted">Applique les dernières corrections (ingrédients, étapes, liens) sans toucher à vos préférences, et ajoute les nouvelles recettes.</p>
+        <button className="btn-ghost w-full" onClick={sync} disabled={syncing}>
+          {syncing ? syncMsg ?? "Mise à jour…" : "Mettre à jour les recettes de départ"}
+        </button>
+        {!syncing && syncMsg && <p className="text-sm text-muted">{syncMsg}</p>}
       </section>
 
       <section className="card p-4 text-sm">

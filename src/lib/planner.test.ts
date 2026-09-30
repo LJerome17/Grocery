@@ -69,6 +69,13 @@ describe("fewer recipes when the portions are reached exactly", () => {
     expect(plan.reduce((a, p) => a + p.multiplier * sv(p.id), 0)).toBe(12);
     expect(plan.length).toBeLessThan(3);
   });
+  it("prefers less extra over more recipes: 10 portions, up to 5 recipes of 4 -> 3 recipes (12)", () => {
+    const pool = ["a", "b", "c", "d", "e"].map((id, i) => r(id, `type${i}`, `p${i}`, { servings: 4 }));
+    const plan = planWeek(pool, 5, 10, rules, "automne", { random: noRandom });
+    expect(plan).toHaveLength(3);
+    expect(plan.every((p) => p.multiplier === 1)).toBe(true);
+  });
+
   it("keeps the number asked when it lands exactly", () => {
     const pool = ["a", "b", "c", "d", "e"].map((id, i) => r(id, `type${i}`, `p${i}`, { servings: 4 }));
     expect(planWeek(pool, 5, 20, rules, "automne", { random: noRandom })).toHaveLength(5);
@@ -159,7 +166,7 @@ describe("buildShoppingList", () => {
   it("adds up, rounds whole items up and sorts pantry last", () => {
     const list = buildShoppingList(
       [
-        { title: "Cari", factor: 1.5, ingredients: [ing("oignon", 1, null), ing("lait-coco", 1, "can"), ing("sel", 1, "tsp"), ing("eau", 1, "cup")] },
+        { title: "Cari", factor: 2, ingredients: [ing("oignon", 1, null), ing("lait-coco", 1, "can"), ing("sel", 1, "tsp"), ing("eau", 1, "cup")] },
         { title: "Soupe", factor: 1, ingredients: [ing("oignon", 2, null), ing("lait-coco", 250, "ml"), ing(null, 2, "tbsp", "Sauce mystère")] },
       ],
       catalog,
@@ -168,10 +175,30 @@ describe("buildShoppingList", () => {
       ["Oignon jaune", "4"],
       ["Lait de coco", "2 boîtes + 250 ml"],
       ["Sauce mystère", "30 ml"],
-      ["Sel", "8 ml"],
+      ["Sel", "10 ml"],
     ]);
     expect(list.find((l) => l.label === "Oignon jaune")!.recipes).toEqual(["Cari", "Soupe"]);
     expect(list.at(-1)!.pantry).toBe(true);
+  });
+
+  it("keeps ranges as written and adds up units through the buying-unit equivalences", () => {
+    const cat = new Map<string, CatalogItem>([
+      ["oeufs", { id: "oeufs", name: "Œufs", aisle: "laitiers", pantry: false }],
+      ["ail", { id: "ail", name: "Ail", aisle: "fruits-legumes", pantry: false, count_unit: "clove", equiv: { unit: "clove", ml: 5, head: 10 } }],
+      ["coco", { id: "coco", name: "Lait de coco", aisle: "conserves", pantry: false, equiv: { unit: "can", ml: 400 } }],
+    ]);
+    const list = buildShoppingList(
+      [
+        { title: "A", factor: 1, ingredients: [{ ...ing("oeufs", 4, null), quantity_max: 8 }, ing("ail", 3, "clove"), ing("coco", 1, "can")] },
+        { title: "B", factor: 1, ingredients: [ing("ail", 5, "ml"), ing("ail", 1, "head"), ing("coco", 250, "ml")] },
+      ],
+      cat,
+    );
+    expect(Object.fromEntries(list.map((l) => [l.label, l.quantityText]))).toEqual({
+      Œufs: "4 à 8",
+      Ail: "14 gousses", // 3 + 1 (5 ml) + 10 (one head)
+      "Lait de coco": "2 boîtes", // 1 + 250/400 rounded up
+    });
   });
 
   it("marks items only used as optional", () => {

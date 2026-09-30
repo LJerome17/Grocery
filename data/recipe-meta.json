@@ -3,7 +3,7 @@
   "recipes": {
     "Wraps aux pois chiches rôtis et à la feta": {
       "dish_type": "wrap",
-      "protein": "légumineuses",
+      "protein": "pois chiches",
       "seasons": [
         "printemps",
         "ete"
@@ -71,7 +71,7 @@
     },
     "Protein-Packed Lentil & Quinoa Salad": {
       "dish_type": "salade",
-      "protein": "légumineuses",
+      "protein": "lentilles",
       "seasons": [
         "printemps",
         "ete"
@@ -95,7 +95,7 @@
     },
     "My Lasagne": {
       "dish_type": "pâtes",
-      "protein": "végé",
+      "protein": "haché végé",
       "seasons": [
         "automne",
         "hiver"
@@ -103,7 +103,7 @@
     },
     "Warm Pearl Couscous Salad": {
       "dish_type": "salade",
-      "protein": "légumineuses",
+      "protein": "pois chiches",
       "seasons": [
         "printemps",
         "ete"
@@ -121,7 +121,7 @@
     },
     "Dhal de lentilles au curcuma et lait de coco avec pleurotes au paprika fumé": {
       "dish_type": "mijoté",
-      "protein": "légumineuses",
+      "protein": "lentilles",
       "seasons": [
         "automne",
         "hiver"
@@ -129,7 +129,7 @@
     },
     "Patates douces farcies à la mexicaine": {
       "dish_type": "four",
-      "protein": "légumineuses",
+      "protein": "haricots noirs",
       "seasons": [
         "printemps",
         "ete",
@@ -157,7 +157,7 @@
     },
     "Salade de légumineuses au maïs grillé et à la pomme": {
       "dish_type": "salade",
-      "protein": "légumineuses",
+      "protein": "pois chiches",
       "seasons": [
         "ete",
         "automne"
@@ -175,7 +175,7 @@
     },
     "Bean Crispy Salad": {
       "dish_type": "salade",
-      "protein": "légumineuses",
+      "protein": "haricots rouges",
       "seasons": [
         "printemps",
         "ete"
@@ -219,7 +219,7 @@
     },
     "Salade de légumes grillés aux lentilles, vinaigrette tahini, Dijon et érable": {
       "dish_type": "salade",
-      "protein": "légumineuses",
+      "protein": "lentilles",
       "seasons": [
         "automne",
         "hiver"
@@ -259,7 +259,7 @@
     },
     "Cari de lentilles corail et chou-fleur rôti": {
       "dish_type": "mijoté",
-      "protein": "légumineuses",
+      "protein": "lentilles",
       "seasons": [
         "automne",
         "hiver"
@@ -277,14 +277,14 @@
     },
     "Ragoût crémeux express à la citrouille": {
       "dish_type": "mijoté",
-      "protein": "légumineuses",
+      "protein": "haricots blancs",
       "seasons": [
         "automne"
       ]
     },
     "Pâté samosa": {
       "dish_type": "four",
-      "protein": "végé",
+      "protein": "pois chiches",
       "seasons": [
         "automne",
         "hiver"
@@ -292,7 +292,7 @@
     },
     "Soupe de lentilles épicée à l'oignon brûlé": {
       "dish_type": "soupe",
-      "protein": "légumineuses",
+      "protein": "lentilles",
       "seasons": [
         "automne",
         "hiver"
@@ -300,7 +300,7 @@
     },
     "Pâté chinois": {
       "dish_type": "four",
-      "protein": "végé",
+      "protein": "lentilles",
       "seasons": [
         "automne",
         "hiver"
@@ -308,7 +308,7 @@
     },
     "Vegan Jamaican Lentil Curry": {
       "dish_type": "mijoté",
-      "protein": "légumineuses",
+      "protein": "lentilles",
       "seasons": [
         "automne",
         "hiver"
@@ -362,7 +362,7 @@
     },
     "Marry Me Chickpeas": {
       "dish_type": "mijoté",
-      "protein": "légumineuses",
+      "protein": "pois chiches",
       "seasons": [
         "automne",
         "hiver"
@@ -385,7 +385,7 @@
     },
     "Aubergines grillées et pois chiches au cari": {
       "dish_type": "mijoté",
-      "protein": "légumineuses",
+      "protein": "pois chiches",
       "seasons": [
         "ete",
         "automne"
@@ -414,7 +414,7 @@
     },
     "Chou-fleur rôti et haricots blancs, sauce poivrons cajou": {
       "dish_type": "plaque",
-      "protein": "légumineuses",
+      "protein": "haricots blancs",
       "seasons": [
         "automne",
         "hiver"
@@ -422,7 +422,7 @@
     },
     "Cari de patates douces, lentilles et halloumi": {
       "dish_type": "mijoté",
-      "protein": "légumineuses",
+      "protein": "lentilles",
       "seasons": [
         "automne",
         "hiver"
@@ -430,7 +430,7 @@
     },
     "Pâtes façon «pain à l'ail» au pesto et pois chiches": {
       "dish_type": "pâtes",
-      "protein": "légumineuses",
+      "protein": "pois chiches",
       "seasons": [
         "printemps",
         "ete",
@@ -448,7 +448,7 @@
     },
     "Mushroom & Lentil Tacos with Garlic Avocado Cream": {
       "dish_type": "wrap",
-      "protein": "légumineuses",
+      "protein": "lentilles",
       "seasons": [
         "printemps",
         "ete",
@@ -478,7 +478,7 @@
     },
     "Haricots blancs sauce tomate & halloumi grillé": {
       "dish_type": "mijoté",
-      "protein": "fromage",
+      "protein": "haricots blancs",
       "seasons": [
         "automne",
         "hiver"
@@ -494,14 +494,14 @@
     },
     "Plaque de pois chiches et halloumi, yogourt au sumac": {
       "dish_type": "plaque",
-      "protein": "fromage",
+      "protein": "pois chiches",
       "seasons": [
         "automne"
       ]
     },
     "Cari végétarien au chou-fleur et patates douces": {
       "dish_type": "mijoté",
-      "protein": "légumineuses",
+      "protein": "végé",
       "seasons": [
         "automne",
         "hiver"
@@ -529,7 +529,7 @@
     },
     "Bol burrito végé chili lime": {
       "dish_type": "bol",
-      "protein": "légumineuses",
+      "protein": "haricots noirs",
       "seasons": [
         "printemps",
         "ete",
@@ -539,7 +539,7 @@
     },
     "Roasted Vegetable Salad with Crispy Chickpeas": {
       "dish_type": "salade",
-      "protein": "légumineuses",
+      "protein": "pois chiches",
       "seasons": [
         "automne"
       ]
@@ -556,7 +556,7 @@
     },
     "Vegan Tuna": {
       "dish_type": "sandwich",
-      "protein": "légumineuses",
+      "protein": "pois chiches",
       "seasons": [
         "printemps",
         "ete"
@@ -564,7 +564,7 @@
     },
     "Salade de couscous perlé aux légumes rôtis et tomates séchées": {
       "dish_type": "salade",
-      "protein": "légumineuses",
+      "protein": "pois chiches",
       "seasons": [
         "ete",
         "automne"
@@ -572,14 +572,14 @@
     },
     "Cari rouge à la citrouille, pois chiches et épinards": {
       "dish_type": "mijoté",
-      "protein": "légumineuses",
+      "protein": "pois chiches",
       "seasons": [
         "automne"
       ]
     },
     "Vegetarian Moussaka": {
       "dish_type": "four",
-      "protein": "légumineuses",
+      "protein": "lentilles",
       "seasons": [
         "automne",
         "hiver"

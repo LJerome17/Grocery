@@ -10,12 +10,15 @@ const catalog = JSON.parse(readFileSync(join(ROOT, "data", "catalog.json"), "utf
   aisle: string;
   pantry?: boolean;
   count_unit?: string;
+  equiv?: CatalogItem["equiv"];
 }[];
 const recipes = JSON.parse(readFileSync(join(ROOT, "public", "starter", "recipes.json"), "utf8")) as {
   title: string;
   ingredients: { quantity: number | null; unit: string | null; name: string; optional: boolean; catalog: string | null; raw: string }[];
 }[];
-const cat = new Map<string, CatalogItem>(catalog.map((c) => [c.name, { id: c.name, name: c.name, aisle: c.aisle, pantry: !!c.pantry, count_unit: c.count_unit ?? null }]));
+const cat = new Map<string, CatalogItem>(
+  catalog.map((c) => [c.name, { id: c.name, name: c.name, aisle: c.aisle, pantry: !!c.pantry, count_unit: c.count_unit ?? null, equiv: c.equiv ?? null }]),
+);
 
 const lines = buildShoppingList(
   recipes.map((r) => ({ title: r.title, factor: 1, ingredients: r.ingredients.map((i) => ({ ...i, ingredient_id: i.catalog })) })),

@@ -5,11 +5,12 @@
     "1 tasse à 1 tasse ½ de lait": "1 à 1 1/2 tasse de lait",
     "250 ml (1 tasse) ou 2 épis Maïs en grains": "250 ml (1 tasse) de maïs en grains (ou 2 épis)",
     "Additional toppings: extra green onion, toasted sesame seeds": [
-      "1 green onion (garnish)",
-      "1 tbsp toasted sesame seeds (garnish)"
+      "extra green onion (garnish)",
+      "toasted sesame seeds (garnish)"
     ],
-    "Silken tofu": "300 g silken tofu",
-    "1/4 fresh basil": "1/4 cup fresh basil"
+    "1/4 fresh basil": "1/4 cup fresh basil",
+    "Grains de 4 maïs": "4 épis de maïs (les grains)",
+    "1 boîte de conserve (540 ml) lentilles vertes, rincées et égouttées": "1 boîte de 540 ml de lentilles en conserve (vertes), rincées et égouttées"
   },
   "pdfUrls": {
     "Salade-tiède-de-légumes-grillés-aux-lentilles-_-margauxfood.ca.pdf": "https://margauxfood.ca/recette/salade-de-legumes-grilles-aux-lentilles/",
@@ -38,6 +39,12 @@
       102,
       297,
       450
+    ],
+    "Salade de pâtes aux légumes rôtis et chèvre.jpg": [
+      527,
+      308,
+      545,
+      578
     ]
   },
   "servings": {
@@ -74,12 +81,16 @@
     "Tofu Magique Bang Bang": [
       "Légumes pour accompagner le tofu (au choix)"
     ],
-    "Marry Me Chickpeas": [
-      "3/4 cup vegetable broth"
+    "Pâtes crémeuses au maïs et chorizo de tofu": [
+      "1 pincée de cannelle"
     ]
   },
   "titles": {
     "1 bloc de tofu ferme": "Tofu croustillant sésame et érable",
     "3-4 Garlic Cloves": "Cari de lentilles corail et chou-fleur rôti"
+  },
+  "photoToUrl": {
+    "_doc": "recipe title -> official page to import instead of a cut-off screenshot",
+    "Pâtes crémeuses au maïs et chorizo de tofu": "https://margauxfood.ca/recette/pates-cremeuses-au-mais-et-chorizo-de-tofu/"
   }
 }

@@ -5,7 +5,7 @@
 import * as cheerio from "cheerio";
 import type { AnyNode } from "domhandler";
 import { parseIngredientBlock, parseIngredientLine, type ParsedIngredient, type SourceLine } from "./parseIngredient";
-import { cleanSpaces, decodeEntities } from "./text";
+import { cleanSpaces, decodeEntities, nameKey } from "./text";
 
 export type ImportedRecipe = {
   title: string;
@@ -36,11 +36,37 @@ export function extractRecipe(html: string, url: string | null = null): Imported
   const fromLd = extractJsonLd($);
   const site = siteIngredients($);
   const fromHtml = extractHeuristic(cheerio.load(html));
-  // Some sites put only part of the method in their structured data: prefer the page's steps when richer.
-  const steps = (r: ImportedRecipe) =>
-    r.instructions.length < 2 && fromHtml.instructions.length > r.instructions.length ? fromHtml.instructions : r.instructions;
+  const key = (s: string) => nameKey(s);
+  // Some sites (Margaux Food) publish structured data that leaves out part of the recipe (a sauce, the first
+  // steps). When the visible page contains every structured line AND more, the page wins.
+  const steps = (r: ImportedRecipe) => {
+    const page = new Set(fromHtml.instructions.map(key));
+    const covered = r.instructions.every((s) => page.has(key(s)));
+    return fromHtml.instructions.length > r.instructions.length && (covered || r.instructions.length < 2) ? fromHtml.instructions : r.instructions;
+  };
+  const ingredients = (r: ImportedRecipe) => {
+    // Sub-headings that some sites put in the ingredient list ("Chorizo de tofu") become sections.
+    const headings = new Set(fromHtml.ingredients.map((i) => i.section).filter((s): s is string => !!s).map(key));
+    let current: string | null = null;
+    const withSections: ParsedIngredient[] = [];
+    for (const i of r.ingredients) {
+      if (i.quantity === null && headings.has(key(i.raw))) {
+        current = i.raw;
+        continue;
+      }
+      withSections.push({ ...i, section: i.section ?? current });
+    }
+    r = { ...r, ingredients: withSections };
+    const ld = new Set(r.ingredients.map((i) => key(i.raw)));
+    const page = fromHtml.ingredients;
+    if (page.length <= r.ingredients.length || !r.ingredients.every((i) => page.some((p) => key(p.raw) === key(i.raw)))) return r.ingredients;
+    // Stop after the last line the structured data knows: what follows is usually promotion ("Mon livre!").
+    let last = -1;
+    page.forEach((p, n) => ld.has(key(p.raw)) && (last = n));
+    return page.slice(0, last + 1);
+  };
   if (fromLd && site.length) return { ...fromLd, ingredients: site, instructions: steps(fromLd), sourceUrl: url };
-  if (fromLd && fromLd.ingredients.length) return { ...fromLd, instructions: steps(fromLd), sourceUrl: url };
+  if (fromLd && fromLd.ingredients.length) return { ...fromLd, ingredients: ingredients(fromLd), instructions: steps(fromLd), sourceUrl: url };
   if (fromLd) {
     // Recipe data without ingredients: keep its metadata, take the lists from the HTML.
     return {
@@ -143,12 +169,12 @@ function flattenInstructions(v: Json): string[] {
     const items = html("li, p").map((_, el) => cleanSpaces(html(el).text())).get().filter(Boolean);
     return items.length ? items : v.split(/\n+/).map((s) => cleanSpaces(decodeEntities(s))).filter(Boolean);
   }
-  if (Array.isArray(v)) return v.flatMap(flattenInstructions);
+  if (Array.isArray(v)) return v.flatMap(flattenInstructions).filter(Boolean); // some sites publish empty steps
   if (typeof v === "object") {
     const o = v as Record<string, Json>;
     if (o.itemListElement) return flattenInstructions(o.itemListElement);
-    if (o.text) return [cleanSpaces(decodeEntities(String(o.text)))];
-    if (o.name) return [cleanSpaces(decodeEntities(String(o.name)))];
+    if (o.text) return [cleanSpaces(decodeEntities(String(o.text)))].filter(Boolean);
+    if (o.name) return [cleanSpaces(decodeEntities(String(o.name)))].filter(Boolean);
   }
   return [];
 }
@@ -276,7 +302,13 @@ function extractHeuristic($: cheerio.CheerioAPI): ImportedRecipe {
   } else {
     let end = start + 1;
     while (end < lines.length && !METHOD_RE.test(lines[end].text) && end - start < 80) end++;
-    ingredients = parseIngredientBlock(lines.slice(start + 1, end).filter((l) => l.text.length < 160));
+    // Sub-headings are bold text on some sites, real <h3> headings on others (Margaux Food).
+    ingredients = parseIngredientBlock(
+      lines
+        .slice(start + 1, end)
+        .filter((l) => l.text.length < 160)
+        .map((l) => ({ text: l.text, bold: l.bold || l.heading })),
+    );
 
     if (end < lines.length && METHOD_RE.test(lines[end].text)) {
       for (let i = end + 1; i < lines.length && instructions.length < 40; i++) {

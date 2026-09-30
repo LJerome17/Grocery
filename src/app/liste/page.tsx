@@ -6,7 +6,10 @@ import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useApp } from "@/components/AppProvider";
 import { AISLE_LABEL, AISLE_ORDER } from "@/lib/aisles";
 import type { ShoppingItem } from "@/lib/db";
+import { messageFr } from "@/lib/erreur";
+import { formatPrice } from "@/lib/flyer";
 import { weekStart } from "@/lib/planner";
+import { dealsByIngredient, useDeals } from "@/lib/useDeals";
 import { supabase } from "@/lib/supabase";
 
 export default function ListePage() {
@@ -18,23 +21,35 @@ export default function ListePage() {
 }
 
 function Liste() {
-  const { householdId } = useApp();
+  const { household, householdId } = useApp();
   const requested = useSearchParams().get("plan");
   const [planId, setPlanId] = useState<string | null>(null);
+  const [week, setWeek] = useState<string | null>(null);
+  // Maxi price next to the items on sale for the list's week.
+  const flyer = useDeals(week ? household?.postal_code ?? "H4C 0B8" : null, week ?? "");
+  const dealMap = useMemo(() => dealsByIngredient(flyer.deals), [flyer.deals]);
   const [items, setItems] = useState<ShoppingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [newItem, setNewItem] = useState("");
   const [hideChecked, setHideChecked] = useState(false);
   const [showPantry, setShowPantry] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     if (!householdId) return;
-    const { data: plans } = await supabase()
+    const { data: plans, error: plansError } = await supabase()
       .from("week_plans")
       .select("id, week_start")
       .eq("household_id", householdId)
       .order("week_start", { ascending: false })
       .limit(6);
+    // A failure is shown as such, never as "no list yet".
+    if (plansError) {
+      setError(messageFr(plansError));
+      setLoading(false);
+      return;
+    }
+    setError(null);
     // The plan asked for (from "Faire la liste"), else this week, then upcoming weeks, then past ones.
     const thisWeek = weekStart(new Date());
     const rank = (w: string) => (w === thisWeek ? 0 : w > thisWeek ? 1 : 2);
@@ -48,12 +63,14 @@ function Liste() {
       const { data } = await supabase().from("shopping_items").select("*").eq("plan_id", p.id).order("position");
       if (data?.length) {
         setPlanId(p.id);
+        setWeek(p.week_start);
         setItems(data as ShoppingItem[]);
         setLoading(false);
         return;
       }
     }
     setPlanId(ordered[0]?.id ?? null);
+    setWeek(ordered[0]?.week_start ?? null);
     setItems([]);
     setLoading(false);
   }, [householdId, requested]);
@@ -61,6 +78,10 @@ function Liste() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- initial fetch
     load();
+    // Phones drop the live connection when the screen sleeps: reload when the page comes back.
+    const onVisible = () => document.visibilityState === "visible" && load();
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
   }, [load]);
 
   // Live sync: a box ticked on one phone shows up on the other.
@@ -88,8 +109,13 @@ function Liste() {
   }, [planId]);
 
   async function toggle(item: ShoppingItem) {
-    setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, checked: !i.checked } : i)));
-    await supabase().from("shopping_items").update({ checked: !item.checked }).eq("id", item.id);
+    setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, checked: !item.checked } : i)));
+    const { error } = await supabase().from("shopping_items").update({ checked: !item.checked }).eq("id", item.id);
+    if (error) {
+      // Not saved (bad network in the store): undo on screen so both phones stay the same.
+      setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, checked: item.checked } : i)));
+      setError(messageFr(error));
+    }
   }
 
   async function addItem(e: React.FormEvent) {
@@ -97,23 +123,36 @@ function Liste() {
     const label = newItem.trim();
     if (!label || !planId) return;
     setNewItem("");
-    const { data } = await supabase()
+    const { data, error } = await supabase()
       .from("shopping_items")
       .insert({ plan_id: planId, label, aisle: "autre", manual: true, position: 9999 })
       .select("*")
       .single();
+    if (error) {
+      setNewItem(label);
+      return setError(messageFr(error));
+    }
     if (data) setItems((prev) => (prev.some((i) => i.id === data.id) ? prev : [...prev, data as ShoppingItem]));
   }
 
   async function removeItem(item: ShoppingItem) {
     setItems((prev) => prev.filter((i) => i.id !== item.id));
-    await supabase().from("shopping_items").delete().eq("id", item.id);
+    const { error } = await supabase().from("shopping_items").delete().eq("id", item.id);
+    if (error) {
+      setError(messageFr(error));
+      load();
+    }
   }
 
   async function clearChecked() {
     const ids = items.filter((i) => i.checked).map((i) => i.id);
     setItems((prev) => prev.filter((i) => !i.checked));
-    if (ids.length) await supabase().from("shopping_items").delete().in("id", ids);
+    if (!ids.length) return;
+    const { error } = await supabase().from("shopping_items").delete().in("id", ids);
+    if (error) {
+      setError(messageFr(error));
+      load();
+    }
   }
 
   const groups = useMemo(() => {
@@ -150,6 +189,11 @@ function Liste() {
       <button onClick={() => toggle(item)} className={`flex-1 text-left ${item.checked ? "text-muted line-through" : ""}`}>
         <span className="font-medium">{item.label}</span>
         {item.quantity_text && <span className="ml-2 text-sm text-muted">{item.quantity_text}</span>}
+        {dealMap.get(item.label.replace(/ \(facultatif\)$/, "")) && (
+          <span className="ml-2 whitespace-nowrap text-xs font-semibold text-accent">
+            🏷️ {formatPrice(dealMap.get(item.label.replace(/ \(facultatif\)$/, ""))!.price)} Maxi
+          </span>
+        )}
       </button>
       {item.manual && (
         <button onClick={() => removeItem(item)} className="text-muted" aria-label="Supprimer">
@@ -167,9 +211,11 @@ function Liste() {
           <p className="text-sm text-muted">{remaining} article{remaining > 1 ? "s" : ""} à acheter</p>
         </div>
         <button className={hideChecked ? "chip-on" : "chip"} onClick={() => setHideChecked(!hideChecked)}>
-          {hideChecked ? "Tout afficher" : "Cacher les cochés"}
+          {hideChecked ? "Tout afficher" : "Masquer les cochés"}
         </button>
       </header>
+
+      {error && <p className="text-sm text-red-700">{error}</p>}
 
       <form onSubmit={addItem} className="flex gap-2">
         <input className="input" placeholder="Ajouter un article (papier de toilette…)" value={newItem} onChange={(e) => setNewItem(e.target.value)} />

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useApp } from "@/components/AppProvider";
 import { RecipeImage } from "@/components/RecipeImage";
 import { loadHistory, toPlannerRecipes } from "@/lib/data";
@@ -12,6 +12,7 @@ import {
   NOT_A_MEAL,
   passesFilters,
   planWeek,
+  respectsRules,
   SEASON_LABEL,
   seasonOf,
   swapInPlan,
@@ -20,6 +21,9 @@ import {
   type Planned,
   type Season,
 } from "@/lib/planner";
+import { formatPrice } from "@/lib/flyer";
+import { dealsByIngredient, useDeals } from "@/lib/useDeals";
+import { nameKey } from "@/lib/text";
 import { useKitchen } from "@/lib/useKitchen";
 import { generateList, loadWeek, saveWeek, servingsOf, type WeekSettings } from "@/lib/weekPlan";
 import { messageFr } from "@/lib/erreur";
@@ -32,11 +36,11 @@ function Stepper(props: { label: string; value: number; min: number; max: number
     <div className="flex flex-1 flex-col items-center gap-1">
       <span className="text-xs text-muted">{label}</span>
       <div className="flex items-center gap-2">
-        <button className="btn-ghost h-9 w-9 !p-0 text-lg" disabled={disabled || value <= min} onClick={() => onChange(value - 1)} aria-label={`Moins de ${label}`}>
+        <button className="btn-ghost h-9 w-9 !p-0 text-lg" disabled={disabled || value <= min} onClick={() => onChange(value - 1)} aria-label={`Diminuer : ${label}`}>
           −
         </button>
         <span className="w-7 text-center text-lg font-semibold">{value}</span>
-        <button className="btn-ghost h-9 w-9 !p-0 text-lg" disabled={disabled || value >= max} onClick={() => onChange(value + 1)} aria-label={`Plus de ${label}`}>
+        <button className="btn-ghost h-9 w-9 !p-0 text-lg" disabled={disabled || value >= max} onClick={() => onChange(value + 1)} aria-label={`Augmenter : ${label}`}>
           +
         </button>
       </div>
@@ -56,7 +60,10 @@ export default function Semaine() {
   const kitchen = useKitchen(householdId);
   const [offset, setOffset] = useState(0); // 0 = this week, 1 = next week
   const [today] = useState(() => new Date());
-  const week = useMemo(() => weekStart(new Date(today.getTime() + offset * 7 * 864e5)), [today, offset]);
+  // Calendar arithmetic (not milliseconds) so daylight-saving changes never land on the wrong week.
+  const week = useMemo(() => weekStart(new Date(today.getFullYear(), today.getMonth(), today.getDate() + offset * 7)), [today, offset]);
+  const weekRef = useRef(week);
+  const [loadingWeek, setLoadingWeek] = useState(true);
   const season = seasonOf(new Date(`${week}T12:00:00`));
 
   const [settings, setSettings] = useState<WeekSettings>({ portions: 20, recipes: 5, seasons: [season], excludeDishTypes: [] });
@@ -73,9 +80,16 @@ export default function Semaine() {
   useEffect(() => {
     if (!householdId) return;
     let cancelled = false;
+    weekRef.current = week;
+    // Never show (and let people edit) the previous week's recipes while the new week loads.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset on week change
+    setLoadingWeek(true);
+    setItems([]);
+    setPlanId(null);
     Promise.all([loadWeek(householdId, week), loadHistory(householdId, week)])
       .then(([w, h]) => {
         if (cancelled) return;
+        setLoadingWeek(false);
         setPlanId(w.plan?.id ?? null);
         setItems(w.items);
         setSettings(
@@ -91,13 +105,35 @@ export default function Semaine() {
         setHistory(h);
         setSwappedAway([]);
       })
-      .catch((e) => setError(messageFr(e)));
+      .catch((e) => {
+        if (cancelled) return;
+        setLoadingWeek(false);
+        setError(messageFr(e));
+      });
     return () => {
       cancelled = true;
     };
   }, [householdId, week]);
 
-  const planner = useMemo(() => toPlannerRecipes(kitchen.recipes, kitchen.ingredients, kitchen.catalog, history), [kitchen, history]);
+  // Maxi flyer valid on the week's Monday; ingredients on sale push their recipes up in the suggestions.
+  const flyer = useDeals(household?.postal_code ?? "H4C 0B8", week);
+  const dealMap = useMemo(() => dealsByIngredient(flyer.deals), [flyer.deals]);
+  const onSale = useMemo(() => new Set(kitchen.catalog.filter((c) => dealMap.has(c.name)).map((c) => c.id)), [kitchen.catalog, dealMap]);
+  const usedIngredients = useMemo(() => new Set(kitchen.ingredients.map((i) => i.ingredient_id)), [kitchen.ingredients]);
+  const relevantDeals = useMemo(
+    () =>
+      [...dealMap.values()]
+        .filter((d) => kitchen.catalog.some((c) => c.name === d.ingredient && !c.pantry && usedIngredients.has(c.id)))
+        .sort((a, b) => a.ingredient.localeCompare(b.ingredient, "fr")),
+    [dealMap, kitchen.catalog, usedIngredients],
+  );
+  const [showDeals, setShowDeals] = useState(false);
+
+  const planner = useMemo(
+    () => toPlannerRecipes(kitchen.recipes, kitchen.ingredients, kitchen.catalog, history, onSale),
+    [kitchen, history, onSale],
+  );
+  const dealCountOf = useMemo(() => new Map(planner.map((p) => [p.id, p.dealCount ?? 0])), [planner]);
   const recipeById = useMemo(() => new Map(kitchen.recipes.map((r) => [r.id, r])), [kitchen.recipes]);
   const sv = (id: string) => servingsOf(recipeById.get(id));
   const rules = household
@@ -108,12 +144,16 @@ export default function Semaine() {
   const available = planner.filter((r) => r.active !== false && !NOT_A_MEAL.has(r.dishType ?? "") && passesFilters(r, filters)).length;
 
   async function persist(planned: Planned[], s = settings) {
+    const forWeek = week;
     setBusy(true);
     setError(null);
     try {
-      const saved = await saveWeek(householdId, week, s, planned, sv);
-      setPlanId(saved.plan.id);
-      setItems(saved.items);
+      const saved = await saveWeek(householdId, forWeek, s, planned, sv);
+      // The week may have been switched while saving: never show one week's recipes under another.
+      if (weekRef.current === forWeek) {
+        setPlanId(saved.plan.id);
+        setItems(saved.items);
+      }
     } catch (e) {
       setError(messageFr(e));
     }
@@ -135,22 +175,21 @@ export default function Semaine() {
   async function changeSettings(next: WeekSettings) {
     setSettings(next);
     if (!current.length) return;
-    if (next.recipes !== settings.recipes) {
-      // Keep the chosen recipes; add or drop at the end.
-      const kept = current.slice(0, next.recipes).map((p) => p.id);
-      const plan =
-        kept.length < next.recipes
-          ? planWeek(planner, next.recipes, next.portions, rules, season, { keep: kept, filters: { seasons: next.seasons, excludeDishTypes: next.excludeDishTypes } })
-          : refit(kept, next.portions);
-      return persist(plan, next);
+    if (next.recipes !== settings.recipes || next.portions !== settings.portions) {
+      // Keep the chosen recipes (in order) as far as possible; the planner adds, drops or multiplies
+      // so the week reaches the portions with the least extra.
+      const plan = planWeek(planner, next.recipes, next.portions, rules, season, {
+        keep: current.map((p) => p.id),
+        filters: { seasons: next.seasons, excludeDishTypes: next.excludeDishTypes },
+      });
+      return persist(plan.length ? plan : refit(current.map((p) => p.id), next.portions), next);
     }
-    if (next.portions !== settings.portions) return persist(refit(current.map((p) => p.id), next.portions), next);
     return persist(current, next); // filters only: saved for the next suggestions
   }
 
   async function swap(recipeId: string) {
     const next = swapInPlan(planner, current, recipeId, settings.portions, rules, season, { avoid: swappedAway, filters });
-    if (!next) return setError("Aucune autre recette ne respecte les catégories et les règles de variété.");
+    if (!next) return setError("Aucune autre recette ne convient aux catégories et aux règles de variété.");
     setSwappedAway([...swappedAway, recipeId]);
     await persist(next);
   }
@@ -184,7 +223,7 @@ export default function Semaine() {
   const planned = current.reduce((sum, p) => sum + p.multiplier * sv(p.id), 0);
   const diff = planned - settings.portions;
   const pickable = kitchen.recipes.filter(
-    (r) => !current.some((p) => p.id === r.id) && r.active && !NOT_A_MEAL.has(r.dish_type ?? "") && r.title.toLowerCase().includes(search.toLowerCase()),
+    (r) => !current.some((p) => p.id === r.id) && r.active && !NOT_A_MEAL.has(r.dish_type ?? "") && nameKey(r.title).includes(nameKey(search)),
   );
   const dishTypes = DISH_TYPES.filter((d) => !NOT_A_MEAL.has(d) && kitchen.recipes.some((r) => r.dish_type === d));
   const toggle = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
@@ -193,7 +232,7 @@ export default function Semaine() {
   if (!kitchen.recipes.length) {
     return (
       <div className="card mt-10 space-y-3 p-5 text-center">
-        <p>Aucune recette dans votre foyer.</p>
+        <p>Votre foyer n&apos;a encore aucune recette.</p>
         <Link href="/recettes/nouvelle" className="btn-primary">
           Ajouter une recette
         </Link>
@@ -209,10 +248,10 @@ export default function Semaine() {
           <p className="text-sm text-muted">{SEASON_LABEL[season]}</p>
         </div>
         <div className="flex gap-1">
-          <button className={offset === 0 ? "chip-on" : "chip"} onClick={() => setOffset(0)}>
+          <button className={offset === 0 ? "chip-on" : "chip"} disabled={busy} onClick={() => setOffset(0)}>
             Cette semaine
           </button>
-          <button className={offset === 1 ? "chip-on" : "chip"} onClick={() => setOffset(1)}>
+          <button className={offset === 1 ? "chip-on" : "chip"} disabled={busy} onClick={() => setOffset(1)}>
             Suivante
           </button>
         </div>
@@ -221,19 +260,19 @@ export default function Semaine() {
       <section className="card space-y-3 p-4">
         <div className="flex gap-2">
           <Stepper label="Portions" value={settings.portions} min={1} max={80} disabled={busy} onChange={(v) => changeSettings({ ...settings, portions: v })} />
-          <Stepper label="Recettes (max.)" value={settings.recipes} min={1} max={10} disabled={busy} onChange={(v) => changeSettings({ ...settings, recipes: v })} />
+          <Stepper label="Recettes (au plus)" value={settings.recipes} min={1} max={10} disabled={busy} onChange={(v) => changeSettings({ ...settings, recipes: v })} />
         </div>
         <button className="flex w-full items-center justify-between border-t border-line pt-3 text-sm" onClick={() => setShowFilters(!showFilters)}>
           <span className="font-medium">Catégories proposées</span>
           <span className="text-muted">
-            {settings.seasons.map((s) => SEASON_LABEL[s as Season]).join(", ") || "Toutes les saisons"}
-            {settings.excludeDishTypes.length ? ` · sans ${settings.excludeDishTypes.join(", ")}` : ""} {showFilters ? "▾" : "▸"}
+            {settings.seasons.map((s) => SEASON_LABEL[s as Season]).join(", ") || "Aucune saison cochée : toutes"}
+            {settings.excludeDishTypes.length ? ` · sans : ${settings.excludeDishTypes.join(", ")}` : ""} {showFilters ? "▾" : "▸"}
           </span>
         </button>
         {showFilters && (
           <div className="space-y-3">
             <div>
-              <p className="mb-1 text-xs text-muted">Saisons : une recette doit être marquée pour au moins une saison cochée</p>
+              <p className="mb-1 text-xs text-muted">Seules les recettes marquées pour au moins une des saisons cochées sont proposées</p>
               <div className="flex flex-wrap gap-2">
                 {ALL_SEASONS.map((s) => (
                   <button key={s} disabled={busy} className={settings.seasons.includes(s) ? "chip-on" : "chip"} onClick={() => changeSettings({ ...settings, seasons: toggle(settings.seasons, s) })}>
@@ -257,22 +296,62 @@ export default function Semaine() {
                 ))}
               </div>
             </div>
-            <p className="text-xs text-muted">{plural(available, "recette")} correspondent à ces catégories.</p>
+            <p className="text-xs text-muted">{available === 0 ? "Aucune recette ne correspond" : available === 1 ? "1 recette correspond" : `${available} recettes correspondent`} à ces catégories.</p>
           </div>
         )}
       </section>
 
+      {relevantDeals.length > 0 && (
+        <section className="card p-4">
+          <button className="flex w-full items-center justify-between text-sm" onClick={() => setShowDeals(!showDeals)}>
+            <span className="font-medium">🏷️ Rabais Maxi qui touchent vos recettes ({relevantDeals.length})</span>
+            <span className="text-muted">{showDeals ? "▾" : "▸"}</span>
+          </button>
+          {showDeals && (
+            <ul className="mt-3 space-y-1.5 text-sm">
+              {relevantDeals.map((d) => (
+                  <li key={d.ingredient} className="flex justify-between gap-3">
+                    <span>
+                      <span className="font-medium">{d.ingredient}</span>
+                      <span className="block text-xs text-muted">{d.item.toLowerCase()}</span>
+                    </span>
+                    <span className="shrink-0 font-semibold text-accent">{formatPrice(d.price)}</span>
+                  </li>
+                ))}
+              {flyer.validFrom && (
+                <li className="pt-1 text-xs text-muted">
+                  Circulaire valide du {frenchWeek(flyer.validFrom)} au {frenchWeek(flyer.validTo!)}. Les suggestions favorisent ces recettes.
+                </li>
+              )}
+            </ul>
+          )}
+        </section>
+      )}
+
       {error && <p className="text-sm text-red-700">{error}</p>}
 
-      {!items.length ? (
+      {!loadingWeek && current.length > 0 && !respectsRules(current, planner, rules) && (
+        <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-900">
+          Variété assouplie : pas assez de recettes différentes dans ces catégories pour respecter toutes les règles de variété.
+        </p>
+      )}
+      {!available && !loadingWeek && (
+        <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-900">
+          Aucune recette ne correspond aux catégories choisies : cochez une saison ou retirez un type de plat exclu.
+        </p>
+      )}
+
+      {loadingWeek ? (
+        <p className="py-6 text-center text-sm text-muted">Chargement de la semaine…</p>
+      ) : !items.length ? (
         <button className="btn-primary w-full py-4 text-base" onClick={() => suggestAll()} disabled={busy || !available}>
-          ✨ Suggérer {settings.portions} portions
+          ✨ Proposer une semaine de {settings.portions} portions
         </button>
       ) : (
         <>
           <p className={`text-sm ${diff < 0 ? "font-semibold text-red-700" : "text-muted"}`}>
             {plural(planned, "portion")} prévue{planned > 1 ? "s" : ""} pour {settings.portions} demandée{settings.portions > 1 ? "s" : ""}
-            {diff > 0 ? ` · ${plural(diff, "portion")} d'extra` : diff < 0 ? ` · il manque ${plural(-diff, "portion")}` : " · pile le compte"}
+            {diff > 0 ? ` · ${plural(diff, "portion")} de plus` : diff < 0 ? ` · il manque ${plural(-diff, "portion")}` : " · exactement le compte"}
           </p>
           <section className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2">
             {items.map((it) => {
@@ -289,10 +368,13 @@ export default function Semaine() {
                         {m > 1 ? `${sv(r.id)} × ${m} = ${plural(sv(r.id) * m, "portion")}` : plural(sv(r.id), "portion")}
                         {r.dish_type ? ` · ${r.dish_type}` : ""}
                       </p>
+                      {(dealCountOf.get(r.id) ?? 0) > 0 && (
+                        <p className="text-xs font-medium text-accent">🏷️ {plural(dealCountOf.get(r.id)!, "ingrédient")} en rabais</p>
+                      )}
                     </div>
                   </Link>
                   <div className="flex items-center justify-between px-3 pb-2 text-sm">
-                    <span className="text-xs text-muted">Recette ×</span>
+                    <span className="text-xs text-muted">Multiplier la recette</span>
                     <div className="flex items-center gap-2">
                       <button className="btn-ghost h-7 w-7 !p-0" disabled={busy || m <= 1} onClick={() => setMultiplier(r.id, m - 1)} aria-label="Diminuer">
                         −
@@ -322,7 +404,7 @@ export default function Semaine() {
 
           <div className="flex gap-2">
             <button className="btn-ghost flex-1" onClick={() => suggestAll()} disabled={busy}>
-              ✨ Tout suggérer à nouveau
+              ✨ Proposer une autre semaine
             </button>
             <button className="btn-primary flex-1" onClick={makeList} disabled={busy}>
               🛒 Faire la liste

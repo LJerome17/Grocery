@@ -30,13 +30,14 @@ const PART_OF_RE = /^(?:le |la |the )?(jus|zeste|juice|zest)\s+(?:de\s+|d['’]\
 // A package size such as "796 ml", "350 à 450 g".
 const SIZE_AMOUNT = String.raw`\d+(?:[.,]\d+)?(?:\s*(?:à|-|–|to)\s*\d+(?:[.,]\d+)?)?\s*(?:ml|g|kg|l|oz|lb)`;
 const CONTAINER_UNITS = new Set(["can", "pack", "block"]);
-const SIZE_RE = /^(?:small|medium|large|big|extra[- ]large|heaped|heaping|level|rounded|generous|scant|petite?s?|moyens?|moyennes?|gros|grosses?|grande?s?)\b\s*/i;
+const SIZE_RE =
+  /^(?:(?:small|medium|large)[- ]sized?|medium to large|small to medium|moyen(?:ne)?s? (?:à|a) gros(?:se)?s?|small|medium|large|big|extra[- ]large|heaped|heaping|level|rounded|generous|scant|petite?s?|moyens?|moyennes?|gros|grosses?|grande?s?|rases?|bomb[ée]es?|combles?)(?=\s|$)\s*/i;
 const OPTIONAL_RE = /\b(?:optional|optionnel(?:le)?|facultati(?:f|ve))\b/i;
 const TRAILING_NOTE_RE = /\s*\b(to taste|au go[uû]t|au besoin|as needed|for garnish|to serve|pour garnir|pour servir)\b.*$/i;
 const BULLET_RE = /^[\s\-‐‑‒–—−•*▢□☐·]+/;
 // "Pesto végétalien - 125 ml", "Nouilles soba — 250 g", "Fromage halloumi : un bloc" (quantity after the name).
-const TAIL_QTY_RE = /^([^\d½¼¾⅓⅔]+?)\s+[-–—:]\s+((?:[\d½¼¾⅓⅔]|une?\s|a\s).*)$/i;
-const SERVE_PREFIX_RE = /^(pour servir|to serve|for serving|garniture|garnish|toppings?)\s*:\s*/i;
+const TAIL_QTY_RE = /^([^\d½¼¾⅓⅔]+?)(?:\s+[-–—]|\s*:)\s+((?:[\d½¼¾⅓⅔]|une?\s|a\s).*)$/i;
+const SERVE_PREFIX_RE = /^(pour servir|to serve|for serving|garnitures?|garnish|toppings?)\s*:\s*/i;
 // Units that make sense without a number in front ("Pinch nutmeg" -> 1 pinch).
 const IMPLICIT_ONE_UNITS = new Set(["pinch", "handful", "bunch", "sprig", "pack", "can"]);
 
@@ -56,6 +57,8 @@ function takeUnit(s: string): { unit: string; rest: string } | null {
     if (!f.startsWith(alias)) continue;
     const next = f.charAt(alias.length);
     if (next && /[a-z0-9]/.test(next)) continue; // "l" must not match "lime"
+    // "C." is a cup in English recipes, but "c. à …" is a spoon we do not know: never read it as a cup.
+    if (alias === "c." && /^\s*a\b/.test(f.slice(alias.length))) continue;
     let rest = s.slice(alias.length);
     rest = rest.replace(/^\.(?=\s|$)/, ""); // "c. à s." trailing dot
     return { unit: key, rest: rest.trimStart() };
@@ -72,8 +75,10 @@ export function parseIngredientLine(rawInput: string, section: string | null = n
   let before: string;
   do {
     before = s;
-    s = s.replace(/\(([^()]*)\)/g, (_, inner) => {
+    s = s.replace(/\(([^()]*)\)/g, (whole, inner, offset: number, str: string) => {
       const t = inner.trim();
+      // "coupée(s)": a plural mark glued to a word is not a note.
+      if (/^[a-z]{1,2}$/i.test(t) && /\w$/.test(str.slice(0, offset))) return "";
       if (t) notes.push(t);
       return " ";
     });
@@ -167,6 +172,21 @@ export function parseIngredientLine(rawInput: string, section: string | null = n
     if (quantity === null) quantity = 1;
     const unitText = s.slice(0, s.length - u.rest.length).trim();
     s = u.rest;
+    // "2,5 ml à 5 ml de …", "170g-200g de …": range written after the unit.
+    const range = quantityMax === null ? s.match(new RegExp(String.raw`^(?:à|a|-|–|to|ou|or)\s*(${NUM})\s*`, "i")) : null;
+    if (range) {
+      const again = takeUnit(s.slice(range[0].length));
+      if (!again || again.unit === unit) {
+        quantityMax = parseNumber(range[1]);
+        s = again ? again.rest : s.slice(range[0].length);
+      }
+    }
+    // "2 tasses et demie de farine"
+    const andHalf = s.match(/^et\s+demie?\b\s*/i);
+    if (andHalf) {
+      quantity += 0.5;
+      s = s.slice(andHalf[0].length);
+    }
     // "2 tbsp + 1 tsp oil" -> 2.33 tbsp
     const plus = s.match(new RegExp(String.raw`^\+\s*(${NUM})\s*`));
     const plusUnit = plus ? takeUnit(s.slice(plus[0].length)) : null;
@@ -210,6 +230,7 @@ export function parseIngredientLine(rawInput: string, section: string | null = n
   if (size && quantity !== null) {
     notes.push(size[0].trim());
     s = s.slice(size[0].length);
+    if (unit) s = s.replace(/^(?:of|de|du|des)\s+/i, "").replace(/^d['’]\s*/i, ""); // "1 c. à soupe rase de sel"
   }
 
   // "tofu de 315 g" -> note "315 g".
@@ -252,8 +273,8 @@ export function isSectionHeader(line: SourceLine): boolean {
   const t = cleanSpaces(line.text);
   if (!t) return false;
   if (/:\s*$/.test(t) && t.length < 60) return true;
-  if (/^(for the|pour (le|la|les|l['’]))\b/i.test(t) && t.split(" ").length <= 6) return true;
-  if (line.bold && !/\d/.test(t) && t.split(" ").length <= 5) return true;
+  if (/^(for the|pour (les|le|la|l['’]))\b/i.test(t) && t.split(" ").length <= 6) return true;
+  if (line.bold && !/[\d½¼¾⅓⅔⅛⅜⅝⅞]/.test(t) && t.split(" ").length <= 5) return true;
   return false;
 }
 
@@ -266,7 +287,7 @@ export function parseIngredientBlock(lines: (SourceLine | string)[]): ParsedIngr
     const text = cleanSpaces(decodeEntities(line.text));
     if (!text) continue;
     if (isSectionHeader({ ...line, text })) {
-      section = text.replace(/:\s*$/, "").replace(/^(for the|pour (le|la|les|l['’]))\s*/i, "").trim() || null;
+      section = text.replace(/:\s*$/, "").replace(/^(for the|pour (les|le|la|l['’]))\s*/i, "").trim() || null;
       continue;
     }
     const p = parseIngredientLine(text, section);

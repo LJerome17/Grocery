@@ -72,7 +72,7 @@ export default function Nouvelle() {
     const { data, error } = await supabase()
       .from("ingredients")
       .insert({ household_id: householdId, name, aisle: AISLES.some(([k]) => k === aisle) ? aisle : "autre" })
-      .select("id,household_id,name,aisle,pantry,count_unit")
+      .select("id,household_id,name,aisle,pantry,count_unit,equiv")
       .single();
     if (error) return setError(messageFr(error));
     setCatalog([...catalog, data as Ingredient]);
@@ -175,7 +175,7 @@ export default function Nouvelle() {
         </form>
         {error && <p className="text-sm text-red-700">{error}</p>}
         <p className="text-xs text-muted">
-          Pour une recette en photo ou en PDF, copiez-en le texte (ou demandez-le à Claude) et utilisez « Coller le texte ».
+          Pour une recette en photo ou en PDF, copiez-en le texte et utilisez « Coller le texte ».
         </p>
       </div>
     );

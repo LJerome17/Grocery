@@ -33,5 +33,6 @@ export function decodeEntities(s: string): string {
 }
 
 export function cleanSpaces(s: string): string {
-  return s.replace(/\s+/g, " ").trim();
+  // Zero-width characters sneak in from web pages ("Crème sure​").
+  return s.replace(/[​-‍﻿]/g, "").replace(/\s+/g, " ").trim();
 }

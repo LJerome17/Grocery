@@ -6,6 +6,8 @@ import { formatBase, formatNumber, toBase, UNIT_BY_KEY } from "./units";
 
 export type ListIngredient = {
   quantity: number | null;
+  /** Upper end of a range ("4-8 oeufs"): the list buys the upper end. */
+  quantity_max?: number | null;
   unit: string | null;
   name: string;
   optional: boolean;
@@ -19,7 +21,33 @@ export type CatalogItem = {
   pantry: boolean;
   /** Unit implied by a bare number in a recipe ("2 ail" = 2 cloves, "1 gingembre" = 1 inch). */
   count_unit?: string | null;
+  /** How to add up different units of this product in the unit it is bought in. */
+  equiv?: Equiv | null;
 };
+
+/**
+ * `unit`: the buying unit ("" = counted as is, "g"/"ml" = weighed/measured, else a count unit key).
+ * `ml` / `g`: how many millilitres / grams one buying unit represents.
+ * Other keys (count units): how many buying units one of that unit represents (Ail: head = 10 cloves).
+ */
+export type Equiv = { unit: string; ml?: number; g?: number; [countUnit: string]: number | string | undefined };
+
+/** Convert every amount it can into the buying unit; the rest stays as is. */
+function toBuyingUnit(amounts: Map<string, [number, number]>, e: Equiv): Map<string, [number, number]> {
+  const out = new Map<string, [number, number]>();
+  const add = (u: string, [lo, hi]: [number, number], k: number) => {
+    const p = out.get(u) ?? [0, 0];
+    out.set(u, [p[0] + lo * k, p[1] + hi * k]);
+  };
+  for (const [u, v] of amounts) {
+    if (u === e.unit) add(u, v, 1);
+    else if (u === "ml" && typeof e.ml === "number") add(e.unit, v, 1 / e.ml);
+    else if (u === "g" && typeof e.g === "number") add(e.unit, v, 1 / e.g);
+    else if (typeof e[u] === "number") add(e.unit, v, e[u] as number);
+    else add(u, v, 1);
+  }
+  return out;
+}
 
 export type ListLine = {
   key: string;
@@ -33,13 +61,17 @@ export type ListLine = {
 };
 
 /** Units bought whole: 1.3 cans means buying 2. */
-const WHOLE_UNITS = new Set(["", "can", "pack", "carton", "punnet", "portion", "sheet", "ball", "block", "bunch", "clove", "stalk", "piece", "cube", "slice"]);
+const WHOLE_UNITS = new Set(["", "can", "pack", "carton", "punnet", "portion", "sheet", "ball", "block", "bunch", "clove", "stalk", "piece", "cube", "slice", "inch", "head"]);
 /** Units too small to matter on a shopping list. */
 const NEGLIGIBLE_UNITS = new Set(["pinch", "sprig", "handful", "drizzle"]);
 
+/** [low, high] of a quantity: equal unless a recipe gives a range ("4-8 oeufs"). */
+type Range = [number, number];
+
 type Acc = {
   line: ListLine;
-  amounts: Map<string, number>; // base unit -> amount
+  equiv: Equiv | null;
+  amounts: Map<string, Range>; // base unit -> amount
   unquantified: boolean;
   requiredSomewhere: boolean;
 };
@@ -67,6 +99,7 @@ export function buildShoppingList(
             optional: true,
             recipes: [],
           },
+          equiv: cat?.equiv ?? null,
           amounts: new Map(),
           unquantified: false,
           requiredSomewhere: false,
@@ -80,15 +113,24 @@ export function buildShoppingList(
         continue;
       }
       const unit = (i.unit === null || i.unit === "piece") && cat?.count_unit ? cat.count_unit : i.unit;
-      const b = toBase(i.quantity * r.factor, unit);
-      a.amounts.set(b.baseUnit, (a.amounts.get(b.baseUnit) ?? 0) + b.amount);
+      // Ranges are kept as written: "4-8 oeufs" stays "4 à 8" on the list (low and high are added up separately).
+      const low = toBase(i.quantity * r.factor, unit);
+      const high = toBase(Math.max(i.quantity, i.quantity_max ?? 0) * r.factor, unit);
+      const prev = a.amounts.get(low.baseUnit) ?? [0, 0];
+      a.amounts.set(low.baseUnit, [prev[0] + low.amount, prev[1] + high.amount]);
     }
   }
 
-  const lines = [...acc.values()].map(({ line, amounts, unquantified, requiredSomewhere }) => {
-    const parts = [...amounts.entries()].map(([unit, amount]) => {
-      if (WHOLE_UNITS.has(unit)) amount = Math.max(1, Math.ceil(amount - 0.1));
-      return unit === "" ? formatNumber(amount) : formatBase(amount, unit);
+  const lines = [...acc.values()].map(({ line, equiv, amounts, unquantified, requiredSomewhere }) => {
+    const buying = equiv ? toBuyingUnit(amounts, equiv) : amounts;
+    const parts = [...buying.entries()].map(([unit, [low, high]]) => {
+      if (WHOLE_UNITS.has(unit)) [low, high] = [low, high].map((v) => Math.max(1, Math.ceil(v - 0.1))) as Range;
+      const one = (v: number) => (unit === "" ? formatNumber(v) : formatBase(v, unit));
+      if (Math.abs(high - low) < 1e-9 || one(low) === one(high)) return one(low);
+      // "4 à 8", "250 à 375 ml": the unit is written once when both ends share it.
+      const [a, b] = [one(low), one(high)];
+      const unitA = a.replace(/^[\d\s,¼½¾⅓⅔]+/, ""), unitB = b.replace(/^[\d\s,¼½¾⅓⅔]+/, "");
+      return unitA && unitA === unitB ? `${a.slice(0, a.length - unitA.length).trim()} à ${b}` : `${a} à ${b}`;
     });
     if (!parts.length && unquantified) parts.push("au besoin");
     return { ...line, quantityText: parts.join(" + "), optional: !requiredSomewhere };
@@ -100,11 +142,6 @@ export function buildShoppingList(
       (AISLE_ORDER[a.aisle] ?? 99) - (AISLE_ORDER[b.aisle] ?? 99) ||
       a.label.localeCompare(b.label, "fr"),
   );
-}
-
-/** Scale factor for a recipe: portions wanted / portions it makes (4 when unknown). */
-export function scaleFactor(portions: number, servings: number | null): number {
-  return portions / (servings && servings > 0 ? servings : 4);
 }
 
 /** Scaled quantity for display in a recipe ("1 ½ tasse"). */

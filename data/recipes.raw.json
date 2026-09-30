@@ -38,12 +38,12 @@
         "optional": false
       },
       {
-        "raw": "125 ml (½ tasse) Crème sure​ ou yogourt nature",
+        "raw": "125 ml (½ tasse) Crème sure ou yogourt nature",
         "section": null,
         "quantity": 125,
         "quantityMax": null,
         "unit": "ml",
-        "name": "Crème sure​ ou yogourt nature",
+        "name": "Crème sure ou yogourt nature",
         "note": "1/2 tasse",
         "optional": false
       },
@@ -292,13 +292,7 @@
       "Cuisson",
       "Enfourner 30 à 35 minutes, ou jusqu’à ce que les morceaux soient bien dorés (il est possible de les tourner à mi-cuisson, mais ce n’est pas nécessaire).",
       "Présentation",
-      "Sortir la sauce du réfrigérateur.Servir avec la sauce en garniture ou en trempette. Décorer avec des oignons verts hachés.Avec un accompagnement de légumes verts (ici, j’ai fait cuire à la poêle des moitiés de bok choy avec un peu de sauce soya et de sirop d’érable, tout simplement!), on a un repas!",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
+      "Sortir la sauce du réfrigérateur.Servir avec la sauce en garniture ou en trempette. Décorer avec des oignons verts hachés.Avec un accompagnement de légumes verts (ici, j’ai fait cuire à la poêle des moitiés de bok choy avec un peu de sauce soya et de sirop d’érable, tout simplement!), on a un repas!"
     ],
     "method": "jsonld",
     "warnings": [],
@@ -2232,8 +2226,8 @@
         "section": "Ragu",
         "quantity": 4,
         "quantityMax": null,
-        "unit": "stalk",
-        "name": "Celery",
+        "unit": null,
+        "name": "sticks Celery",
         "note": "finely sliced",
         "optional": false
       },
@@ -2630,7 +2624,9 @@
       "Cook the couscous according to the package instructions, then drain.",
       "Meanwhile, drizzle oil in a medium pan over medium-high heat. When hot, add the chickpeas, tomatoes, salt, and pepper. Cook for 5 to 7 minutes, stirring occasionally. Remove from the heat.",
       "In a small bowl, mix together the ingredients for the dressing.",
-      "To a large bowl, add the drained couscous, tomato and chickpea mixture, cucumber slices, olives, and fresh herbs. Add the dressing, toss to combine, spinkle over the almonds, and enjoy!"
+      "To a large bowl, add the drained couscous, tomato and chickpea mixture, cucumber slices, olives, and fresh herbs. Add the dressing, toss to combine, spinkle over the almonds, and enjoy!",
+      "The salad can be stored in an airtight container in the fridge separate from the dressing for up to 3 days.",
+      "Combine the dressing and salad when ready to enjoy."
     ],
     "method": "jsonld",
     "warnings": [],
@@ -2645,8 +2641,158 @@
     "image": "https://margauxfood.ca/app/uploads/2023/11/bol-de-tofu-katsu-1200x675.jpg",
     "ingredients": [
       {
+        "raw": "2 c. à soupe (30 ml) d’huile végétale",
+        "section": "Sauce au cari",
+        "quantity": 2,
+        "quantityMax": null,
+        "unit": "tbsp",
+        "name": "huile végétale",
+        "note": "30 ml",
+        "optional": false
+      },
+      {
+        "raw": "1 petit oignon blanc émincé finement",
+        "section": "Sauce au cari",
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": null,
+        "name": "oignon blanc émincé finement",
+        "note": "petit",
+        "optional": false
+      },
+      {
+        "raw": "1 grosse carotte en dés",
+        "section": "Sauce au cari",
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": null,
+        "name": "carotte en dés",
+        "note": "grosse",
+        "optional": false
+      },
+      {
+        "raw": "2 gousses d’ail, hachées",
+        "section": "Sauce au cari",
+        "quantity": 2,
+        "quantityMax": null,
+        "unit": "clove",
+        "name": "ail",
+        "note": "hachées",
+        "optional": false
+      },
+      {
+        "raw": "1 c. à soupe (15 ml) de gingembre haché",
+        "section": "Sauce au cari",
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "tbsp",
+        "name": "gingembre haché",
+        "note": "15 ml",
+        "optional": false
+      },
+      {
+        "raw": "1 c. à thé (5 ml) de graines de coriandre broyées",
+        "section": "Sauce au cari",
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "tsp",
+        "name": "graines de coriandre broyées",
+        "note": "5 ml",
+        "optional": false
+      },
+      {
+        "raw": "2 c. à thé (10 ml) de poudre de cari",
+        "section": "Sauce au cari",
+        "quantity": 2,
+        "quantityMax": null,
+        "unit": "tsp",
+        "name": "poudre de cari",
+        "note": "10 ml",
+        "optional": false
+      },
+      {
+        "raw": "1/2 c. à thé (2,5 ml) de curcuma",
+        "section": "Sauce au cari",
+        "quantity": 0.5,
+        "quantityMax": null,
+        "unit": "tsp",
+        "name": "curcuma",
+        "note": "2,5 ml",
+        "optional": false
+      },
+      {
+        "raw": "1/4 c. à thé (1,25 ml) de flocons de piment fort",
+        "section": "Sauce au cari",
+        "quantity": 0.25,
+        "quantityMax": null,
+        "unit": "tsp",
+        "name": "flocons de piment fort",
+        "note": "1,25 ml",
+        "optional": false
+      },
+      {
+        "raw": "1 c. à soupe (15 ml) de pâte de tomate",
+        "section": "Sauce au cari",
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "tbsp",
+        "name": "pâte de tomate",
+        "note": "15 ml",
+        "optional": false
+      },
+      {
+        "raw": "1 boîte de 398 ml de lait de coco",
+        "section": "Sauce au cari",
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "can",
+        "name": "lait de coco",
+        "note": "398 ml",
+        "optional": false
+      },
+      {
+        "raw": "1 tasse (250 ml) de bouillon de légumes",
+        "section": "Sauce au cari",
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "cup",
+        "name": "bouillon de légumes",
+        "note": "250 ml",
+        "optional": false
+      },
+      {
+        "raw": "1 c. à soupe (15 ml) de sirop d’érable",
+        "section": "Sauce au cari",
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "tbsp",
+        "name": "sirop d’érable",
+        "note": "15 ml",
+        "optional": false
+      },
+      {
+        "raw": "3/4 c. à thé (3,75 ml) de sel",
+        "section": "Sauce au cari",
+        "quantity": 0.75,
+        "quantityMax": null,
+        "unit": "tsp",
+        "name": "sel",
+        "note": "3,75 ml",
+        "optional": false
+      },
+      {
+        "raw": "Poivre, au goût",
+        "section": "Sauce au cari",
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Poivre",
+        "note": "au goût",
+        "optional": false
+      },
+      {
         "raw": "1/2 tasse (65 g) de farine",
-        "section": null,
+        "section": "Tofu katsu",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "cup",
@@ -2656,7 +2802,7 @@
       },
       {
         "raw": "2/3 tasse (160 ml) de lait végétal au choix",
-        "section": null,
+        "section": "Tofu katsu",
         "quantity": 0.6666666666666666,
         "quantityMax": null,
         "unit": "cup",
@@ -2666,7 +2812,7 @@
       },
       {
         "raw": "1 c. à soupe (15 ml) de fécule de maïs",
-        "section": null,
+        "section": "Tofu katsu",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tbsp",
@@ -2676,7 +2822,7 @@
       },
       {
         "raw": "2 c. à soupe (30 ml) de jus de lime",
-        "section": null,
+        "section": "Tofu katsu",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
@@ -2686,7 +2832,7 @@
       },
       {
         "raw": "1 c. à thé (5 ml) de cari",
-        "section": null,
+        "section": "Tofu katsu",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tsp",
@@ -2696,7 +2842,7 @@
       },
       {
         "raw": "2 tasses (160 g) de chapelure panko",
-        "section": null,
+        "section": "Tofu katsu",
         "quantity": 2,
         "quantityMax": null,
         "unit": "cup",
@@ -2706,7 +2852,7 @@
       },
       {
         "raw": "3/4 c. à thé (3,75 ml) de sel",
-        "section": null,
+        "section": "Tofu katsu",
         "quantity": 0.75,
         "quantityMax": null,
         "unit": "tsp",
@@ -2716,7 +2862,7 @@
       },
       {
         "raw": "1 bloc de tofu de 315 g, en tranches",
-        "section": null,
+        "section": "Tofu katsu",
         "quantity": 1,
         "quantityMax": null,
         "unit": "block",
@@ -2726,7 +2872,7 @@
       },
       {
         "raw": "1/4 tasse (60 ml) d’huile végétale au choix",
-        "section": null,
+        "section": "Tofu katsu",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
@@ -2736,7 +2882,7 @@
       },
       {
         "raw": "3 tasses (630 g) de riz à sushi cuit",
-        "section": null,
+        "section": "Bol",
         "quantity": 3,
         "quantityMax": null,
         "unit": "cup",
@@ -2746,7 +2892,7 @@
       },
       {
         "raw": "1/2 tasse (15 g) de feuilles de basilic",
-        "section": null,
+        "section": "Bol",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "cup",
@@ -2756,7 +2902,7 @@
       },
       {
         "raw": "Flocons de piment fort, au goût",
-        "section": null,
+        "section": "Bol",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
@@ -3033,7 +3179,14 @@
       "Pendant ce temps, préchauffer le four à 425 F.",
       "Ajouter une feuille de papier parchemin sur une plaque allant au four. Placer les champignons par-dessus et ajouter les autres ingrédients. S’assurer de bien enrober tous les morceaux de champignons. Cuire au four environ 10 minutes. S’ils ne sont pas assez rôtis, mettre à broil lors des dernières minutes.",
       "Vérifier si le dhal a atteint une texture crémeuse. Si la préparation est encore trop liquide, retirer le couvercle et cuire encore 3 à 5 minutes. Incorporer le zeste et le jus de lime à la dernière minute.",
-      "Servir immédiatement dans des bols et parsemer de champignons, d’oignons rouges, de piment jalapeno, d’un filet de lait de coco, de coriandre fraîche et plus de piment gochugaru, au goût!"
+      "Servir immédiatement dans des bols et parsemer de champignons, d’oignons rouges, de piment jalapeno, d’un filet de lait de coco, de coriandre fraîche et plus de piment gochugaru, au goût!",
+      "Infos nutritionnelles par portion",
+      "Calories 360 kCal Protéines 13 g Glucides 35 g Lipides 22 g",
+      "Recettes de la même catégorie:",
+      "Braisé de boeuf à la harissa sur pappardelles aux oeufs",
+      "Pâtes au poulet, lardons et champignons avec sauce crémeuse à la moutarde",
+      "Dindon rôti à la moutarde et à la sauge avec farce au fenouil, au poireau et au thym",
+      "Et pour partager c'est par ici:"
     ],
     "method": "jsonld",
     "warnings": [],
@@ -3049,7 +3202,7 @@
     "ingredients": [
       {
         "raw": "4 petites patates douces, bien lavées",
-        "section": null,
+        "section": "Patates douces",
         "quantity": 4,
         "quantityMax": null,
         "unit": null,
@@ -3059,7 +3212,7 @@
       },
       {
         "raw": "1 c. à soupe (15 ml) d’huile végétale",
-        "section": null,
+        "section": "Patates douces",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tbsp",
@@ -3069,7 +3222,7 @@
       },
       {
         "raw": "1/2 c. à thé (2,5 ml) de sel",
-        "section": null,
+        "section": "Patates douces",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
@@ -3079,7 +3232,7 @@
       },
       {
         "raw": "2 conserves de 398 ml de haricots noirs, bien rincés et égouttés",
-        "section": null,
+        "section": "Salade de haricots noirs",
         "quantity": 2,
         "quantityMax": null,
         "unit": "can",
@@ -3089,7 +3242,7 @@
       },
       {
         "raw": "2 c. à soupe (30 ml) d’huile d’olive",
-        "section": null,
+        "section": "Salade de haricots noirs",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
@@ -3099,7 +3252,7 @@
       },
       {
         "raw": "Zeste de 1 lime bien lavée",
-        "section": null,
+        "section": "Salade de haricots noirs",
         "quantity": 1,
         "quantityMax": null,
         "unit": null,
@@ -3109,7 +3262,7 @@
       },
       {
         "raw": "3 c. à soupe (45 ml) de jus de lime",
-        "section": null,
+        "section": "Salade de haricots noirs",
         "quantity": 3,
         "quantityMax": null,
         "unit": "tbsp",
@@ -3119,7 +3272,7 @@
       },
       {
         "raw": "1 c. à soupe (15 ml) de sirop d’érable ou de miel",
-        "section": null,
+        "section": "Salade de haricots noirs",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tbsp",
@@ -3129,7 +3282,7 @@
       },
       {
         "raw": "1/4 tasse (10 g) de coriandre fraîche hachée finement",
-        "section": null,
+        "section": "Salade de haricots noirs",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
@@ -3139,7 +3292,7 @@
       },
       {
         "raw": "1 gousse d’ail, hachée",
-        "section": null,
+        "section": "Salade de haricots noirs",
         "quantity": 1,
         "quantityMax": null,
         "unit": "clove",
@@ -3149,7 +3302,7 @@
       },
       {
         "raw": "1 c. à thé (5 ml) de graines de coriandre broyées",
-        "section": null,
+        "section": "Salade de haricots noirs",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tsp",
@@ -3159,7 +3312,7 @@
       },
       {
         "raw": "1/4 c. à thé (1,25 ml) de cumin",
-        "section": null,
+        "section": "Salade de haricots noirs",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "tsp",
@@ -3169,7 +3322,7 @@
       },
       {
         "raw": "1/2 c. à thé (2,5 ml) de flocons de piment fort",
-        "section": null,
+        "section": "Salade de haricots noirs",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
@@ -3179,7 +3332,7 @@
       },
       {
         "raw": "1/2 c. à thé (2,5 ml) de sel",
-        "section": null,
+        "section": "Salade de haricots noirs",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
@@ -3189,7 +3342,7 @@
       },
       {
         "raw": "2 avocats mûrs",
-        "section": null,
+        "section": "Guacamole",
         "quantity": 2,
         "quantityMax": null,
         "unit": null,
@@ -3199,7 +3352,7 @@
       },
       {
         "raw": "2 c. à soupe (30 ml) de jus de lime",
-        "section": null,
+        "section": "Guacamole",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
@@ -3209,7 +3362,7 @@
       },
       {
         "raw": "1/2 c. à thé (2,5 ml) de sel",
-        "section": null,
+        "section": "Guacamole",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
@@ -3219,7 +3372,7 @@
       },
       {
         "raw": "Crème sure végétalienne (facultatif)",
-        "section": null,
+        "section": "Garnitures",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
@@ -3229,7 +3382,7 @@
       },
       {
         "raw": "Chips de maïs (facultatif)",
-        "section": null,
+        "section": "Garnitures",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
@@ -3239,6 +3392,8 @@
       }
     ],
     "instructions": [
+      "Préchauffer le four à 400°F et placer la grille au centre. Tapisser une plaque à biscuits de papier parchemin.",
+      "Couper les patates douces en deux dans le sens de la longueur et parsemer d’huile et de sel. Déposer les patates douces sur la plaque, côté coupé vers le bas et cuire 30 à 35 minutes ou jusqu’à ce que la pointe d’un couteau s’insère facilement dans la chair des patates douces.",
       "Dans un bol, mélanger tous les ingrédients de la salade de haricots noirs.",
       "Dans une assiette creuse, écraser les avocats jusqu’à l’obtention d’une texture semi-lisse. Ajouter la lime et le sel et bien mélanger.",
       "Déposer une moitié de patate douce dans une assiette. Étendre un peu de guacamole sur le dessus, ajouter de la salade de haricots et les garnitures, si désiré. Répéter pour toutes les moitiés de patates douces."
@@ -3257,7 +3412,7 @@
     "ingredients": [
       {
         "raw": "1 oignon jaune moyen, coupé en quartier",
-        "section": null,
+        "section": "Boulettes",
         "quantity": 1,
         "quantityMax": null,
         "unit": null,
@@ -3267,7 +3422,7 @@
       },
       {
         "raw": "2 gousses d’ail entières",
-        "section": null,
+        "section": "Boulettes",
         "quantity": 2,
         "quantityMax": null,
         "unit": "clove",
@@ -3277,7 +3432,7 @@
       },
       {
         "raw": "¼ de tasse de noix de Grenoble",
-        "section": null,
+        "section": "Boulettes",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
@@ -3287,7 +3442,7 @@
       },
       {
         "raw": "1 bloc (454g) de tofu extra-ferme",
-        "section": null,
+        "section": "Boulettes",
         "quantity": 1,
         "quantityMax": null,
         "unit": "block",
@@ -3297,7 +3452,7 @@
       },
       {
         "raw": "½ c. à thé de paprika",
-        "section": null,
+        "section": "Boulettes",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
@@ -3307,7 +3462,7 @@
       },
       {
         "raw": "¼ c. à thé de piment de la jamaïque",
-        "section": null,
+        "section": "Boulettes",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "tsp",
@@ -3317,7 +3472,7 @@
       },
       {
         "raw": "¼ c. à thé de muscade moulue",
-        "section": null,
+        "section": "Boulettes",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "tsp",
@@ -3327,7 +3482,7 @@
       },
       {
         "raw": "½ c. à thé de sel",
-        "section": null,
+        "section": "Boulettes",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
@@ -3337,7 +3492,7 @@
       },
       {
         "raw": "2 c. à soupe de sauce soya",
-        "section": null,
+        "section": "Boulettes",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
@@ -3347,7 +3502,7 @@
       },
       {
         "raw": "¼ de tasse de chapelure italienne",
-        "section": null,
+        "section": "Boulettes",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
@@ -3357,7 +3512,7 @@
       },
       {
         "raw": "2 c. à soupe de farine blanche tout usage",
-        "section": null,
+        "section": "Boulettes",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
@@ -3367,7 +3522,7 @@
       },
       {
         "raw": "3 c. à soupe de beurre non-salé",
-        "section": null,
+        "section": "Sauce",
         "quantity": 3,
         "quantityMax": null,
         "unit": "tbsp",
@@ -3377,7 +3532,7 @@
       },
       {
         "raw": "3 c. à soupe de farine blanche tout usage",
-        "section": null,
+        "section": "Sauce",
         "quantity": 3,
         "quantityMax": null,
         "unit": "tbsp",
@@ -3387,7 +3542,7 @@
       },
       {
         "raw": "2 tasses de bouillon aux champignons",
-        "section": null,
+        "section": "Sauce",
         "quantity": 2,
         "quantityMax": null,
         "unit": "cup",
@@ -3397,7 +3552,7 @@
       },
       {
         "raw": "2 c. à soupe sauce soya",
-        "section": null,
+        "section": "Sauce",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
@@ -3407,7 +3562,7 @@
       },
       {
         "raw": "1 c. à soupe de sauce worcestershire végé (ou régulière)",
-        "section": null,
+        "section": "Sauce",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tbsp",
@@ -3417,7 +3572,7 @@
       },
       {
         "raw": "1 c. à thé de moutarde de Dijon",
-        "section": null,
+        "section": "Sauce",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tsp",
@@ -3427,7 +3582,7 @@
       },
       {
         "raw": "¼ de tasse de crème à cuisson 15%",
-        "section": null,
+        "section": "Sauce",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
@@ -3436,8 +3591,18 @@
         "optional": false
       },
       {
+        "raw": "Purée de pommes de terre (ou remplacer par du riz)",
+        "section": "Sauce",
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Purée de pommes de terre",
+        "note": "ou remplacer par du riz",
+        "optional": false
+      },
+      {
         "raw": "2.25 lb (1kg) de pommes de terre russet ou yukon gold",
-        "section": null,
+        "section": "Sauce",
         "quantity": 2.25,
         "quantityMax": null,
         "unit": "lb",
@@ -3447,7 +3612,7 @@
       },
       {
         "raw": "1 à 1 1/2 tasse de lait",
-        "section": null,
+        "section": "Sauce",
         "quantity": 1,
         "quantityMax": 1.5,
         "unit": "cup",
@@ -3457,7 +3622,7 @@
       },
       {
         "raw": "2 c. à soupe de beurre non-salé",
-        "section": null,
+        "section": "Sauce",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
@@ -3467,7 +3632,7 @@
       },
       {
         "raw": "½ c. à thé de sel",
-        "section": null,
+        "section": "Sauce",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
@@ -3477,7 +3642,7 @@
       },
       {
         "raw": "Petits pois surgelés, décongelés",
-        "section": null,
+        "section": "Pour accompagner",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
@@ -3487,7 +3652,7 @@
       },
       {
         "raw": "Sauce aux canneberges du commerce",
-        "section": null,
+        "section": "Pour accompagner",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
@@ -4140,9 +4305,9 @@
         "raw": "170g-200g de champignons au choix (idéalement shiitake, pleurotes, etc)*",
         "section": null,
         "quantity": 170,
-        "quantityMax": null,
+        "quantityMax": 200,
         "unit": "g",
-        "name": "-200g de champignons au choix *",
+        "name": "champignons au choix *",
         "note": "idéalement shiitake, pleurotes, etc",
         "optional": false
       },
@@ -4159,11 +4324,11 @@
       {
         "raw": "Garnitures: 4 oeufs, maïs, coriandre et graines de sésame pour garnir",
         "section": null,
-        "quantity": null,
+        "quantity": 4,
         "quantityMax": null,
         "unit": null,
-        "name": "Garnitures: 4 oeufs",
-        "note": "maïs, coriandre et graines de sésame pour garnir",
+        "name": "oeufs",
+        "note": "maïs, coriandre et graines de sésame pour garnir; garnitures",
         "optional": false
       }
     ],
@@ -4375,7 +4540,7 @@
   {
     "slug": "palak-tofu",
     "title": "Palak tofu",
-    "sourceUrl": null,
+    "sourceUrl": "https://www.facebook.com/watch/?v=1705739737474344",
     "servings": 4,
     "totalMinutes": null,
     "image": null,
@@ -4532,20 +4697,21 @@
       }
     ],
     "instructions": [
-      "Roughly chop the garlic and long green chili pepper. Dice the onion, ginger, and tomato. Pat dry the extra firm tofu with a paper towel, then slice into bite sized cubes",
-      "Heat up a sauté pan to medium heat. Add 2 tbsp avocado oil followed by the cumin seeds and fennel seeds. Fry the seeds for about 45 seconds. Add the onions, ginger, garlic, green chili, and salt. Sauté for 5-7mins. Add the turmeric, garam masala, and ground coriander. Give the pan a good stir",
-      "Add the tomatoes and sauté for 3-4mins. Add a good handful of the spinach and stir to wilt them down. As the spinach wilts, add more spinach and repeat until all the spinach is done",
-      "Add the coconut cream and give the pan a good stir. Transfer the mixture to a blender and blend on medium for about 20 seconds (careful not to blend too high or it will turn into soup)",
-      "Heat up the pan back to medium heat and add 1 tsp avocado oil followed by the extra firm tofu. Sear the tofu for a few minutes, then turn the heat off and allow the pan to cool for a minute. Pour in the creamed spinach and give the pan a good stir. Plate and serve with rice or naan (or both!)"
+      "Roughly chop the garlic and long green chili pepper. Dice the onion, ginger, and tomato. Pat dry the extra firm tofu with a paper towel, then slice into bite sized cubes.",
+      "Heat up a sauté pan to medium heat. Add 2 tbsp avocado oil followed by the cumin seeds and fennel seeds. Fry the seeds for about 45 seconds. Add the onions, ginger, garlic, green chili, and salt. Sauté for 5-7mins. Add the turmeric, garam masala, and ground coriander. Give the pan a good stir.",
+      "Add the tomatoes and sauté for 3-4mins. Add a good handful of the spinach and stir to wilt them down. As the spinach wilts, add more spinach and repeat until all the spinach is done.",
+      "Add the coconut cream and give the pan a good stir. Transfer the mixture to a blender and blend on medium for about 20 seconds (careful not to blend too high or it will turn into soup).",
+      "Heat up the pan back to medium heat and add 1 tsp avocado oil followed by the extra firm tofu. Sear the tofu for a few minutes, then turn the heat off and allow the pan to cool for a minute. Pour in the creamed spinach and give the pan a good stir. Plate and serve with rice or naan (or both!)."
     ],
     "method": "text",
     "warnings": [],
-    "sourceType": "manual"
+    "sourceType": "manual",
+    "localImage": "@own/Palak_Tofu.png"
   },
   {
     "slug": "bean-crispy-salad",
     "title": "Bean Crispy Salad",
-    "sourceUrl": null,
+    "sourceUrl": "https://www.pickuplimes.com/recipe/three-bean-crispy-rice-salad-1691",
     "servings": 3,
     "totalMinutes": null,
     "image": null,
@@ -4953,12 +5119,12 @@
         "optional": false
       },
       {
-        "raw": "300 g silken tofu",
+        "raw": "Silken tofu",
         "section": "Creamy tofu sauce",
-        "quantity": 300,
+        "quantity": null,
         "quantityMax": null,
-        "unit": "g",
-        "name": "silken tofu",
+        "unit": null,
+        "name": "Silken tofu",
         "note": null,
         "optional": false
       },
@@ -5013,21 +5179,21 @@
         "optional": false
       },
       {
-        "raw": "1 green onion (garnish)",
+        "raw": "extra green onion (garnish)",
         "section": "Creamy tofu sauce",
-        "quantity": 1,
+        "quantity": null,
         "quantityMax": null,
         "unit": null,
-        "name": "green onion",
+        "name": "extra green onion",
         "note": "garnish",
         "optional": false
       },
       {
-        "raw": "1 tbsp toasted sesame seeds (garnish)",
+        "raw": "toasted sesame seeds (garnish)",
         "section": "Creamy tofu sauce",
-        "quantity": 1,
+        "quantity": null,
         "quantityMax": null,
-        "unit": "tbsp",
+        "unit": null,
         "name": "toasted sesame seeds",
         "note": "garnish",
         "optional": false
@@ -5040,7 +5206,7 @@
       "Add the crumbled tofu with the cornstarch until golden.",
       "Add garlic and ginger; cook until fragrant.",
       "Add the rest of the ingredients and cook until golden and crispy.",
-      "Serve",
+      "Serve.",
       "Place cooked udon in bowls.",
       "Spoon creamy tofu sauce over the noodles and add the tofu crumbles.",
       "Garnish with green onion and sesame seeds."
@@ -5191,45 +5357,19 @@
       }
     ],
     "instructions": [
-      "Preheat oven to 390 °F",
-      "Line a large baking tray",
-      "Prep",
-      "Slice the cauliflower into florets",
-      "Dice the garlic and ginger",
-      "Slice the spring onions (if using for garnish)",
-      "Roast the Cauliflower",
-      "Spread cauliflower florets on the baking tray",
-      "Drizzle or spray with olive oil and add a pinch of salt",
-      "Roast for 20 minutes, until golden and crispy",
-      "Set aside some cauliflower for garnish",
-      "Make the Creamy Broth",
-      "Add the remaining roasted cauliflower to a blender",
-      "Add:",
-      "Silken tofu",
-      "White miso paste",
-      "Soy sauce",
-      "Coconut milk",
-      "Vegetable stock",
-      "Blend until completely smooth",
-      "Cook the Broth",
-      "Heat a drizzle of oil in a saucepan",
-      "Fry the garlic and ginger for 2 minutes",
-      "Pour in the blended broth",
-      "Bring to a gentle simmer",
-      "Add a splash of water if needed to loosen",
-      "Cook the Noodles",
-      "Cook ramen noodles according to packet instructions",
-      "Drain",
-      "Assemble",
-      "Divide noodles between bowls",
-      "Ladle over the creamy broth",
-      "Top with crispy roasted cauliflower",
-      "Finish with chilli oil and fresh coriander",
-      "On a ajouté des œufs mollets et des feuilles de nori"
+      "Preheat oven to 390 °F.",
+      "Line a large baking tray.",
+      "Prep : Slice the cauliflower into florets. Dice the garlic and ginger. Slice the spring onions (if using for garnish).",
+      "Roast the Cauliflower : Spread cauliflower florets on the baking tray. Drizzle or spray with olive oil and add a pinch of salt. Roast for 20 minutes, until golden and crispy. Set aside some cauliflower for garnish.",
+      "Make the Creamy Broth : Add the remaining roasted cauliflower to a blender. Add: Silken tofu. White miso paste. Soy sauce. Coconut milk. Vegetable stock. Blend until completely smooth.",
+      "Cook the Broth : Heat a drizzle of oil in a saucepan. Fry the garlic and ginger for 2 minutes. Pour in the blended broth. Bring to a gentle simmer. Add a splash of water if needed to loosen.",
+      "Cook the Noodles : Cook ramen noodles according to packet instructions. Drain.",
+      "Assemble : Divide noodles between bowls. Ladle over the creamy broth. Top with crispy roasted cauliflower. Finish with chilli oil and fresh coriander. On a ajouté des œufs mollets et des feuilles de nori."
     ],
     "method": "text",
     "warnings": [],
-    "sourceType": "manual"
+    "sourceType": "manual",
+    "localImage": "@own/Cauliflower_Ramen.jpg"
   },
   {
     "slug": "creamy-peanut-ramen-with-enoki-bok-choy-egg",
@@ -5326,6 +5466,16 @@
         "quantityMax": null,
         "unit": "cup",
         "name": "vegetable stock",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "4 portions ramen noodles",
+        "section": "Protein",
+        "quantity": 4,
+        "quantityMax": null,
+        "unit": "portion",
+        "name": "ramen noodles",
         "note": null,
         "optional": false
       },
@@ -5446,7 +5596,8 @@
     ],
     "method": "text",
     "warnings": [],
-    "sourceType": "manual"
+    "sourceType": "manual",
+    "localImage": "@own/Creamy_Peanut_Ramen.jpg"
   },
   {
     "slug": "cari-de-lentilles-corail-et-chou-fleur-roti",
@@ -5672,7 +5823,7 @@
     "ingredients": [
       {
         "raw": "1 c. à soupe (15 ml) d’huile de sésame",
-        "section": null,
+        "section": "Sauce",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tbsp",
@@ -5682,7 +5833,7 @@
       },
       {
         "raw": "3 gousses d’ail, hachées",
-        "section": null,
+        "section": "Sauce",
         "quantity": 3,
         "quantityMax": null,
         "unit": "clove",
@@ -5692,7 +5843,7 @@
       },
       {
         "raw": "1/4 tasse (60 ml) de sauce hoisin",
-        "section": null,
+        "section": "Sauce",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
@@ -5702,7 +5853,7 @@
       },
       {
         "raw": "3 c. à soupe (45 ml) de sauce soya",
-        "section": null,
+        "section": "Sauce",
         "quantity": 3,
         "quantityMax": null,
         "unit": "tbsp",
@@ -5712,7 +5863,7 @@
       },
       {
         "raw": "2 c. à soupe (30 ml) de vinaigre de riz",
-        "section": null,
+        "section": "Sauce",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
@@ -5722,7 +5873,7 @@
       },
       {
         "raw": "1 c. à soupe (15 ml) de gochujang",
-        "section": null,
+        "section": "Sauce",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tbsp",
@@ -5732,7 +5883,7 @@
       },
       {
         "raw": "1/4 tasse (60 ml) de tahini",
-        "section": null,
+        "section": "Sauce",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
@@ -5742,7 +5893,7 @@
       },
       {
         "raw": "1/4 tasse (60 ml) d’eau",
-        "section": null,
+        "section": "Sauce",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
@@ -5752,7 +5903,7 @@
       },
       {
         "raw": "1 bloc de 354 g de tofu ferme, bien épongé et émietté",
-        "section": null,
+        "section": "Nouilles udon",
         "quantity": 1,
         "quantityMax": null,
         "unit": "block",
@@ -5762,7 +5913,7 @@
       },
       {
         "raw": "2 c. à soupe (30 ml) de fécule de maïs",
-        "section": null,
+        "section": "Nouilles udon",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
@@ -5772,7 +5923,7 @@
       },
       {
         "raw": "1/2 c. à thé (2,5 ml) de sel",
-        "section": null,
+        "section": "Nouilles udon",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
@@ -5782,7 +5933,7 @@
       },
       {
         "raw": "2 c. à soupe (30 ml) d’huile végétale",
-        "section": null,
+        "section": "Nouilles udon",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
@@ -5792,7 +5943,7 @@
       },
       {
         "raw": "600 g de nouilles udon",
-        "section": null,
+        "section": "Nouilles udon",
         "quantity": 600,
         "quantityMax": null,
         "unit": "g",
@@ -5802,7 +5953,7 @@
       },
       {
         "raw": "1/2 tasse (20 g) de basilic frais émincé",
-        "section": null,
+        "section": "Nouilles udon",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "cup",
@@ -5812,7 +5963,7 @@
       },
       {
         "raw": "3 oignons verts émincés",
-        "section": null,
+        "section": "Nouilles udon",
         "quantity": 3,
         "quantityMax": null,
         "unit": null,
@@ -5822,7 +5973,7 @@
       },
       {
         "raw": "2 c. à soupe (30 ml) de graines de sésame",
-        "section": null,
+        "section": "Garnitures",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
@@ -5832,7 +5983,7 @@
       },
       {
         "raw": "1 c. à soupe (15 ml) de chili crisp (facultatif)",
-        "section": null,
+        "section": "Garnitures",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tbsp",
@@ -5865,7 +6016,7 @@
     "ingredients": [
       {
         "raw": "1 courge butternut en petits cubes",
-        "section": null,
+        "section": "Légumes grillés",
         "quantity": 1,
         "quantityMax": null,
         "unit": null,
@@ -5875,7 +6026,7 @@
       },
       {
         "raw": "1 chou-fleur en fleurettes",
-        "section": null,
+        "section": "Légumes grillés",
         "quantity": 1,
         "quantityMax": null,
         "unit": null,
@@ -5885,7 +6036,7 @@
       },
       {
         "raw": "1 oignon rouge en cubes",
-        "section": null,
+        "section": "Légumes grillés",
         "quantity": 1,
         "quantityMax": null,
         "unit": null,
@@ -5895,7 +6046,7 @@
       },
       {
         "raw": "3 c. à soupe (45 ml) d’huile d’olive",
-        "section": null,
+        "section": "Légumes grillés",
         "quantity": 3,
         "quantityMax": null,
         "unit": "tbsp",
@@ -5905,7 +6056,7 @@
       },
       {
         "raw": "2 c. à thé (10 ml) de harissa ou sriracha",
-        "section": null,
+        "section": "Légumes grillés",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tsp",
@@ -5915,7 +6066,7 @@
       },
       {
         "raw": "2 c. à thé (10 ml) d’origan séché",
-        "section": null,
+        "section": "Légumes grillés",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tsp",
@@ -5925,7 +6076,7 @@
       },
       {
         "raw": "1/2 c. à thé (2,5 ml) de cannelle",
-        "section": null,
+        "section": "Légumes grillés",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
@@ -5935,7 +6086,7 @@
       },
       {
         "raw": "1 c. à thé (5 ml) de paprika",
-        "section": null,
+        "section": "Légumes grillés",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tsp",
@@ -5945,7 +6096,7 @@
       },
       {
         "raw": "1/2 c. à thé (2,5 ml) de poudre d’ail",
-        "section": null,
+        "section": "Légumes grillés",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
@@ -5955,7 +6106,7 @@
       },
       {
         "raw": "3/4 c. à thé (3,75 ml) de sel",
-        "section": null,
+        "section": "Légumes grillés",
         "quantity": 0.75,
         "quantityMax": null,
         "unit": "tsp",
@@ -5965,7 +6116,7 @@
       },
       {
         "raw": "Poivre, au goût",
-        "section": null,
+        "section": "Légumes grillés",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
@@ -5975,7 +6126,7 @@
       },
       {
         "raw": "1/4 tasse (60 ml) de tahini",
-        "section": null,
+        "section": "Vinaigrette tahini, Dijon et érable",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
@@ -5985,7 +6136,7 @@
       },
       {
         "raw": "2 c. à soupe (30 ml) de moutarde de Dijon",
-        "section": null,
+        "section": "Vinaigrette tahini, Dijon et érable",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
@@ -5995,7 +6146,7 @@
       },
       {
         "raw": "Zeste de 1 citron bien lavé",
-        "section": null,
+        "section": "Vinaigrette tahini, Dijon et érable",
         "quantity": 1,
         "quantityMax": null,
         "unit": null,
@@ -6005,7 +6156,7 @@
       },
       {
         "raw": "1/4 tasse (60 ml) de jus de citron",
-        "section": null,
+        "section": "Vinaigrette tahini, Dijon et érable",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
@@ -6015,7 +6166,7 @@
       },
       {
         "raw": "1 c. à soupe (15 ml) de sirop d’érable",
-        "section": null,
+        "section": "Vinaigrette tahini, Dijon et érable",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tbsp",
@@ -6025,7 +6176,7 @@
       },
       {
         "raw": "3 c. à soupe (45 ml) d’eau",
-        "section": null,
+        "section": "Vinaigrette tahini, Dijon et érable",
         "quantity": 3,
         "quantityMax": null,
         "unit": "tbsp",
@@ -6035,7 +6186,7 @@
       },
       {
         "raw": "1/2 c. à thé (2,5 ml) de sel",
-        "section": null,
+        "section": "Vinaigrette tahini, Dijon et érable",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
@@ -6045,7 +6196,7 @@
       },
       {
         "raw": "1 petite gousse d’ail, hachée",
-        "section": null,
+        "section": "Vinaigrette tahini, Dijon et érable",
         "quantity": 1,
         "quantityMax": null,
         "unit": "clove",
@@ -6055,7 +6206,7 @@
       },
       {
         "raw": "2 tasses (400 g) d’orge cuit",
-        "section": null,
+        "section": "Salade",
         "quantity": 2,
         "quantityMax": null,
         "unit": "cup",
@@ -6065,7 +6216,7 @@
       },
       {
         "raw": "2 tasses (400 g) de lentilles cuites ou 1 conserve de 540 ml de lentilles bien rincées et égouttées",
-        "section": null,
+        "section": "Salade",
         "quantity": 2,
         "quantityMax": null,
         "unit": "cup",
@@ -6075,7 +6226,7 @@
       },
       {
         "raw": "1 avocat en cubes",
-        "section": null,
+        "section": "Salade",
         "quantity": 1,
         "quantityMax": null,
         "unit": null,
@@ -6085,7 +6236,7 @@
       },
       {
         "raw": "1 pomme rouge en dés",
-        "section": null,
+        "section": "Salade",
         "quantity": 1,
         "quantityMax": null,
         "unit": null,
@@ -6095,7 +6246,7 @@
       },
       {
         "raw": "1/2 tasse (20 g) de persil frais haché finement",
-        "section": null,
+        "section": "Salade",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "cup",
@@ -6105,7 +6256,7 @@
       },
       {
         "raw": "1/4 tasse (10 g) de menthe fraîche hachée finement",
-        "section": null,
+        "section": "Salade",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
@@ -6630,8 +6781,8 @@
         "section": null,
         "quantity": 0.5,
         "quantityMax": null,
-        "unit": null,
-        "name": "tête de chou-fleur coupée en fleurons",
+        "unit": "head",
+        "name": "chou-fleur coupée en fleurons",
         "note": "250 g",
         "optional": false
       },
@@ -6773,6 +6924,16 @@
         "unit": null,
         "name": "Poivre",
         "note": "au goût",
+        "optional": false
+      },
+      {
+        "raw": "Pâte à tarte",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Pâte à tarte",
+        "note": null,
         "optional": false
       }
     ],
@@ -7006,13 +7167,13 @@
         "optional": false
       },
       {
-        "raw": "1 boîte de conserve (540 ml) lentilles vertes, rincées et égouttées",
+        "raw": "1 boîte de 540 ml de lentilles en conserve (vertes), rincées et égouttées",
         "section": "Garniture",
         "quantity": 1,
         "quantityMax": null,
         "unit": "can",
-        "name": "conserve lentilles vertes",
-        "note": "rincées et égouttées; 540 ml",
+        "name": "lentilles en conserve",
+        "note": "rincées et égouttées; vertes; 540 ml",
         "optional": false
       },
       {
@@ -7929,13 +8090,13 @@
         "optional": false
       },
       {
-        "raw": "1 paquet de tofu extra ferme (coupé en cubes; environ 110 g)",
+        "raw": "1 paquet de tofu extra ferme (coupé en cubes; environ 440 g)",
         "section": "Sauté",
         "quantity": 1,
         "quantityMax": null,
         "unit": "pack",
         "name": "tofu extra ferme",
-        "note": "coupé en cubes; environ 110 g",
+        "note": "coupé en cubes; environ 440 g",
         "optional": false
       },
       {
@@ -7989,13 +8150,13 @@
         "optional": false
       },
       {
-        "raw": "1 paquet de champignons shiitakes (tranchés finement; environ 55 g)",
+        "raw": "1 paquet de champignons shiitakes (tranchés finement; environ 220 g)",
         "section": "Sauté",
         "quantity": 1,
         "quantityMax": null,
         "unit": "pack",
         "name": "champignons shiitakes",
-        "note": "tranchés finement; environ 55 g",
+        "note": "tranchés finement; environ 220 g",
         "optional": false
       },
       {
@@ -8197,18 +8358,18 @@
   {
     "slug": "pates-cremeuses-au-mais-et-chorizo-de-tofu",
     "title": "Pâtes crémeuses au maïs et chorizo de tofu",
-    "sourceUrl": null,
+    "sourceUrl": "https://margauxfood.ca/recette/pates-cremeuses-au-mais-et-chorizo-de-tofu/",
     "servings": 4,
-    "totalMinutes": null,
-    "image": null,
+    "totalMinutes": 40,
+    "image": "https://margauxfood.ca/app/uploads/2024/07/pates-cremeuses-au-mais-et-chorizo-de-tofu-1200x675.jpg",
     "ingredients": [
       {
-        "raw": "3 c. à soupe (45 ml) d'huile d'olive",
+        "raw": "3 c. à soupe (45 ml) d’huile d’olive",
         "section": "Chorizo de tofu",
         "quantity": 3,
         "quantityMax": null,
         "unit": "tbsp",
-        "name": "huile d'olive",
+        "name": "huile d’olive",
         "note": "45 ml",
         "optional": false
       },
@@ -8253,23 +8414,13 @@
         "optional": false
       },
       {
-        "raw": "1/2 c. à thé (2,5 ml) d'origan séché",
+        "raw": "1/2 c. à thé (2,5 ml) d’origan séché",
         "section": "Chorizo de tofu",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
         "name": "origan séché",
         "note": "2,5 ml",
-        "optional": false
-      },
-      {
-        "raw": "1 pincée de cannelle",
-        "section": "Chorizo de tofu",
-        "quantity": 1,
-        "quantityMax": null,
-        "unit": "pinch",
-        "name": "cannelle",
-        "note": null,
         "optional": false
       },
       {
@@ -8293,12 +8444,12 @@
         "optional": false
       },
       {
-        "raw": "2 c. à soupe (30 ml) d'huile d'olive",
+        "raw": "2 c. à soupe (30 ml) d’huile d’olive",
         "section": "Pâtes crémeuses",
         "quantity": 2,
         "quantityMax": null,
         "unit": "tbsp",
-        "name": "huile d'olive",
+        "name": "huile d’olive",
         "note": "30 ml",
         "optional": false
       },
@@ -8313,7 +8464,7 @@
         "optional": false
       },
       {
-        "raw": "3 gousses d'ail, hachées",
+        "raw": "3 gousses d’ail, hachées",
         "section": "Pâtes crémeuses",
         "quantity": 3,
         "quantityMax": null,
@@ -8323,13 +8474,13 @@
         "optional": false
       },
       {
-        "raw": "Grains de 4 maïs",
+        "raw": "4 épis de maïs (les grains)",
         "section": "Pâtes crémeuses",
-        "quantity": null,
+        "quantity": 4,
         "quantityMax": null,
         "unit": null,
-        "name": "Grains de 4 maïs",
-        "note": null,
+        "name": "épis de maïs",
+        "note": "les grains",
         "optional": false
       },
       {
@@ -8371,13 +8522,69 @@
         "name": "sel",
         "note": "3,75 ml",
         "optional": false
+      },
+      {
+        "raw": "Poivre, au goût",
+        "section": "Pâtes crémeuses",
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Poivre",
+        "note": "au goût",
+        "optional": false
+      },
+      {
+        "raw": "400 g de pâtes courtes au choix",
+        "section": "Pâtes crémeuses",
+        "quantity": 400,
+        "quantityMax": null,
+        "unit": "g",
+        "name": "pâtes courtes au choix",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "1/3 tasse (80 ml) d’eau de cuisson",
+        "section": "Pâtes crémeuses",
+        "quantity": 0.3333333333333333,
+        "quantityMax": null,
+        "unit": "cup",
+        "name": "eau de cuisson",
+        "note": "80 ml",
+        "optional": false
+      },
+      {
+        "raw": "1 1/2 tasse (45 g) de basilic",
+        "section": "Pâtes crémeuses",
+        "quantity": 1.5,
+        "quantityMax": null,
+        "unit": "cup",
+        "name": "basilic",
+        "note": "45 g",
+        "optional": false
+      },
+      {
+        "raw": "1 pincée de cannelle",
+        "section": null,
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "pinch",
+        "name": "cannelle",
+        "note": null,
+        "optional": false
       }
     ],
-    "instructions": [],
-    "method": "text",
+    "instructions": [
+      "Dans une grande poêle antiadhésive, chauffer l’huile à feu moyen-élevé et émietter le tofu en petits morceaux avec les mains. Ajouter le reste des ingrédients sauf la pâte de tomate et cuire pendant 4 minutes en brassant à quelques reprises.",
+      "Ajouter la pâte de tomates et bien brasser. Poursuivre la cuisson 2 minutes. Transférer le chorizo de tofu dans une assiette.",
+      "Dans la même poêle antiadhésive, chauffer l’huile à feu moyen-élevé et cuire l’oignon pendant 5 minutes. Ajouter les grains de maïs, l’ail et les flocons de piment fort et cuire encore 4 minutes.",
+      "Transférer la moitié du mélange d’oignon et de maïs dans un mélangeur avec la crème végétale, le bouillon, le sel et le poivre et mixer jusqu’à l’obtention d’une texture très lisse.",
+      "Dans une casserole d’eau bouillante salée, cuire les pâtes selon le temps indiqué sur l’emballage. Prélever 1/3 tasse (80 ml) d’eau de cuisson et égoutter les pâtes.",
+      "Déposer les pâtes et l’eau de cuisson dans la poêle avec le reste du mélange d’oignon et de maïs, la sauce et le basilic. Servir avec le chorizo de tofu."
+    ],
+    "method": "jsonld",
     "warnings": [],
-    "sourceType": "photo",
-    "localImage": "Pâtes crémeuses au maïs et chorizo de tofu.jpg",
+    "sourceType": "url",
     "sourceFiles": [
       "Pâtes crémeuses au maïs et chorizo de tofu.jpg"
     ]
@@ -8471,8 +8678,18 @@
         "optional": false
       },
       {
+        "raw": "¾ cup vegetable broth",
+        "section": null,
+        "quantity": 0.75,
+        "quantityMax": null,
+        "unit": "cup",
+        "name": "vegetable broth",
+        "note": null,
+        "optional": false
+      },
+      {
         "raw": "1 cup coconut milk",
-        "section": "¾ cup vegetable broth",
+        "section": null,
         "quantity": 1,
         "quantityMax": null,
         "unit": "cup",
@@ -8482,7 +8699,7 @@
       },
       {
         "raw": "30 oz canned chickpeas 2 cans, drained and rinsed",
-        "section": "¾ cup vegetable broth",
+        "section": null,
         "quantity": 30,
         "quantityMax": null,
         "unit": "oz",
@@ -8492,21 +8709,11 @@
       },
       {
         "raw": "1 handful spinach or basil torn",
-        "section": "¾ cup vegetable broth",
+        "section": null,
         "quantity": 1,
         "quantityMax": null,
         "unit": "handful",
         "name": "spinach or basil torn",
-        "note": null,
-        "optional": false
-      },
-      {
-        "raw": "3/4 cup vegetable broth",
-        "section": null,
-        "quantity": 0.75,
-        "quantityMax": null,
-        "unit": "cup",
-        "name": "vegetable broth",
         "note": null,
         "optional": false
       }
@@ -8790,7 +8997,7 @@
       },
       {
         "raw": "Pains plats du commerce (voir NOTES) - 4",
-        "section": "s pains plats",
+        "section": "pains plats",
         "quantity": 4,
         "quantityMax": null,
         "unit": null,
@@ -8800,7 +9007,7 @@
       },
       {
         "raw": "Pêches, dénoyautées et coupées en tranches - 2",
-        "section": "s pains plats",
+        "section": "pains plats",
         "quantity": 2,
         "quantityMax": null,
         "unit": null,
@@ -8810,7 +9017,7 @@
       },
       {
         "raw": "Huile - Quantité suffisante",
-        "section": "s pains plats",
+        "section": "pains plats",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
@@ -8820,7 +9027,7 @@
       },
       {
         "raw": "Tomates ancestrales, tranchées - 2",
-        "section": "s pains plats",
+        "section": "pains plats",
         "quantity": 2,
         "quantityMax": null,
         "unit": null,
@@ -8830,7 +9037,7 @@
       },
       {
         "raw": "Sel - Au goût",
-        "section": "s pains plats",
+        "section": "pains plats",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
@@ -8879,7 +9086,7 @@
       "Faites griller les tranches de pêches 2 minutes d'un côté, puis 1 minute de l'autre. Réservez-les.",
       "Salez légèrement les tranches de tomates pour leur permettre de recracher une partie de leur eau. Réservez-les.",
       "Tartinez les pains avec le pesto. Garnissez-les de tranches de tomates, de tranches de pêche grillées et de tofu crémeux.",
-      "Ajoutez la roquette et les feuilles de basilic. Terminez le dressage par un filet de sirop épicé et servez les pains plats garnis."
+      "Ajoutez la roquette et les feuilles de basilic. Terminez le dressage par un filet de sirop épicé et servez les pains plats garnis immédiatement."
     ],
     "method": "text",
     "warnings": [],
@@ -9761,8 +9968,8 @@
         "section": "Sauce aux herbes",
         "quantity": 0.25,
         "quantityMax": null,
-        "unit": null,
-        "name": "c.à thé de sel",
+        "unit": "tsp",
+        "name": "sel",
         "note": null,
         "optional": false
       }
@@ -9957,7 +10164,7 @@
     "ingredients": [
       {
         "raw": "400 g de conchiglie rigate",
-        "section": "s pâtes et les pois chiches",
+        "section": "pâtes et les pois chiches",
         "quantity": 400,
         "quantityMax": null,
         "unit": "g",
@@ -9967,7 +10174,7 @@
       },
       {
         "raw": "1 conserve (548 ml) de pois chiches, rincés et égouttés",
-        "section": "s pâtes et les pois chiches",
+        "section": "pâtes et les pois chiches",
         "quantity": 1,
         "quantityMax": null,
         "unit": "can",
@@ -9977,7 +10184,7 @@
       },
       {
         "raw": "Sel pour l'eau des pâtes",
-        "section": "s pâtes et les pois chiches",
+        "section": "pâtes et les pois chiches",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
@@ -10694,8 +10901,8 @@
         "quantity": 1,
         "quantityMax": null,
         "unit": null,
-        "name": "to large red onion",
-        "note": "thinly sliced; medium",
+        "name": "red onion",
+        "note": "thinly sliced; medium to large",
         "optional": false
       },
       {
@@ -10709,13 +10916,13 @@
         "optional": false
       },
       {
-        "raw": "[?] tablespoon fresh oregano, finely chopped (or [?] teaspoon dried Mexican oregano)",
+        "raw": "½ tablespoon fresh oregano, finely chopped (or [illisible] teaspoon dried Mexican oregano)",
         "section": "Fajita Veggies",
-        "quantity": null,
+        "quantity": 0.5,
         "quantityMax": null,
-        "unit": null,
-        "name": "[?] tablespoon fresh oregano",
-        "note": "finely chopped; or [?] teaspoon dried Mexican oregano",
+        "unit": "tbsp",
+        "name": "fresh oregano",
+        "note": "finely chopped; or [illisible] teaspoon dried Mexican oregano",
         "optional": false
       },
       {
@@ -10802,7 +11009,7 @@
     "method": "text",
     "warnings": [],
     "sourceType": "photo",
-    "localImage": "Vegan Burrito Bowl (Better than Chipotle!).jpg",
+    "localImage": "@own/Vegan_Burrito_Bowl_Better_than_Chipotle.jpg",
     "sourceFiles": [
       "Vegan Burrito Bowl (Better than Chipotle!).jpg"
     ]
@@ -10866,13 +11073,63 @@
         "optional": false
       },
       {
-        "raw": "Épices: 1 c. à thé de cumin moulu, 1 c. à thé de paprika, 1 c. à thé de coriandre moulue, ½ c. à thé de gingembre moulu, ½ c. à thé de cannelle moulue, ½ c. à thé de curcuma moulu",
+        "raw": "1 c. à thé de cumin moulu",
         "section": "Tofu shawarma",
-        "quantity": null,
+        "quantity": 1,
         "quantityMax": null,
-        "unit": null,
-        "name": "Épices: 1 c. à thé de cumin moulu",
-        "note": "1 c. à thé de paprika, 1 c. à thé de coriandre moulue, 1/2 c. à thé de gingembre moulu, 1/2 c. à thé de cannelle moulue, 1/2 c. à thé de curcuma moulu",
+        "unit": "tsp",
+        "name": "cumin moulu",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "1 c. à thé de paprika",
+        "section": "Tofu shawarma",
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "tsp",
+        "name": "paprika",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "1 c. à thé de coriandre moulue",
+        "section": "Tofu shawarma",
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "tsp",
+        "name": "coriandre moulue",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "½ c. à thé de gingembre moulu",
+        "section": "Tofu shawarma",
+        "quantity": 0.5,
+        "quantityMax": null,
+        "unit": "tsp",
+        "name": "gingembre moulu",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "½ c. à thé de cannelle moulue",
+        "section": "Tofu shawarma",
+        "quantity": 0.5,
+        "quantityMax": null,
+        "unit": "tsp",
+        "name": "cannelle moulue",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "½ c. à thé de curcuma moulu",
+        "section": "Tofu shawarma",
+        "quantity": 0.5,
+        "quantityMax": null,
+        "unit": "tsp",
+        "name": "curcuma moulu",
+        "note": null,
         "optional": false
       },
       {
@@ -10886,18 +11143,8 @@
         "optional": false
       },
       {
-        "raw": "Houmous maison (option: remplacer par du houmous du commerce):",
-        "section": "Tofu shawarma",
-        "quantity": null,
-        "quantityMax": null,
-        "unit": null,
-        "name": "Houmous maison ",
-        "note": "option: remplacer par du houmous du commerce",
-        "optional": false
-      },
-      {
         "raw": "1 canne de pois chiches égouttés et rincés (540ml/19oz)",
-        "section": "Tofu shawarma",
+        "section": "Houmous maison (ou du commerce)",
         "quantity": 1,
         "quantityMax": null,
         "unit": "can",
@@ -10907,7 +11154,7 @@
       },
       {
         "raw": "¾ tasse de tahini",
-        "section": "Tofu shawarma",
+        "section": "Houmous maison (ou du commerce)",
         "quantity": 0.75,
         "quantityMax": null,
         "unit": "cup",
@@ -10917,7 +11164,7 @@
       },
       {
         "raw": "¼ tasse d'huile d'olive",
-        "section": "Tofu shawarma",
+        "section": "Houmous maison (ou du commerce)",
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
@@ -10927,7 +11174,7 @@
       },
       {
         "raw": "4-5 c. à soupe d'eau",
-        "section": "Tofu shawarma",
+        "section": "Houmous maison (ou du commerce)",
         "quantity": 4,
         "quantityMax": 5,
         "unit": "tbsp",
@@ -10937,7 +11184,7 @@
       },
       {
         "raw": "1 gousse d'ail émincée",
-        "section": "Tofu shawarma",
+        "section": "Houmous maison (ou du commerce)",
         "quantity": 1,
         "quantityMax": null,
         "unit": "clove",
@@ -10947,7 +11194,7 @@
       },
       {
         "raw": "Jus de ½ citron",
-        "section": "Tofu shawarma",
+        "section": "Houmous maison (ou du commerce)",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": null,
@@ -10957,7 +11204,7 @@
       },
       {
         "raw": "1 c. à thé de cumin moulu",
-        "section": "Tofu shawarma",
+        "section": "Houmous maison (ou du commerce)",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tsp",
@@ -10967,7 +11214,7 @@
       },
       {
         "raw": "½ c. à thé de sel, poivre au goût",
-        "section": "Tofu shawarma",
+        "section": "Houmous maison (ou du commerce)",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
@@ -11036,13 +11283,33 @@
         "optional": false
       },
       {
-        "raw": "Pour servir: riz brun ou quinoa, persil tranché et fêta émiettée (optionnel)",
+        "raw": "Pour servir: riz brun ou quinoa",
         "section": "Salade",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
         "name": "riz brun ou quinoa",
-        "note": "persil tranché et fêta émiettée; pour servir",
+        "note": "pour servir",
+        "optional": false
+      },
+      {
+        "raw": "Pour servir: persil tranché",
+        "section": "Salade",
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "persil tranché",
+        "note": "pour servir",
+        "optional": false
+      },
+      {
+        "raw": "Pour servir: fêta émiettée (optionnel)",
+        "section": "Salade",
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "fêta émiettée",
+        "note": "pour servir",
         "optional": true
       }
     ],
@@ -11050,7 +11317,7 @@
       "Préparer le tofu. Retirer un maximum d'eau du tofu avec un linge à vaisselle ou un papier essuie-tout. Dans un grand bol, ajouter l'huile d'olive, le jus de citron, le miel/sirop d'érable, l'ail, les épices et le sel. Bien mélanger. Défaire le tofu avec vos doigts pour obtenir des morceaux d'environ 1 pouce. Ajouter les au bol et bien mélanger pour incorporer la marinade au tofu. Couvrir et placer au frigo de 1h à 2h.",
       "Si vous utilisez du houmous du commerce, passez à la prochaine étape. Pour préparer le houmous maison, ajouter tous les ingrédients dans un robot culinaire et pulser pendant quelques minutes jusqu'à l'obtention d'une texture crémeuse. Au besoin, ajouter plus d'eau en fonction de la consistance.",
       "Préparer la salade. Dans un bol, ajouter tous les ingrédients et bien mélanger. Assaisonner généreusement.",
-      "Cuire le tofu. Voir les notes pour les options de cuisson.",
+      "Cuire le tofu. Au four : étendre sur une plaque à cuisson avec un papier parchemin et cuire à 425F pendant 15-20 minutes, en retournant à mi-cuisson. Dans une poêle : cuire 2-3 minutes chaque côté des morceaux de tofu. Sur le BBQ : vous pouvez faire des brochettes de tofu et les cuire directement sur le BBQ. Pour ce faire, je recommande de couper le tofu en cubes avant de le mariner et de tout simplement assembler les brochettes. Cuire 2-3 minutes de chaque côté.",
       "Cuire le riz ou le quinoa selon les indications sur l'emballage.",
       "Assembler les bols. Garnir chaque bol de 2 c. à soupe de houmous au fond, le riz/quinoa au milieu, la salade et le tofu cuit par-dessus. Garnir de persil tranché et de fêta émiettée (optionnel)."
     ],
@@ -11289,9 +11556,9 @@
         "raw": "2,5 ml à 5 ml (½ à 1 c. à thé) de poudre de chili",
         "section": "Cari",
         "quantity": 2.5,
-        "quantityMax": null,
+        "quantityMax": 5,
         "unit": "ml",
-        "name": "à 5 ml de poudre de chili",
+        "name": "poudre de chili",
         "note": "1/2 à 1 c. à thé",
         "optional": false
       },
@@ -12206,8 +12473,8 @@
         "section": null,
         "quantity": 3,
         "quantityMax": null,
-        "unit": "stalk",
-        "name": "green onion",
+        "unit": null,
+        "name": "sticks green onion",
         "note": null,
         "optional": false
       },
@@ -12263,15 +12530,15 @@
       }
     ],
     "instructions": [
-      "Pat dry the extra firm tofu with a paper towel. Then, mash into a crumble with a fork",
-      "Finely chop the garlic, ginger, and green onions",
-      "Heat up a nonstick pan to medium heat. Add 1 tbsp of avocado oil followed by the crumbled tofu. Sauté for 3-4min",
-      "Add 2 tsp dark soy sauce and sauté for another couple of minutes. Set the tofu aside",
-      "Bring a pot of water to boil for the noodles",
-      "Place the nonstick pan back on medium low heat. Add 2 tbsp avocado oil followed by the garlic and ginger. Cook for about 2min",
-      "When the water comes to a boil, cook the noodles for 1 min less to package instructions (in this case, 3min). Stir occasionally to keep them from sticking",
-      "Add the gochugaru to the garlic and ginger. Cook for about 1min. Then, add the oyster sauce",
-      "Strain out the noodles and add to the pan. Add 1 tsp dark soy sauce and the crumbled tofu. Turn the heat up to medium and sauté for 2-3min. Add the green onions and sauté for another minute"
+      "Pat dry the extra firm tofu with a paper towel. Then, mash into a crumble with a fork.",
+      "Finely chop the garlic, ginger, and green onions.",
+      "Heat up a nonstick pan to medium heat. Add 1 tbsp of avocado oil followed by the crumbled tofu. Sauté for 3-4min.",
+      "Add 2 tsp dark soy sauce and sauté for another couple of minutes. Set the tofu aside.",
+      "Bring a pot of water to boil for the noodles.",
+      "Place the nonstick pan back on medium low heat. Add 2 tbsp avocado oil followed by the garlic and ginger. Cook for about 2min.",
+      "When the water comes to a boil, cook the noodles for 1 min less to package instructions (in this case, 3min). Stir occasionally to keep them from sticking.",
+      "Add the gochugaru to the garlic and ginger. Cook for about 1min. Then, add the oyster sauce.",
+      "Strain out the noodles and add to the pan. Add 1 tsp dark soy sauce and the crumbled tofu. Turn the heat up to medium and sauté for 2-3min. Add the green onions and sauté for another minute."
     ],
     "method": "text",
     "warnings": [],
@@ -13025,7 +13292,7 @@
         "quantityMax": 2,
         "unit": null,
         "name": "courgettes",
-        "note": "coupée en dés; s; environ 2 tasses",
+        "note": "coupée en dés; environ 2 tasses",
         "optional": false
       },
       {
@@ -13345,12 +13612,12 @@
         "optional": false
       },
       {
-        "raw": "Pâte de cari rouge : 112g (environ 6 c. à soupe). Voir ici",
+        "raw": "Pâte de cari rouge : 112g (environ 6 c. à soupe)",
         "section": null,
         "quantity": 112,
         "quantityMax": null,
         "unit": "g",
-        "name": ". Voir ici Pâte de cari rouge",
+        "name": "Pâte de cari rouge",
         "note": "environ 6 c. à soupe",
         "optional": false
       },
@@ -13395,13 +13662,13 @@
         "optional": false
       },
       {
-        "raw": "Lime : jus de 1 lime",
+        "raw": "Lime : 1 lime (le jus)",
         "section": null,
-        "quantity": null,
+        "quantity": 1,
         "quantityMax": null,
         "unit": null,
-        "name": "Lime : jus de 1 lime",
-        "note": null,
+        "name": "lime Lime",
+        "note": "le jus",
         "optional": false
       },
       {
@@ -13417,21 +13684,31 @@
       {
         "raw": "Épinards: 4 tasses",
         "section": null,
-        "quantity": null,
+        "quantity": 4,
         "quantityMax": null,
-        "unit": null,
-        "name": "Épinards: 4 tasses",
+        "unit": "cup",
+        "name": "Épinards",
         "note": null,
         "optional": false
       },
       {
-        "raw": "Garnitures : arachides et coriandre",
+        "raw": "Garnitures : arachides",
         "section": null,
         "quantity": null,
         "quantityMax": null,
         "unit": null,
-        "name": "Garnitures : arachides et coriandre",
-        "note": null,
+        "name": "arachides",
+        "note": "garnitures",
+        "optional": false
+      },
+      {
+        "raw": "Garnitures : coriandre",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "coriandre",
+        "note": "garnitures",
         "optional": false
       },
       {

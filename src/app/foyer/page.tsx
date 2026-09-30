@@ -12,6 +12,7 @@ export default function Foyer() {
   const { session, household, reloadHousehold } = useApp();
   const router = useRouter();
   const [name, setName] = useState("Momo et Jéjé");
+  const [postalCode, setPostalCode] = useState("H4C 0B8");
   const [displayName, setDisplayName] = useState("");
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
@@ -28,13 +29,16 @@ export default function Foyer() {
       setBusy(false);
       return;
     }
+    // Postal code: which regional Maxi flyer to read.
+    const cp = postalCode.trim().toUpperCase();
+    if (/^[A-Z]\d[A-Z] ?\d[A-Z]\d$/.test(cp)) await supabase().from("households").update({ postal_code: cp }).eq("id", id as string);
     // Every new household starts with the Momo et Jéjé recipes (they can be removed afterwards).
     let ok = true;
     try {
-      await importStarterRecipes(id as string, (d, t) => setProgress(`Import des recettes : ${d} / ${t}`));
+      await importStarterRecipes(id as string, (d, t) => setProgress(`Ajout des recettes : ${d} / ${t}`));
     } catch (err) {
       ok = false;
-      setError(`Foyer créé, mais l'import des recettes a échoué : ${messageFr(err)}`);
+      setError(`Foyer créé, mais l'ajout des recettes a échoué : ${messageFr(err)}`);
     }
     await reloadHousehold();
     if (ok) router.push("/semaine");
@@ -82,6 +86,18 @@ export default function Foyer() {
       <form onSubmit={create} className="card space-y-3 p-5">
         <h2 className="font-semibold">Créer un foyer</h2>
         <input className="input" value={name} onChange={(e) => setName(e.target.value)} required />
+        <label className="block">
+          <span className="text-xs text-muted">Code postal (pour la circulaire Maxi de votre région)</span>
+          <input
+            className="input mt-1 uppercase"
+            value={postalCode}
+            maxLength={7}
+            pattern="[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d"
+            title="Format : H4C 0B8"
+            onChange={(e) => setPostalCode(e.target.value)}
+            required
+          />
+        </label>
         <button className="btn-primary w-full" disabled={busy}>
           {busy && progress ? progress : "Créer"}
         </button>

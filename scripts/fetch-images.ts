@@ -26,6 +26,12 @@ async function download(url: string): Promise<Buffer | null> {
 /** When the announced picture is broken, try the other pictures of the page (skipping logos and small images). */
 async function pagePicture(pageUrl: string): Promise<Buffer | null> {
   const html = await (await fetch(pageUrl, { headers: UA })).text();
+  // The page's own sharing picture first (og:image), then any large picture of the page.
+  const og = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1] ?? html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i)?.[1];
+  if (og) {
+    const buf = await download(og.replace(/&amp;/g, "&"));
+    if (buf) return buf;
+  }
   const urls = [...new Set(html.match(/https?:\/\/[^"'\s)]+\.(?:jpe?g|png|webp)[^"'\s)]*/gi) ?? [])].filter(
     (u) => !/logo|icon|avatar|sprite|favicon/i.test(u),
   );
@@ -140,11 +146,14 @@ const officialImages = new Map<string, string>(
 );
 
 async function source(r: Entry): Promise<Buffer | null> {
+  if (r.localImage?.startsWith("@own/")) return readFileSync(join(ROOT, "recettes", "Photo_recettes", r.localImage.slice(5)));
   const official = officialImages.get(r.slug);
   if (official) {
     const buf = await download(official);
     if (buf) return buf;
   }
+  // The user's own dish photo: used whole (no screenshot cropping).
+  if (r.localImage?.startsWith("@own/")) return readFileSync(join(ROOT, "recettes", "Photo_recettes", r.localImage.slice(5)));
   if (r.localImage) {
     const file = readFileSync(join(PHOTOS, r.localImage));
     const crop = manualCrops[r.localImage];

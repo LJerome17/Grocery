@@ -1,5 +1,6 @@
 // Row types of the Supabase tables (see supabase/migrations).
 
+import type { Equiv } from "./shopping";
 import { SUPABASE_URL } from "./supabase";
 
 export type Household = {
@@ -9,6 +10,10 @@ export type Household = {
   max_same_dish_type: number;
   max_same_protein: number;
   repeat_cooldown_weeks: number;
+  /** For the regional Maxi flyer. */
+  postal_code: string | null;
+  /** Starter recipes already received (so a deleted one is never added back). */
+  starter_seen: string[] | null;
 };
 
 export type Recipe = {
@@ -51,6 +56,8 @@ export type Ingredient = {
   aisle: string;
   pantry: boolean;
   count_unit: string | null;
+  /** Buying-unit equivalences (see Equiv in shopping.ts). */
+  equiv: Equiv | null;
 };
 
 export type WeekPlan = {
@@ -97,7 +104,10 @@ export const DISH_TYPES = [
   "bol", "salade", "soupe", "ramen", "nouilles", "pâtes", "riz", "mijoté", "four", "plaque", "grillades", "wrap",
   "sandwich", "pain plat", "accompagnement",
 ];
-export const PROTEINS = ["tofu", "tempeh", "légumineuses", "fromage", "œufs", "végé", "poisson", "poulet"];
+export const PROTEINS = [
+  "tofu", "tempeh", "pois chiches", "haricots noirs", "haricots rouges", "haricots blancs", "lentilles", "édamames",
+  "haché végé", "fromage", "œufs", "végé", "poisson", "poulet",
+];
 
 /** image_url is a web URL, a site path (/starter/...) or "storage:<bucket>/<path>". */
 export function imageSrc(url: string | null): string | null {

@@ -1,3 +1,123 @@
+-- 0005: fixes from the validation review (2026-09-30). Safe to run more than once.
+
+-- Regional Maxi flyer.
+alter table households add column if not exists postal_code text default 'H4C 0B8';
+update households set postal_code = 'H4C 0B8' where postal_code is null;
+
+-- Starter recipes are tracked by a stable id, never by title; a deleted one is never added back.
+alter table recipes add column if not exists starter_slug text;
+create unique index if not exists recipes_starter_slug_uq on recipes (household_id, starter_slug) where starter_slug is not null;
+alter table households add column if not exists starter_seen text[] not null default '{}';
+update recipes set starter_slug = 'wraps-aux-pois-chiches-rotis-et-a-la-feta' where starter_slug is null and title = 'Wraps aux pois chiches rôtis et à la feta';
+update recipes set starter_slug = 'tofu-magique-bang-bang' where starter_slug is null and title = 'Tofu Magique Bang Bang';
+update recipes set starter_slug = 'one-pot-marry-me-tofu-recipe' where starter_slug is null and title = 'One Pot Marry Me Tofu Recipe';
+update recipes set starter_slug = 'massaged-kale-salad' where starter_slug is null and title = 'Massaged Kale Salad';
+update recipes set starter_slug = 'tofu-piri-piri-et-chou-fleur-grilles-sauce-a-l-aneth' where starter_slug is null and title = 'Tofu piri-piri et chou-fleur grillés, sauce à l’aneth';
+update recipes set starter_slug = 'salade-thai' where starter_slug is null and title = 'Salade Thaï';
+update recipes set starter_slug = 'vegetarian-moussaka' where starter_slug is null and title = 'Vegetarian Moussaka';
+update recipes set starter_slug = 'mac-cheese-a-la-courge' where starter_slug is null and title = 'Mac & cheese à la courge';
+update recipes set starter_slug = 'risotto-a-la-courge-butternut-sauge' where starter_slug is null and title = 'Risotto à la courge butternut & sauge';
+update recipes set starter_slug = 'protein-packed-lentil-quinoa-salad' where starter_slug is null and title = 'Protein-Packed Lentil & Quinoa Salad';
+update recipes set starter_slug = 'ramen-cremeux-a-la-courge-avec-tempeh-au-sesame-de-loounie' where starter_slug is null and title = 'Ramen crémeux à la courge avec tempeh au sésame, de Loounie';
+update recipes set starter_slug = 'potage-a-la-courge-musquee' where starter_slug is null and title = 'Potage à la courge musquée';
+update recipes set starter_slug = 'my-lasagne' where starter_slug is null and title = 'My Lasagne';
+update recipes set starter_slug = 'warm-pearl-couscous-salad' where starter_slug is null and title = 'Warm Pearl Couscous Salad';
+update recipes set starter_slug = 'bol-de-tofu-katsu' where starter_slug is null and title = 'Bol de tofu katsu';
+update recipes set starter_slug = 'dhal-de-lentilles-au-curcuma-et-lait-de-coco-avec-pleurotes-' where starter_slug is null and title = 'Dhal de lentilles au curcuma et lait de coco avec pleurotes au paprika fumé';
+update recipes set starter_slug = 'patates-douces-farcies-a-la-mexicaine' where starter_slug is null and title = 'Patates douces farcies à la mexicaine';
+update recipes set starter_slug = 'boulettes-vege-a-la-suedoise' where starter_slug is null and title = 'Boulettes végé à la suédoise';
+update recipes set starter_slug = 'tofu-magique' where starter_slug is null and title = 'Tofu Magique';
+update recipes set starter_slug = 'salade-de-legumineuses-au-mais-grille-et-a-la-pomme' where starter_slug is null and title = 'Salade de légumineuses au maïs grillé et à la pomme';
+update recipes set starter_slug = 'lasagne-au-pesto-petits-pois-et-courgette' where starter_slug is null and title = 'Lasagne au pesto, petits pois et courgette';
+update recipes set starter_slug = 'soupe-ramen-maison-vege-de-tes-reves' where starter_slug is null and title = 'Soupe ramen maison végé (de tes rêves!)';
+update recipes set starter_slug = 'feta-au-four-a-l-indienne' where starter_slug is null and title = 'Feta au four à l''indienne';
+update recipes set starter_slug = 'palak-tofu' where starter_slug is null and title = 'Palak tofu';
+update recipes set starter_slug = 'bean-crispy-salad' where starter_slug is null and title = 'Bean Crispy Salad';
+update recipes set starter_slug = 'tofu-croustillant-sesame-et-erable' where starter_slug is null and title = 'Tofu croustillant sésame et érable';
+update recipes set starter_slug = 'mapo-tofu-udon' where starter_slug is null and title = 'Mapo Tofu Udon';
+update recipes set starter_slug = 'creamy-roasted-cauliflower-ramen' where starter_slug is null and title = 'Creamy Roasted Cauliflower Ramen';
+update recipes set starter_slug = 'creamy-peanut-ramen-with-enoki-bok-choy-egg' where starter_slug is null and title = 'Creamy Peanut Ramen with Enoki, Bok Choy & Egg';
+update recipes set starter_slug = 'cari-de-lentilles-corail-et-chou-fleur-roti' where starter_slug is null and title = 'Cari de lentilles corail et chou-fleur rôti';
+update recipes set starter_slug = 'nouilles-udon-au-tofu-croustillant' where starter_slug is null and title = 'Nouilles udon au tofu croustillant';
+update recipes set starter_slug = 'salade-de-legumes-grilles-aux-lentilles-vinaigrette-tahini-d' where starter_slug is null and title = 'Salade de légumes grillés aux lentilles, vinaigrette tahini, Dijon et érable';
+update recipes set starter_slug = 'tofu-bbq-salade-de-tomates-et-mais' where starter_slug is null and title = 'Tofu BBQ, salade de tomates et maïs';
+update recipes set starter_slug = 'ragout-cremeux-express-a-la-citrouille' where starter_slug is null and title = 'Ragoût crémeux express à la citrouille';
+update recipes set starter_slug = 'pate-samosa' where starter_slug is null and title = 'Pâté samosa';
+update recipes set starter_slug = 'soupe-de-lentilles-epicee-a-l-oignon-brule' where starter_slug is null and title = 'Soupe de lentilles épicée à l''oignon brûlé';
+update recipes set starter_slug = 'pate-chinois' where starter_slug is null and title = 'Pâté chinois';
+update recipes set starter_slug = 'vegan-jamaican-lentil-curry' where starter_slug is null and title = 'Vegan Jamaican Lentil Curry';
+update recipes set starter_slug = 'salade-de-nouilles-orientales-au-tempeh-caramelise' where starter_slug is null and title = 'Salade de nouilles orientales au tempeh caramélisé';
+update recipes set starter_slug = 'bol-quinoa-tofu-et-arachides' where starter_slug is null and title = 'Bol quinoa, tofu et arachides';
+update recipes set starter_slug = 'saute-de-tofu-oignons-verts-et-sesame-style-philippino' where starter_slug is null and title = 'Sauté de tofu, oignons verts et sésame style philippino';
+update recipes set starter_slug = 'sundried-tomato-pesto' where starter_slug is null and title = 'Sundried Tomato Pesto';
+update recipes set starter_slug = 'pates-cremeuses-au-mais-et-chorizo-de-tofu' where starter_slug is null and title = 'Pâtes crémeuses au maïs et chorizo de tofu';
+update recipes set starter_slug = 'marry-me-chickpeas' where starter_slug is null and title = 'Marry Me Chickpeas';
+update recipes set starter_slug = 'salade-de-quinoa-et-halloumi-sur-creme-d-avocat' where starter_slug is null and title = 'Salade de quinoa et halloumi sur crème d''avocat';
+update recipes set starter_slug = 'pain-plat-d-ete-au-tofu-cremeux-facon-burrata' where starter_slug is null and title = 'Pain plat d''été au tofu crémeux façon burrata';
+update recipes set starter_slug = 'aubergines-grillees-et-pois-chiches-au-cari' where starter_slug is null and title = 'Aubergines grillées et pois chiches au cari';
+update recipes set starter_slug = 'tofu-magique-general-tao-sur-le-bbq' where starter_slug is null and title = 'Tofu magique général Tao sur le BBQ';
+update recipes set starter_slug = 'tofu-grille-aux-olives-et-a-l-aneth' where starter_slug is null and title = 'Tofu grillé aux olives et à l''aneth';
+update recipes set starter_slug = 'salade-de-pates-aux-legumes-rotis-et-chevre' where starter_slug is null and title = 'Salade de pâtes aux légumes rôtis et chèvre';
+update recipes set starter_slug = 'chou-fleur-roti-et-haricots-blancs-sauce-poivrons-cajou' where starter_slug is null and title = 'Chou-fleur rôti et haricots blancs, sauce poivrons cajou';
+update recipes set starter_slug = 'cari-de-patates-douces-lentilles-et-halloumi' where starter_slug is null and title = 'Cari de patates douces, lentilles et halloumi';
+update recipes set starter_slug = 'pates-facon-pain-a-l-ail-au-pesto-et-pois-chiches' where starter_slug is null and title = 'Pâtes façon «pain à l''ail» au pesto et pois chiches';
+update recipes set starter_slug = 'soupe-cari-arachides-avec-oeuf-mollet' where starter_slug is null and title = 'Soupe cari arachides avec oeuf mollet';
+update recipes set starter_slug = 'mushroom-lentil-tacos-with-garlic-avocado-cream' where starter_slug is null and title = 'Mushroom & Lentil Tacos with Garlic Avocado Cream';
+update recipes set starter_slug = 'vegan-burrito-bowl-better-than-chipotle' where starter_slug is null and title = 'Vegan Burrito Bowl (Better than Chipotle!)';
+update recipes set starter_slug = 'bol-de-tofu-shawarma-au-houmous' where starter_slug is null and title = 'Bol de tofu shawarma au houmous';
+update recipes set starter_slug = 'haricots-blancs-sauce-tomate-halloumi-grille' where starter_slug is null and title = 'Haricots blancs sauce tomate & halloumi grillé';
+update recipes set starter_slug = 'cari-vegetarien-et-fromage-a-griller' where starter_slug is null and title = 'Cari végétarien et fromage à griller';
+update recipes set starter_slug = 'plaque-de-pois-chiches-et-halloumi-yogourt-au-sumac' where starter_slug is null and title = 'Plaque de pois chiches et halloumi, yogourt au sumac';
+update recipes set starter_slug = 'cari-vegetarien-au-chou-fleur-et-patates-douces' where starter_slug is null and title = 'Cari végétarien au chou-fleur et patates douces';
+update recipes set starter_slug = 'bol-de-tofu-satay' where starter_slug is null and title = 'Bol de tofu Satay';
+update recipes set starter_slug = 'garlic-chili' where starter_slug is null and title = 'Garlic Chili';
+update recipes set starter_slug = 'bol-burrito-vege-chili-lime' where starter_slug is null and title = 'Bol burrito végé chili lime';
+update recipes set starter_slug = 'roasted-vegetable-salad-with-crispy-chickpeas' where starter_slug is null and title = 'Roasted Vegetable Salad with Crispy Chickpeas';
+update recipes set starter_slug = 'cari-de-tempeh' where starter_slug is null and title = 'Cari de tempeh';
+update recipes set starter_slug = 'vegan-tuna' where starter_slug is null and title = 'Vegan Tuna';
+update recipes set starter_slug = 'salade-de-couscous-perle-aux-legumes-rotis-et-tomates-sechee' where starter_slug is null and title = 'Salade de couscous perlé aux légumes rôtis et tomates séchées';
+update recipes set starter_slug = 'cari-rouge-a-la-citrouille-pois-chiches-et-epinards' where starter_slug is null and title = 'Cari rouge à la citrouille, pois chiches et épinards';
+update households set starter_seen = array['wraps-aux-pois-chiches-rotis-et-a-la-feta', 'tofu-magique-bang-bang', 'one-pot-marry-me-tofu-recipe', 'massaged-kale-salad', 'tofu-piri-piri-et-chou-fleur-grilles-sauce-a-l-aneth', 'salade-thai', 'vegetarian-moussaka', 'mac-cheese-a-la-courge', 'risotto-a-la-courge-butternut-sauge', 'protein-packed-lentil-quinoa-salad', 'ramen-cremeux-a-la-courge-avec-tempeh-au-sesame-de-loounie', 'potage-a-la-courge-musquee', 'my-lasagne', 'warm-pearl-couscous-salad', 'bol-de-tofu-katsu', 'dhal-de-lentilles-au-curcuma-et-lait-de-coco-avec-pleurotes-', 'patates-douces-farcies-a-la-mexicaine', 'boulettes-vege-a-la-suedoise', 'tofu-magique', 'salade-de-legumineuses-au-mais-grille-et-a-la-pomme', 'lasagne-au-pesto-petits-pois-et-courgette', 'soupe-ramen-maison-vege-de-tes-reves', 'feta-au-four-a-l-indienne', 'palak-tofu', 'bean-crispy-salad', 'tofu-croustillant-sesame-et-erable', 'mapo-tofu-udon', 'creamy-roasted-cauliflower-ramen', 'creamy-peanut-ramen-with-enoki-bok-choy-egg', 'cari-de-lentilles-corail-et-chou-fleur-roti', 'nouilles-udon-au-tofu-croustillant', 'salade-de-legumes-grilles-aux-lentilles-vinaigrette-tahini-d', 'tofu-bbq-salade-de-tomates-et-mais', 'ragout-cremeux-express-a-la-citrouille', 'pate-samosa', 'soupe-de-lentilles-epicee-a-l-oignon-brule', 'pate-chinois', 'vegan-jamaican-lentil-curry', 'salade-de-nouilles-orientales-au-tempeh-caramelise', 'bol-quinoa-tofu-et-arachides', 'saute-de-tofu-oignons-verts-et-sesame-style-philippino', 'sundried-tomato-pesto', 'pates-cremeuses-au-mais-et-chorizo-de-tofu', 'marry-me-chickpeas', 'salade-de-quinoa-et-halloumi-sur-creme-d-avocat', 'pain-plat-d-ete-au-tofu-cremeux-facon-burrata', 'aubergines-grillees-et-pois-chiches-au-cari', 'tofu-magique-general-tao-sur-le-bbq', 'tofu-grille-aux-olives-et-a-l-aneth', 'salade-de-pates-aux-legumes-rotis-et-chevre', 'chou-fleur-roti-et-haricots-blancs-sauce-poivrons-cajou', 'cari-de-patates-douces-lentilles-et-halloumi', 'pates-facon-pain-a-l-ail-au-pesto-et-pois-chiches', 'soupe-cari-arachides-avec-oeuf-mollet', 'mushroom-lentil-tacos-with-garlic-avocado-cream', 'vegan-burrito-bowl-better-than-chipotle', 'bol-de-tofu-shawarma-au-houmous', 'haricots-blancs-sauce-tomate-halloumi-grille', 'cari-vegetarien-et-fromage-a-griller', 'plaque-de-pois-chiches-et-halloumi-yogourt-au-sumac', 'cari-vegetarien-au-chou-fleur-et-patates-douces', 'bol-de-tofu-satay', 'garlic-chili', 'bol-burrito-vege-chili-lime', 'roasted-vegetable-salad-with-crispy-chickpeas', 'cari-de-tempeh', 'vegan-tuna', 'salade-de-couscous-perle-aux-legumes-rotis-et-tomates-sechee', 'cari-rouge-a-la-citrouille-pois-chiches-et-epinards']::text[] where starter_seen = '{}' and id in (select household_id from recipes where starter_slug is not null);
+
+-- Stable choice of household for people in several; buying-unit equivalences of the catalogue.
+alter table household_members add column if not exists joined_at timestamptz not null default now();
+alter table ingredients add column if not exists equiv jsonb;
+
+-- Recipe pictures: images only, 1 MB max.
+update storage.buckets set file_size_limit = 1048576, allowed_mime_types = array['image/webp','image/jpeg','image/png'] where id = 'recipe-images';
+
+-- Finer protein categories (only where the household kept the previous one).
+update recipes set protein = 'pois chiches' where title = 'Wraps aux pois chiches rôtis et à la feta' and protein = 'légumineuses';
+update recipes set protein = 'lentilles' where title = 'Vegetarian Moussaka' and protein = 'légumineuses';
+update recipes set protein = 'lentilles' where title = 'Protein-Packed Lentil & Quinoa Salad' and protein = 'légumineuses';
+update recipes set protein = 'haché végé' where title = 'My Lasagne' and protein = 'végé';
+update recipes set protein = 'pois chiches' where title = 'Warm Pearl Couscous Salad' and protein = 'légumineuses';
+update recipes set protein = 'lentilles' where title = 'Dhal de lentilles au curcuma et lait de coco avec pleurotes au paprika fumé' and protein = 'légumineuses';
+update recipes set protein = 'haricots noirs' where title = 'Patates douces farcies à la mexicaine' and protein = 'légumineuses';
+update recipes set protein = 'pois chiches' where title = 'Salade de légumineuses au maïs grillé et à la pomme' and protein = 'légumineuses';
+update recipes set protein = 'haricots rouges' where title = 'Bean Crispy Salad' and protein = 'légumineuses';
+update recipes set protein = 'lentilles' where title = 'Cari de lentilles corail et chou-fleur rôti' and protein = 'légumineuses';
+update recipes set protein = 'lentilles' where title = 'Salade de légumes grillés aux lentilles, vinaigrette tahini, Dijon et érable' and protein = 'légumineuses';
+update recipes set protein = 'haricots blancs' where title = 'Ragoût crémeux express à la citrouille' and protein = 'légumineuses';
+update recipes set protein = 'pois chiches' where title = 'Pâté samosa' and protein = 'végé';
+update recipes set protein = 'lentilles' where title = 'Soupe de lentilles épicée à l''oignon brûlé' and protein = 'légumineuses';
+update recipes set protein = 'lentilles' where title = 'Pâté chinois' and protein = 'végé';
+update recipes set protein = 'lentilles' where title = 'Vegan Jamaican Lentil Curry' and protein = 'légumineuses';
+update recipes set protein = 'pois chiches' where title = 'Marry Me Chickpeas' and protein = 'légumineuses';
+update recipes set protein = 'pois chiches' where title = 'Aubergines grillées et pois chiches au cari' and protein = 'légumineuses';
+update recipes set protein = 'haricots blancs' where title = 'Chou-fleur rôti et haricots blancs, sauce poivrons cajou' and protein = 'légumineuses';
+update recipes set protein = 'lentilles' where title = 'Cari de patates douces, lentilles et halloumi' and protein = 'légumineuses';
+update recipes set protein = 'pois chiches' where title = 'Pâtes façon «pain à l''ail» au pesto et pois chiches' and protein = 'légumineuses';
+update recipes set protein = 'lentilles' where title = 'Mushroom & Lentil Tacos with Garlic Avocado Cream' and protein = 'légumineuses';
+update recipes set protein = 'haricots noirs' where title = 'Bol burrito végé chili lime' and protein = 'légumineuses';
+update recipes set protein = 'pois chiches' where title = 'Roasted Vegetable Salad with Crispy Chickpeas' and protein = 'légumineuses';
+update recipes set protein = 'pois chiches' where title = 'Vegan Tuna' and protein = 'légumineuses';
+update recipes set protein = 'pois chiches' where title = 'Salade de couscous perlé aux légumes rôtis et tomates séchées' and protein = 'légumineuses';
+update recipes set protein = 'pois chiches' where title = 'Cari rouge à la citrouille, pois chiches et épinards' and protein = 'légumineuses';
+update recipes set protein = 'haricots blancs' where title = 'Haricots blancs sauce tomate & halloumi grillé' and protein = 'fromage';
+update recipes set protein = 'pois chiches' where title = 'Plaque de pois chiches et halloumi, yogourt au sumac' and protein = 'fromage';
+update recipes set protein = 'végé' where title = 'Cari végétarien au chou-fleur et patates douces' and protein = 'légumineuses';
+
 -- Generated by scripts/build-seed.ts. Global ingredient catalogue (idempotent).
 update ingredients set name = 'Chou frisé (kale)' where household_id is null and name = 'Kale' and not exists (select 1 from ingredients x where x.household_id is null and x.name = 'Chou frisé (kale)');
 update ingredients set name = 'Croustilles de maïs' where household_id is null and name = 'Chips de maïs' and not exists (select 1 from ingredients x where x.household_id is null and x.name = 'Croustilles de maïs');
@@ -1904,3 +2024,4 @@ with c(name, alias) as (values
 ('Eau', 'water')
 )
 insert into ingredient_aliases (ingredient_id, household_id, alias) select i.id, null, c.alias from c join ingredients i on i.household_id is null and i.name = c.name on conflict do nothing;
+

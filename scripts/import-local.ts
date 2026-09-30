@@ -36,6 +36,7 @@ type Fixes = {
   urlRewrites: Record<string, string>;
   exclude?: { titles: string[] };
   manualForUrl?: Record<string, { file: string; totalMinutes?: number }>;
+  photoToUrl?: Record<string, string>;
   servings?: Record<string, number | string>;
   scale?: Record<string, number | string>;
   addIngredients?: Record<string, string[] | string>;
@@ -125,6 +126,12 @@ async function main() {
   const manifest: ManifestEntry[] = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, "utf8")) : [];
   for (const m of manifest) {
     if (!m.recipeFile) continue;
+    // Screenshot cut off, but the full recipe is on the author's site: import the site instead.
+    const official = byTitle(fixes.photoToUrl, m.title ?? "");
+    if (typeof official === "string") {
+      out.push(await importUrl(official, { sourceFiles: m.images }));
+      continue;
+    }
     const r = parseRecipeText(readFileSync(join(TRANSCRIPTS, m.recipeFile), "utf8"));
     out.push({ ...r, sourceType: "photo", localImage: m.dishPhoto ?? m.images[0] ?? null, sourceFiles: m.images });
     log(r, "photo");
@@ -154,7 +161,9 @@ async function main() {
       // The displayed line is rewritten too, so the recipe reads with the multiplied quantities.
       r.ingredients = r.ingredients.map((i) => {
         if (i.quantity === null) return i;
-        const s = { ...i, quantity: i.quantity * scale, quantityMax: i.quantityMax === null ? null : i.quantityMax * scale };
+        // Weights in the notes ("environ 110 g") follow the multiplication too.
+        const note = i.note?.replace(/(\d+(?:[.,]\d+)?)\s*(g|ml|kg|l)\b/gi, (_, n: string, u: string) => `${Math.round(Number(n.replace(",", ".")) * scale * 100) / 100} ${u}`) ?? null;
+        const s = { ...i, note, quantity: i.quantity * scale, quantityMax: i.quantityMax === null ? null : i.quantityMax * scale };
         return { ...s, raw: `${scaledQuantity(s.quantity, s.quantityMax, s.unit, 1)} ${s.unit ? "de " : ""}${s.name}${s.note ? ` (${s.note})` : ""}` };
       });
       r.servings = (r.servings ?? 1) * scale;
@@ -173,6 +182,22 @@ async function main() {
     else if (!target.localImage) {
       target.localImage = m.dishPhoto;
       target.sourceFiles = [...(target.sourceFiles ?? []), ...m.images];
+    }
+  }
+
+  // 7. The user's own dish photos: recettes/Photo_recettes/<name of the recipe>.jpg wins over any other picture.
+  const OWN = join(SRC, "Photo_recettes");
+  if (existsSync(OWN)) {
+    for (const file of readdirSync(OWN).filter((f) => /\.(jpe?g|png|webp|heic)$/i.test(f))) {
+      const words = nameKey(file.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ")).split(" ").filter(Boolean);
+      const matches = out.filter((r) => {
+        const t = ` ${nameKey(r.title)} `;
+        return words.every((w) => t.includes(` ${w} `));
+      });
+      if (matches.length === 1) {
+        matches[0].localImage = `@own/${file}`;
+        console.log(`Photo « ${file} » -> ${matches[0].title}`);
+      } else console.log(`Photo « ${file} » : ${matches.length ? "plusieurs recettes possibles" : "aucune recette"} (renommez-la comme la recette)`);
     }
   }
 
