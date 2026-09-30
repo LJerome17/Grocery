@@ -323,7 +323,7 @@ await test("E3", pa, async () => {
   expect(/paquets?/.test(spin), "épinards: " + spin);
   expect(/au besoin/.test(rice), "riz (« Riz cuit pour servir », sans quantité): " + rice);
   expect(/\d+ ?(ml|L)/.test(broth) && !/cube/.test(broth), "bouillon: " + broth);
-  expect(/\d/.test(rice), "riz: " + rice);
+  expect(/au besoin/.test(rice), "riz (« Riz cuit pour servir », sans quantité): " + rice);
   return `${rice} | ${spin} | ${broth}`;
 });
 await test("E4", pa, async () => {
