@@ -22,8 +22,9 @@ export type ImportedRecipe = {
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36";
 
-export async function fetchRecipe(url: string): Promise<ImportedRecipe> {
-  const res = await fetch(url, {
+/** `get`: the server passes safeFetch (visitor links); local scripts use plain fetch. */
+export async function fetchRecipe(url: string, get: (url: string, init: RequestInit) => Promise<Response> = fetch): Promise<ImportedRecipe> {
+  const res = await get(url, {
     headers: { "User-Agent": USER_AGENT, "Accept-Language": "fr-CA,fr;q=0.9,en;q=0.8" },
     redirect: "follow",
   });

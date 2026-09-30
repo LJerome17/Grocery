@@ -19,7 +19,7 @@ const KNOWN: [RegExp, string][] = [
 export function messageFr(e: unknown): string {
   const raw = e instanceof Error ? e.message : typeof e === "object" && e && "message" in e ? String((e as { message: unknown }).message) : String(e);
   for (const [re, fr] of KNOWN) if (re.test(raw)) return fr;
-  if (/[àâçéèêëîïôûù]|^(Aucun|Le site|Lien|Session|Code|Non connecté|Nom d)/i.test(raw)) return raw;
+  if (/[àâçéèêëîïôûù]|^(Aucun|Le site|Lien|Session|Code|Non connecté|Nom d|Trop de|Fichier|Image)/i.test(raw)) return raw;
   console.error(e);
   return "Une erreur est survenue. Réessayez dans un instant.";
 }

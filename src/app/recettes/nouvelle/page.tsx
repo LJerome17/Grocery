@@ -85,13 +85,23 @@ export default function Nouvelle() {
     setError(null);
     try {
       const sb = supabase();
-      let image_url = draft.image;
-      if (photo) {
-        const small = await resizeImage(photo);
+      const store = async (file: File) => {
+        const small = await resizeImage(file);
         const path = `${householdId}/${crypto.randomUUID()}.webp`;
         const up = await sb.storage.from("recipe-images").upload(path, small, { contentType: small.type || "image/webp" });
         if (up.error) throw up.error;
-        image_url = `storage:recipe-images/${path}`;
+        return `storage:recipe-images/${path}`;
+      };
+      let image_url = draft.image;
+      if (photo) image_url = await store(photo);
+      else if (draft.image && /^https?:\/\//.test(draft.image)) {
+        // The site's picture is copied (reduced) so the recipe keeps it if the site removes it; else the link stays.
+        try {
+          const res = await fetch(`/api/image?url=${encodeURIComponent(draft.image)}`, { headers: { Authorization: `Bearer ${session?.access_token}` } });
+          if (res.ok) image_url = await store(new File([await res.blob()], "photo"));
+        } catch {
+          // Keep the original link.
+        }
       }
       const { data: recipe, error } = await sb
         .from("recipes")
