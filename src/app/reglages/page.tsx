@@ -6,6 +6,7 @@ import type { Household } from "@/lib/db";
 import { syncStarterRecipes } from "@/lib/starter";
 import { supabase } from "@/lib/supabase";
 import { messageFr } from "@/lib/erreur";
+import { accountName, protectAccess } from "@/lib/username";
 
 function Rule({ label, help, value, min, max, onChange }: { label: string; help: string; value: number; min: number; max: number; onChange: (v: number) => void }) {
   return (
@@ -27,9 +28,9 @@ function Rule({ label, help, value, min, max, onChange }: { label: string; help:
   );
 }
 
-/** Anonymous users can attach an email + password to keep access from another device. */
+/** Anonymous users can attach a username + password to keep access from another device. */
 function ProtectAccount() {
-  const [email, setEmail] = useState("");
+  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
@@ -38,22 +39,24 @@ function ProtectAccount() {
     e.preventDefault();
     setBusy(true);
     setMsg(null);
-    const sb = supabase();
-    const a = await sb.auth.updateUser({ email });
-    const b = a.error ? a : await sb.auth.updateUser({ password });
-    setMsg(b.error ? messageFr(b.error) : "C'est fait : vous pouvez vous connecter avec ce courriel sur n'importe quel appareil.");
+    try {
+      await protectAccess(login, password);
+      setMsg("C'est fait : connectez-vous avec ce nom d'utilisateur sur n'importe quel appareil.");
+    } catch (err) {
+      setMsg(messageFr(err));
+    }
     setBusy(false);
   }
 
   return (
     <form onSubmit={protect} className="space-y-2">
       <p className="text-sm">
-        Vous utilisez l&apos;app sans compte : l&apos;accès est lié à ce navigateur. Ajoutez un courriel pour le retrouver sur un autre appareil.
+        Vous utilisez l&apos;app sans compte : l&apos;accès est lié à ce navigateur. Choisissez un nom d&apos;utilisateur pour le retrouver sur un autre appareil.
       </p>
-      <input className="input" type="email" placeholder="Courriel" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      <input className="input" type="password" placeholder="Mot de passe (6 caractères minimum)" minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} required />
+      <input className="input" autoComplete="username" autoCapitalize="none" placeholder="Nom d'utilisateur" value={login} onChange={(e) => setLogin(e.target.value)} required />
+      <input className="input" type="password" autoComplete="new-password" placeholder="Mot de passe (6 caractères minimum)" minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} required />
       <button className="btn-primary w-full" disabled={busy}>
-        Protéger avec un courriel
+        Créer mon nom d&apos;utilisateur
       </button>
       {msg && <p className="text-sm text-muted">{msg}</p>}
     </form>
@@ -159,7 +162,7 @@ export default function Reglages() {
       )}
 
       <section className="card p-4 text-sm">
-        {session?.user.is_anonymous ? <ProtectAccount /> : <p className="text-muted">Connecté : {session?.user.email}</p>}
+        {session?.user.is_anonymous ? <ProtectAccount /> : <p className="text-muted">Connecté : {accountName(session?.user.email)}</p>}
         <button className="btn-ghost mt-3 w-full" onClick={leave}>
           Quitter ce foyer
         </button>

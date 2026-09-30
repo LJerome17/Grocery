@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useApp } from "@/components/AppProvider";
 import { messageFr } from "@/lib/erreur";
+import { protectAccess } from "@/lib/username";
 import { supabase } from "@/lib/supabase";
 
 export default function Foyer() {
@@ -13,13 +14,29 @@ export default function Foyer() {
   const [name, setName] = useState("Momo et Jéjé");
   const [displayName, setDisplayName] = useState("");
   const [code, setCode] = useState("");
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  /** Optional username chosen on this page: attached to the anonymous access before the household. */
+  async function withUsername(): Promise<boolean> {
+    if (!login.trim()) return true;
+    try {
+      await protectAccess(login, password);
+      return true;
+    } catch (err) {
+      setError(messageFr(err));
+      setBusy(false);
+      return false;
+    }
+  }
 
   async function create(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
     setError(null);
+    if (!(await withUsername())) return;
     const { error } = await supabase().rpc("create_household", { p_name: name, p_display_name: displayName || null });
     if (error) {
       setError(messageFr(error));
@@ -36,6 +53,7 @@ export default function Foyer() {
     e.preventDefault();
     setBusy(true);
     setError(null);
+    if (!(await withUsername())) return;
     const { error } = await supabase().rpc("join_household", { p_code: code, p_display_name: displayName || null });
     if (error) setError(error.message.includes("invalide") ? "Code d'invitation invalide." : messageFr(error));
     else {
@@ -70,6 +88,16 @@ export default function Foyer() {
         Un foyer regroupe les personnes qui partagent les recettes, la semaine et la liste d&apos;épicerie.
       </p>
       <input className="input" placeholder="Votre prénom (facultatif)" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+      {session.user.is_anonymous && (
+        <div className="card space-y-2 p-5">
+          <h2 className="font-semibold">Nom d&apos;utilisateur (facultatif)</h2>
+          <p className="text-xs text-muted">Pour retrouver votre foyer sur un autre appareil. Sans lui, l&apos;accès reste lié à ce navigateur.</p>
+          <input className="input" autoComplete="username" autoCapitalize="none" placeholder="Nom d'utilisateur" value={login} onChange={(e) => setLogin(e.target.value)} />
+          {login.trim() && (
+            <input className="input" type="password" autoComplete="new-password" placeholder="Mot de passe (6 caractères minimum)" minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} required />
+          )}
+        </div>
+      )}
 
       <form onSubmit={create} className="card space-y-3 p-5">
         <h2 className="font-semibold">Créer un foyer</h2>
@@ -89,7 +117,7 @@ export default function Foyer() {
       {error && <p className="text-sm text-red-700">{error}</p>}
       {session.user.is_anonymous && (
         <Link href="/connexion" className="block text-center text-sm text-muted underline">
-          J&apos;ai déjà un compte avec courriel
+          J&apos;ai déjà un nom d&apos;utilisateur
         </Link>
       )}
     </div>

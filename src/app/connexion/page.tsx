@@ -4,11 +4,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { messageFr } from "@/lib/erreur";
+import { loginEmail, protectAccess, USERNAME_RULE } from "@/lib/username";
 
 export default function Connexion() {
   const router = useRouter();
   const [mode, setMode] = useState<"login" | "signup">("login");
-  const [email, setEmail] = useState("");
+  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -20,13 +21,23 @@ export default function Connexion() {
     setError(null);
     setMessage(null);
     const sb = supabase();
-    if (mode === "login") {
-      const { error } = await sb.auth.signInWithPassword({ email, password });
-      if (error) setError(messageFr(error));
-    } else {
-      const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin } });
-      if (error) setError(messageFr(error));
-      else if (!data.session) setMessage("Compte créé. Ouvrez le courriel de confirmation, puis revenez vous connecter.");
+    try {
+      if (mode === "login") {
+        const email = loginEmail(login);
+        if (!email) throw new Error("Nom d'utilisateur invalide.");
+        const { error } = await sb.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+      } else {
+        // A new account is an anonymous access that immediately gets its username and password.
+        if (!(await sb.auth.getSession()).data.session) {
+          const { error } = await sb.auth.signInAnonymously();
+          if (error) throw error;
+        }
+        await protectAccess(login, password);
+      }
+      router.push("/foyer");
+    } catch (err) {
+      setError(messageFr(err));
     }
     setBusy(false);
   }
@@ -58,7 +69,8 @@ export default function Connexion() {
             Créer un compte
           </button>
         </div>
-        <input className="input" type="email" autoComplete="email" placeholder="Courriel" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <input className="input" autoComplete="username" autoCapitalize="none" placeholder="Nom d'utilisateur" value={login} onChange={(e) => setLogin(e.target.value)} required />
+        {mode === "signup" && <p className="text-xs text-muted">{USERNAME_RULE}</p>}
         <input
           className="input"
           type="password"
