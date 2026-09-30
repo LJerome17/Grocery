@@ -1,0 +1,40 @@
+{
+  "_doc": "Manual corrections applied by scripts/import-local.ts. lines: raw ingredient line -> replacement line(s). titles: first ingredient raw line of an untitled recipe -> title. pdfUrls: PDF file -> recipe page. urlRewrites: link prefix -> recipe page to import instead.",
+  "lines": {
+    "1/2 c. à thé (2,5 ml) de se": "1/2 c. à thé (2,5 ml) de sel",
+    "1 tasse à 1 tasse ½ de lait": "1 à 1 1/2 tasse de lait",
+    "250 ml (1 tasse) ou 2 épis Maïs en grains": "250 ml (1 tasse) de maïs en grains (ou 2 épis)",
+    "Additional toppings: extra green onion, toasted sesame seeds": [
+      "1 green onion (garnish)",
+      "1 tbsp toasted sesame seeds (garnish)"
+    ],
+    "Silken tofu": "300 g silken tofu"
+  },
+  "pdfUrls": {
+    "Salade-tiède-de-légumes-grillés-aux-lentilles-_-margauxfood.ca.pdf": "https://margauxfood.ca/recette/salade-de-legumes-grilles-aux-lentilles/",
+    "Nouilles-udon-au-tofu-croustillant-_-margauxfood.ca.pdf": "https://margauxfood.ca/recette/nouilles-udon-au-tofu-croustillant/"
+  },
+  "urlRewrites": {
+    "https://dashofhoney.ca/fr/wpzoom_rcb_print/25056/": "https://dashofhoney.ca/fr/lasagne-au-pesto-petits-pois-et-courgette/"
+  },
+  "exclude": {
+    "_doc": "recipe titles removed at the user's request (source files are kept)",
+    "titles": [
+      "Cranberry Goat Cheese Tuna Salad With Honey Balsamic Dressing",
+      "Plaque de tofu et de poulet à l’asiatique"
+    ]
+  },
+  "imageCrops": {
+    "_doc": "photo file -> [left, top, width, height] in pixels, when the automatic crop picks the wrong area",
+    "Cari végétarien au chou-fleur et patates douces.jpg": [
+      229,
+      102,
+      297,
+      450
+    ]
+  },
+  "titles": {
+    "1 bloc de tofu ferme": "Tofu croustillant sésame et érable",
+    "3-4 Garlic Cloves": "Cari de lentilles corail et chou-fleur rôti"
+  }
+}

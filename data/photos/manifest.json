@@ -1,0 +1,383 @@
+[
+  {
+    "recipeFile": "ragout-cremeux-citrouille.txt",
+    "title": "Ragoût crémeux express à la citrouille",
+    "images": [
+      "Ragoût crémeux express à la citrouille.jpg"
+    ],
+    "dishPhoto": "Ragoût crémeux express à la citrouille.jpg",
+    "photoFor": null,
+    "notes": "Cookbook photo (skewed). Ingredients are listed per step block in the book; merged into one list. Serves line omitted (book says 'Rendement 1 chaudron')."
+  },
+  {
+    "recipeFile": null,
+    "title": "Mac & cheese à la courge",
+    "images": [
+      "Mac & cheese à la courge.jpg"
+    ],
+    "dishPhoto": null,
+    "photoFor": "Mac & cheese à la courge",
+    "notes": "Photo of a printed 'Cuisinez!' page; same recipe as existing entry, no new file written. No dish photo. Note: '30 ml (2 c. à soupe) chapelure' has a missing opening parenthesis in the source."
+  },
+  {
+    "recipeFile": "pate-samosa.txt",
+    "title": "Pâté samosa",
+    "images": [
+      "Pâté samosa.jpg"
+    ],
+    "dishPhoto": "Pâté samosa.jpg",
+    "photoFor": null,
+    "notes": "Cookbook photo, small and slightly blurry; a few quantities (e.g. 1/2 c. à thé for curcuma/piment, 1/4 tasse levure) read from low-res text; step 5-7 text partly blurry but readable."
+  },
+  {
+    "recipeFile": "soupe-lentilles-oignon-brule.txt",
+    "title": "Soupe de lentilles épicée à l'oignon brûlé",
+    "images": [
+      "Soupe de lentilles épicée à l'oignon brûlé.jpg"
+    ],
+    "dishPhoto": "Soupe de lentilles épicée à l'oignon brûlé.jpg",
+    "photoFor": null,
+    "notes": "INCOMPLETE: page says 'SUITE À LA PAGE 142'; the continuation (lentils, broth, spinach, etc.) is not in any image. Method stops at step 5."
+  },
+  {
+    "recipeFile": "pate-chinois-vege.txt",
+    "title": "Pâté chinois",
+    "images": [
+      "Pâté chinois.jpg"
+    ],
+    "dishPhoto": "Pâté chinois.jpg",
+    "photoFor": null,
+    "notes": "Cookbook photo. Method steps from 3 sub-sections (garniture 1-2, purée 1-4, assemblage 1-3) flattened in order; section prefixes removed. Some quantities like 8 tasses (450 g) champignons and 1/3 tasse levure read from slightly blurry text."
+  },
+  {
+    "recipeFile": "vegan-jamaican-lentil-curry.txt",
+    "title": "Vegan Jamaican Lentil Curry",
+    "images": [
+      "Vegan Jamaican Lentil Curry.jpg"
+    ],
+    "dishPhoto": "Vegan Jamaican Lentil Curry.jpg",
+    "photoFor": null,
+    "notes": "Web screenshot; Notes section omitted."
+  },
+  {
+    "recipeFile": "salade-nouilles-tempeh.txt",
+    "title": "Salade de nouilles orientales au tempeh caramélisé",
+    "images": [
+      "Salade de nouilles orientales au tempeh caramélisé.jpg"
+    ],
+    "dishPhoto": null,
+    "photoFor": null,
+    "notes": "Printed cookbook page photo; no dish photo. Ingredient lines kept in 'Name — quantity' format as written."
+  },
+  {
+    "recipeFile": "bol-quinoa-tofu-arachides.txt",
+    "title": "Bol quinoa, tofu et arachides",
+    "images": [
+      "Bol quinoa, tofu et arachides.jpg"
+    ],
+    "dishPhoto": "Bol quinoa, tofu et arachides.jpg",
+    "photoFor": null,
+    "notes": "Cookbook double page. Ingredients grouped Quinoa/Sauce/Bol/Garnitures."
+  },
+  {
+    "recipeFile": "saute-tofu-philippino.txt",
+    "title": "Sauté de tofu, oignons verts et sésame style philippino",
+    "images": [
+      "Sauté de tofu, oignons verts et sésame style philippino.jpg"
+    ],
+    "dishPhoto": "Sauté de tofu, oignons verts et sésame style philippino.jpg",
+    "photoFor": null,
+    "notes": "Cookbook double page (same book as the quinoa bowl)."
+  },
+  {
+    "recipeFile": "sundried-tomato-pesto.txt",
+    "title": "Sundried Tomato Pesto",
+    "images": [
+      "Sundried Tomato Pesto.jpg"
+    ],
+    "dishPhoto": null,
+    "photoFor": null,
+    "notes": "Handwritten note, no method. Quantities as written: '1/4 cups vegan parm', '1/4 fresh basil' (unit missing in source)."
+  },
+  {
+    "recipeFile": "pates-cremeuses-mais-chorizo-tofu.txt",
+    "title": "Pâtes crémeuses au maïs et chorizo de tofu",
+    "images": [
+      "Pâtes crémeuses au maïs et chorizo de tofu.jpg"
+    ],
+    "dishPhoto": "Pâtes crémeuses au maïs et chorizo de tofu.jpg",
+    "photoFor": null,
+    "notes": "INCOMPLETE: screenshot is cut off in the middle of the 'Pâtes crémeuses' ingredient list (probably more ingredients after '3/4 c. à thé de sel') and has no method. Text is small/low-res; quantities read carefully but some could be off."
+  },
+  {
+    "recipeFile": "marry-me-chickpeas.txt",
+    "title": "Marry Me Chickpeas",
+    "images": [
+      "Marry Me Chickpeas.jpg"
+    ],
+    "dishPhoto": "Marry Me Chickpeas.jpg",
+    "photoFor": null,
+    "notes": "Web screenshot, Notes omitted. Different from existing 'One Pot Marry Me Tofu' (chickpea version)."
+  },
+  {
+    "recipeFile": "salade-quinoa-halloumi-avocat.txt",
+    "title": "Salade de quinoa et halloumi sur crème d'avocat",
+    "images": [
+      "Salade de quinoa et halloumi sur crème d'avocat.jpg"
+    ],
+    "dishPhoto": "Salade de quinoa et halloumi sur crème d'avocat.jpg",
+    "photoFor": null,
+    "notes": "Filename has ' (1)' but there is no non-(1) twin in the folder, so it was processed. Web screenshot."
+  },
+  {
+    "recipeFile": "pain-plat-tofu-burrata.txt",
+    "title": "Pain plat d'été au tofu crémeux façon burrata",
+    "images": [
+      "Pain plat d'été au tofu crémeux façon burrata.jpg"
+    ],
+    "dishPhoto": "Pain plat d'été au tofu crémeux façon burrata.jpg",
+    "photoFor": null,
+    "notes": "Mordu.ca page; ingredient list flattened with section names. Method steps flattened across sub-sections (tofu, sirop, pains plats, montage). NOTES section omitted. Only a tiny dish photo in header."
+  },
+  {
+    "recipeFile": "aubergines-pois-chiches-cari.txt",
+    "title": "Aubergines grillées et pois chiches au cari",
+    "images": [
+      "Aubergines grillées et pois chiches au cari.jpg"
+    ],
+    "dishPhoto": "Aubergines grillées et pois chiches au cari.jpg",
+    "photoFor": null,
+    "notes": "Ricardo screenshot (2 pages 1/2 and 2/2). Ingredients are multi-column checklist; read order follows column layout. Only a small dish thumbnail."
+  },
+  {
+    "recipeFile": "tofu-magique-general-tao-bbq.txt",
+    "title": "Tofu magique général Tao sur le BBQ",
+    "images": [
+      "Tofu magique général Tao sur le BBQ.jpg"
+    ],
+    "dishPhoto": "Tofu magique général Tao sur le BBQ.jpg",
+    "photoFor": null,
+    "notes": "Filename has ' (1)' but no twin in the folder. Possibly related to existing 'Tofu Magique' but it is the BBQ general Tao version, so written as new. NOTES (pan-cooking alternative) omitted from txt. 'Sauce soya' amounts: tofu marinade 15 ml, sauce 30 ml."
+  },
+  {
+    "recipeFile": "tofu-grille-olives-aneth.txt",
+    "title": "Tofu grillé aux olives et à l'aneth",
+    "images": [
+      "Tofu grillé aux olives et à l'aneth.jpg"
+    ],
+    "dishPhoto": "Tofu grillé aux olives et à l'aneth.jpg",
+    "photoFor": null,
+    "notes": "Mordu.ca page."
+  },
+  {
+    "recipeFile": "salade-pates-legumes-rotis-chevre.txt",
+    "title": "Salade de pâtes aux légumes rôtis et chèvre",
+    "images": [
+      "Salade de pâtes aux légumes rôtis et chèvre.jpg"
+    ],
+    "dishPhoto": "Salade de pâtes aux légumes rôtis et chèvre.jpg",
+    "photoFor": null,
+    "notes": "Dash of Honey PDF page 7."
+  },
+  {
+    "recipeFile": "chou-fleur-haricots-sauce-poivrons-cajou.txt",
+    "title": "Chou-fleur rôti et haricots blancs, sauce poivrons cajou",
+    "images": [
+      "Chou-fleur rôti et haricots blancs, sauce poivrons cajou.jpg"
+    ],
+    "dishPhoto": "Chou-fleur rôti et haricots blancs, sauce poivrons cajou.jpg",
+    "photoFor": null,
+    "notes": "Web screenshot. 'canne' spelling kept as in source."
+  },
+  {
+    "recipeFile": "cari-patates-douces-lentilles-halloumi.txt",
+    "title": "Cari de patates douces, lentilles et halloumi",
+    "images": [
+      "Cari de patates douces, lentilles et halloumi.jpg"
+    ],
+    "dishPhoto": "Cari de patates douces, lentilles et halloumi.jpg",
+    "photoFor": null,
+    "notes": "Dash of Honey web screenshot; bottom Notes (red curry paste brand) omitted; asterisk on red curry paste refers to that note."
+  },
+  {
+    "recipeFile": "pates-pain-ail-pesto-pois-chiches.txt",
+    "title": "Pâtes façon «pain à l'ail» au pesto et pois chiches",
+    "images": [
+      "Pâtes façon pain à l'ail au pesto et pois chiches.jpg"
+    ],
+    "dishPhoto": "Pâtes façon pain à l'ail au pesto et pois chiches.jpg",
+    "photoFor": null,
+    "notes": "Dom Cooks web screenshot, low-res; serves 4 from the servings selector. Prep/cook times too faint to read. Pesto method step and topping step start with section labels removed. '⅓ tasse tasse' duplicated word is in the source."
+  },
+  {
+    "recipeFile": "soupe-cari-arachides-oeuf-mollet.txt",
+    "title": "Soupe cari arachides avec oeuf mollet",
+    "images": [
+      "Soupe cari arachides avec oeuf mollet.jpg"
+    ],
+    "dishPhoto": null,
+    "photoFor": null,
+    "notes": "Web screenshot with no dish photo. Different from existing 'Creamy Peanut Ramen with Enoki, Bok Choy & Egg'. Servings shown as '15 portions' (may be a source typo). Notes (natural peanut butter) omitted."
+  },
+  {
+    "recipeFile": "mushroom-lentil-tacos-avocado-cream.txt",
+    "title": "Mushroom & Lentil Tacos with Garlic Avocado Cream",
+    "images": [
+      "Mushroom & Lentil Tacos with Garlic Avocado Cream.jpg"
+    ],
+    "dishPhoto": "Mushroom & Lentil Tacos with Garlic Avocado Cream.jpg",
+    "photoFor": null,
+    "notes": "Serves 3 (3 tacos per serving). Notes and storage omitted. The skipped duplicate ' (1)' file was not listed."
+  },
+  {
+    "recipeFile": "vegan-burrito-bowl.txt",
+    "title": "Vegan Burrito Bowl (Better than Chipotle!)",
+    "images": [
+      "Vegan Burrito Bowl (Better than Chipotle!).jpg"
+    ],
+    "dishPhoto": "Vegan Burrito Bowl (Better than Chipotle!).jpg",
+    "photoFor": null,
+    "notes": "Small low-res text. Oregano quantities in Fajita Veggies unreadable ([?]). Sofritas, Black Beans, Salsa and Guacamole are linked sub-recipes not included. Notes omitted."
+  },
+  {
+    "recipeFile": "bol-tofu-shawarma-houmous.txt",
+    "title": "Bol de tofu shawarma au houmous",
+    "images": [
+      "Bol de tofu shawarma au houmous.jpg"
+    ],
+    "dishPhoto": "Bol de tofu shawarma au houmous.jpg",
+    "photoFor": null,
+    "notes": "Dash of Honey screenshot, small text; fractions such as ¾ tasse tahini and ¼ tasse d'huile d'olive read from low-res. Cooking-options notes omitted (Step 4 says see notes)."
+  },
+  {
+    "recipeFile": "haricots-blancs-sauce-tomate-halloumi.txt",
+    "title": "Haricots blancs sauce tomate & halloumi grillé",
+    "images": [
+      "Haricots blancs sauce tomate & halloumi grillé.jpg"
+    ],
+    "dishPhoto": "Haricots blancs sauce tomate & halloumi grillé.jpg",
+    "photoFor": null,
+    "notes": "Dash of Honey screenshot; '*' after halloumi refers to a note not shown."
+  },
+  {
+    "recipeFile": "cari-vegetarien-fromage-a-griller.txt",
+    "title": "Cari végétarien et fromage à griller",
+    "images": [
+      "Cari végétarien et fromage à griller.jpg"
+    ],
+    "dishPhoto": null,
+    "photoFor": null,
+    "notes": "Cookbook page 122, no dish photo. Ingredient list is two columns; rice steps appended after cari steps (section header for rice ingredients kept)."
+  },
+  {
+    "recipeFile": "plaque-pois-chiches-halloumi-sumac.txt",
+    "title": "Plaque de pois chiches et halloumi, yogourt au sumac",
+    "images": [
+      "Plaque de pois chiches et halloumi, yogourt au sumac.jpg"
+    ],
+    "dishPhoto": "Plaque de pois chiches et halloumi, yogourt au sumac.jpg",
+    "photoFor": null,
+    "notes": "Dash of Honey screenshot."
+  },
+  {
+    "recipeFile": "cari-chou-fleur-patates-douces.txt",
+    "title": "Cari végétarien au chou-fleur et patates douces",
+    "images": [
+      "Cari végétarien au chou-fleur et patates douces.jpg"
+    ],
+    "dishPhoto": "Cari végétarien au chou-fleur et patates douces.jpg",
+    "photoFor": null,
+    "notes": "Ricardo/Katrine screenshot; 'Bon à savoir' section omitted."
+  },
+  {
+    "recipeFile": "bol-tofu-satay.txt",
+    "title": "Bol de tofu Satay",
+    "images": [
+      "Bol de tofu Satay.jpg"
+    ],
+    "dishPhoto": "Bol de tofu Satay.jpg",
+    "photoFor": null,
+    "notes": "Dash of Honey screenshot; notes omitted. Servings shown as 2 (selector)."
+  },
+  {
+    "recipeFile": "garlic-chili-tofu-noodles.txt",
+    "title": "Garlic Chili",
+    "images": [
+      "Garlic Chili (1).jpg",
+      "Garlic Chili (2).jpg"
+    ],
+    "dishPhoto": null,
+    "photoFor": null,
+    "notes": "Two screenshots of the same video description; the second is scrolled slightly further than the first but both end mid step 9 (possibly more text after '...sauté for another minute'). Title 'GARLIC CHILI' from video banner; darkened banner background shows the noodle dish but not usable as a dish photo. Quantity 'knife pare noodles' as written (likely 'knife-pared'/'knife cut')."
+  },
+  {
+    "recipeFile": "bol-burrito-vege-chili-lime.txt",
+    "title": "Bol burrito végé chili lime",
+    "images": [
+      "Bol burrito végé chili lime.jpg"
+    ],
+    "dishPhoto": null,
+    "photoFor": null,
+    "notes": "Web screenshot, no dish photo visible (image placeholder at top). Ingredient section names from source. 'haricots noirs sauce style burrito chili lime de Clark' is a linked product."
+  },
+  {
+    "recipeFile": "roasted-vegetable-salad-crispy-chickpeas.txt",
+    "title": "Roasted Vegetable Salad with Crispy Chickpeas",
+    "images": [
+      "Roasted Vegetable Salad with Crispy Chickpeas.jpg"
+    ],
+    "dishPhoto": "Roasted Vegetable Salad with Crispy Chickpeas.jpg",
+    "photoFor": null,
+    "notes": "Pick Up Limes screenshot; notes and storage omitted. Burrito seasoning is not detailed in the image."
+  },
+  {
+    "recipeFile": "cari-de-tempeh.txt",
+    "title": "Cari de tempeh",
+    "images": [
+      "Cari de tempeh.jpg"
+    ],
+    "dishPhoto": null,
+    "photoFor": null,
+    "notes": "Photo of a printed page, title cropped at the right edge ('Cari de tempeh' likely complete). No dish photo. 'Portions 4', 'Préparation 20 min', 'Cuisson 25 min'."
+  },
+  {
+    "recipeFile": "vegan-tuna.txt",
+    "title": "Vegan Tuna",
+    "images": [
+      "Vegan Tuna.jpg"
+    ],
+    "dishPhoto": "Vegan Tuna.jpg",
+    "photoFor": null,
+    "notes": "Web screenshot (small photo of sandwich). Notes omitted."
+  },
+  {
+    "recipeFile": "cranberry-goat-cheese-tuna-salad.txt",
+    "title": "Cranberry Goat Cheese Tuna Salad With Honey Balsamic Dressing",
+    "images": [
+      "Cranberry Goat Cheese Tuna Salad With Honey Balsamic Dressing.jpg"
+    ],
+    "dishPhoto": "Cranberry Goat Cheese Tuna Salad With Honey Balsamic Dressing.jpg",
+    "photoFor": null,
+    "notes": "Safe Catch page (real tuna, non-vegetarian). A UI overlay hides the start of the 'DRESSING:' heading (read as DRESSING). Cook time blank in source. 'Tools you'll need' omitted."
+  },
+  {
+    "recipeFile": "salade-couscous-perle-legumes-rotis.txt",
+    "title": "Salade de couscous perlé aux légumes rôtis et tomates séchées",
+    "images": [
+      "Salade de couscous perlé aux légumes rôtis et tomates séchées.jpg"
+    ],
+    "dishPhoto": null,
+    "photoFor": null,
+    "notes": "Dash of Honey screenshot, no dish photo. POSSIBLE DUPLICATE of existing 'Warm Pearl Couscous Salad' (not certain; title differs), so a file was written anyway. Check and drop if same."
+  },
+  {
+    "recipeFile": "cari-rouge-citrouille-pois-chiches-epinards.txt",
+    "title": "Cari rouge à la citrouille, pois chiches et épinards",
+    "images": [
+      "Cari rouge à la citrouille, pois chiches et épinards.jpg"
+    ],
+    "dishPhoto": null,
+    "photoFor": null,
+    "notes": "Dash of Honey screenshot; dish photo failed to load (broken image). Heading capitalised 'IngrÉdients' in source."
+  }
+]

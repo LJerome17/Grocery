@@ -1,0 +1,581 @@
+{
+  "_doc": "Planner metadata per imported recipe, keyed by title. dish_type and protein drive the variety rules; seasons: printemps, ete, automne, hiver. First guesses, editable in the app. dish_type 'accompagnement' = never suggested as a supper.",
+  "recipes": {
+    "Wraps aux pois chiches rôtis et à la feta": {
+      "dish_type": "wrap",
+      "protein": "légumineuses",
+      "seasons": [
+        "printemps",
+        "ete"
+      ]
+    },
+    "Tofu Magique Bang Bang": {
+      "dish_type": "bol",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "One Pot Marry Me Tofu Recipe": {
+      "dish_type": "mijoté",
+      "protein": "tofu",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Massaged Kale Salad": {
+      "dish_type": "salade",
+      "protein": "végé",
+      "seasons": [
+        "printemps",
+        "ete"
+      ]
+    },
+    "Tofu piri-piri et chou-fleur grillés, sauce à l’aneth": {
+      "dish_type": "plaque",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Salade Thaï": {
+      "dish_type": "salade",
+      "protein": "végé",
+      "seasons": [
+        "printemps",
+        "ete"
+      ]
+    },
+    "Mac & cheese à la courge": {
+      "dish_type": "pâtes",
+      "protein": "fromage",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Risotto à la courge butternut & sauge": {
+      "dish_type": "riz",
+      "protein": "végé",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Protein-Packed Lentil & Quinoa Salad": {
+      "dish_type": "salade",
+      "protein": "légumineuses",
+      "seasons": [
+        "printemps",
+        "ete"
+      ]
+    },
+    "Ramen crémeux à la courge avec tempeh au sésame, de Loounie": {
+      "dish_type": "ramen",
+      "protein": "tempeh",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Potage à la courge musquée": {
+      "dish_type": "soupe",
+      "protein": "végé",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "My Lasagne": {
+      "dish_type": "pâtes",
+      "protein": "végé",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Warm Pearl Couscous Salad": {
+      "dish_type": "salade",
+      "protein": "légumineuses",
+      "seasons": [
+        "printemps",
+        "ete"
+      ]
+    },
+    "Bol de tofu katsu": {
+      "dish_type": "bol",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Dhal de lentilles au curcuma et lait de coco avec pleurotes au paprika fumé": {
+      "dish_type": "mijoté",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Patates douces farcies à la mexicaine": {
+      "dish_type": "four",
+      "protein": "légumineuses",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Boulettes végé à la suédoise": {
+      "dish_type": "four",
+      "protein": "tofu",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Tofu Magique": {
+      "dish_type": "bol",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Salade de légumineuses au maïs grillé et à la pomme": {
+      "dish_type": "salade",
+      "protein": "légumineuses",
+      "seasons": [
+        "ete",
+        "automne"
+      ]
+    },
+    "Palak tofu": {
+      "dish_type": "mijoté",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Bean Crispy Salad": {
+      "dish_type": "salade",
+      "protein": "légumineuses",
+      "seasons": [
+        "printemps",
+        "ete"
+      ]
+    },
+    "Tofu croustillant sésame et érable": {
+      "dish_type": "bol",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Mapo Tofu Udon": {
+      "dish_type": "nouilles",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Creamy Roasted Cauliflower Ramen": {
+      "dish_type": "ramen",
+      "protein": "tofu",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Creamy Peanut Ramen with Enoki, Bok Choy & Egg": {
+      "dish_type": "ramen",
+      "protein": "tofu",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Salade de légumes grillés aux lentilles, vinaigrette tahini, Dijon et érable": {
+      "dish_type": "salade",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Tofu BBQ, salade de tomates et maïs": {
+      "dish_type": "salade",
+      "protein": "tofu",
+      "seasons": [
+        "ete",
+        "automne"
+      ]
+    },
+    "Lasagne au pesto, petits pois et courgette": {
+      "dish_type": "pâtes",
+      "protein": "fromage",
+      "seasons": [
+        "printemps",
+        "ete"
+      ]
+    },
+    "Soupe ramen maison végé (de tes rêves!)": {
+      "dish_type": "ramen",
+      "protein": "tofu",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Feta au four à l'indienne": {
+      "dish_type": "four",
+      "protein": "fromage",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Cari de lentilles corail et chou-fleur rôti": {
+      "dish_type": "mijoté",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Nouilles udon au tofu croustillant": {
+      "dish_type": "nouilles",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Ragoût crémeux express à la citrouille": {
+      "dish_type": "mijoté",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne"
+      ]
+    },
+    "Pâté samosa": {
+      "dish_type": "four",
+      "protein": "végé",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Soupe de lentilles épicée à l'oignon brûlé": {
+      "dish_type": "soupe",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Pâté chinois": {
+      "dish_type": "four",
+      "protein": "végé",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Vegan Jamaican Lentil Curry": {
+      "dish_type": "mijoté",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Salade de nouilles orientales au tempeh caramélisé": {
+      "dish_type": "salade",
+      "protein": "tempeh",
+      "seasons": [
+        "printemps",
+        "ete"
+      ]
+    },
+    "Bol quinoa, tofu et arachides": {
+      "dish_type": "bol",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Sauté de tofu, oignons verts et sésame style philippino": {
+      "dish_type": "bol",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Sundried Tomato Pesto": {
+      "dish_type": "accompagnement",
+      "protein": "végé",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Pâtes crémeuses au maïs et chorizo de tofu": {
+      "dish_type": "pâtes",
+      "protein": "tofu",
+      "seasons": [
+        "ete",
+        "automne"
+      ]
+    },
+    "Marry Me Chickpeas": {
+      "dish_type": "mijoté",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Salade de quinoa et halloumi sur crème d'avocat": {
+      "dish_type": "salade",
+      "protein": "fromage",
+      "seasons": [
+        "printemps",
+        "ete"
+      ]
+    },
+    "Pain plat d'été au tofu crémeux façon burrata": {
+      "dish_type": "pain plat",
+      "protein": "tofu",
+      "seasons": [
+        "ete"
+      ]
+    },
+    "Aubergines grillées et pois chiches au cari": {
+      "dish_type": "mijoté",
+      "protein": "légumineuses",
+      "seasons": [
+        "ete",
+        "automne"
+      ]
+    },
+    "Tofu magique général Tao sur le BBQ": {
+      "dish_type": "grillades",
+      "protein": "tofu",
+      "seasons": [
+        "ete"
+      ]
+    },
+    "Tofu grillé aux olives et à l'aneth": {
+      "dish_type": "grillades",
+      "protein": "tofu",
+      "seasons": [
+        "ete"
+      ]
+    },
+    "Salade de pâtes aux légumes rôtis et chèvre": {
+      "dish_type": "salade",
+      "protein": "fromage",
+      "seasons": [
+        "ete"
+      ]
+    },
+    "Chou-fleur rôti et haricots blancs, sauce poivrons cajou": {
+      "dish_type": "plaque",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Cari de patates douces, lentilles et halloumi": {
+      "dish_type": "mijoté",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Pâtes façon «pain à l'ail» au pesto et pois chiches": {
+      "dish_type": "pâtes",
+      "protein": "légumineuses",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Soupe cari arachides avec oeuf mollet": {
+      "dish_type": "ramen",
+      "protein": "œufs",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Mushroom & Lentil Tacos with Garlic Avocado Cream": {
+      "dish_type": "wrap",
+      "protein": "légumineuses",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Vegan Burrito Bowl (Better than Chipotle!)": {
+      "dish_type": "bol",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Bol de tofu shawarma au houmous": {
+      "dish_type": "bol",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Haricots blancs sauce tomate & halloumi grillé": {
+      "dish_type": "mijoté",
+      "protein": "fromage",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Cari végétarien et fromage à griller": {
+      "dish_type": "mijoté",
+      "protein": "fromage",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Plaque de pois chiches et halloumi, yogourt au sumac": {
+      "dish_type": "plaque",
+      "protein": "fromage",
+      "seasons": [
+        "automne"
+      ]
+    },
+    "Cari végétarien au chou-fleur et patates douces": {
+      "dish_type": "mijoté",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne",
+        "hiver"
+      ]
+    },
+    "Bol de tofu Satay": {
+      "dish_type": "bol",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Garlic Chili": {
+      "dish_type": "nouilles",
+      "protein": "tofu",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Bol burrito végé chili lime": {
+      "dish_type": "bol",
+      "protein": "légumineuses",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Roasted Vegetable Salad with Crispy Chickpeas": {
+      "dish_type": "salade",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne"
+      ]
+    },
+    "Cari de tempeh": {
+      "dish_type": "mijoté",
+      "protein": "tempeh",
+      "seasons": [
+        "printemps",
+        "ete",
+        "automne",
+        "hiver"
+      ]
+    },
+    "Vegan Tuna": {
+      "dish_type": "sandwich",
+      "protein": "légumineuses",
+      "seasons": [
+        "printemps",
+        "ete"
+      ]
+    },
+    "Salade de couscous perlé aux légumes rôtis et tomates séchées": {
+      "dish_type": "salade",
+      "protein": "légumineuses",
+      "seasons": [
+        "ete",
+        "automne"
+      ]
+    },
+    "Cari rouge à la citrouille, pois chiches et épinards": {
+      "dish_type": "mijoté",
+      "protein": "légumineuses",
+      "seasons": [
+        "automne"
+      ]
+    }
+  }
+}
