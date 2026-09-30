@@ -37,7 +37,26 @@ function Stepper(props: { label: string; value: number; min: number; max: number
         <button className="btn-ghost h-9 w-9 !p-0 text-lg" disabled={disabled || value <= min} onClick={() => onChange(value - 1)} aria-label={`Diminuer : ${label}`}>
           −
         </button>
-        <span className="w-7 text-center text-lg font-semibold">{value}</span>
+        {/* Typed number, applied when leaving the field (or Enter), so each keystroke does not replan the week. */}
+        <input
+          key={value}
+          className="w-12 rounded-lg border border-line bg-card py-1 text-center text-lg font-semibold [appearance:textfield] focus:border-brand focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+          type="number"
+          inputMode="numeric"
+          min={min}
+          max={max}
+          defaultValue={value}
+          disabled={disabled}
+          aria-label={label}
+          onFocus={(e) => e.target.select()}
+          onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
+          onBlur={(e) => {
+            const n = Math.round(Number(e.target.value));
+            if (!Number.isFinite(n) || e.target.value === "") e.target.value = String(value);
+            else if (Math.min(max, Math.max(min, n)) !== value) onChange(Math.min(max, Math.max(min, n)));
+            else e.target.value = String(value);
+          }}
+        />
         <button className="btn-ghost h-9 w-9 !p-0 text-lg" disabled={disabled || value >= max} onClick={() => onChange(value + 1)} aria-label={`Augmenter : ${label}`}>
           +
         </button>
