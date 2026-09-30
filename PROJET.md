@@ -116,6 +116,8 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
 - **Validation** : `src/validation/*.test.ts` (quantités lues, conversions, liste d'épicerie sur des centaines de semaines,
   planificateur, langues) ; `scripts/validate/mapping.ts` (chaque ligne → article), `scripts/validate/quantities.ts`,
   `scripts/validate/aliases-check.ts` (alias risqués).
+- **Tests d'acceptation (UAT)** : page à cocher sur téléphone, 42 tests en 6 scénarios, résultats partagés que Claude
+  peut lire : https://claude.ai/artifact/D18oEMbaNwiZ9p5TtL3Eu6
 - **Sauvegarde** : chaque lundi, l'action GitHub « Sauvegarde des recettes » copie tout le livre (recettes, ingrédients, étapes,
   photos téléversées) dans `backup/` ; lancer à la main avec `npx tsx scripts/backup-recipes.ts` ou Actions → Run workflow.
   Vercel ne republie pas pour une sauvegarde seule (`vercel.json`). La lecture hebdomadaire évite aussi la mise en pause de Supabase.
