@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "Recettes de la semaine et liste d'épicerie automatique",
   applicationName: "Momo et Jéjé cuisinent végé",
   appleWebApp: { capable: true, title: "Momo & Jéjé", statusBarStyle: "default" },
-  icons: { icon: [{ url: "/favicon-48.png", sizes: "48x48" }, { url: "/icon-192.png", sizes: "192x192" }], apple: "/apple-touch-icon.png" },
+  icons: { icon: [{ url: "/favicon.ico", sizes: "any" }, { url: "/favicon-48.png", sizes: "48x48" }, { url: "/icon-192.png", sizes: "192x192" }], apple: "/apple-touch-icon.png" },
   manifest: "/manifest.webmanifest",
 };
 
