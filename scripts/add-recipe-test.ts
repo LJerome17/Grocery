@@ -1,12 +1,11 @@
-// End-to-end check of "Nouvelle recette" on the live site, the way the page does it: read (link, then pasted text),
-// match to the catalogue, create a household ingredient for an unmatched line, save, learn the alias, read back.
+// Check of "Nouvelle recette" on the live site: read (link, then pasted text) and match to the catalogue the way
+// the page does; saving is reserved to the Momo et Jéjé household, so a throw-away household must be refused.
 // Uses a throw-away household, deleted at the end.
 // Usage: npx tsx scripts/add-recipe-test.ts [site=https://grocery-eight-beta.vercel.app]
 import { createClient } from "@supabase/supabase-js";
 import { buildAliasIndex, matchIngredient } from "../src/lib/catalog";
 import type { ImportedRecipe } from "../src/lib/importRecipe";
 import { SUPABASE_KEY, SUPABASE_URL } from "../src/lib/supabase";
-import { nameKey } from "../src/lib/text";
 
 const SITE = process.argv[2] ?? "https://grocery-eight-beta.vercel.app";
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
@@ -68,42 +67,10 @@ async function main() {
         const links = draft.ingredients.map((i) => matchIngredient(i.name, index));
         draft.ingredients.forEach((i, n) => console.log(`  ${links[n] ? "✓" : "✗"} ${i.raw}  ->  ${links[n] ? nameOf.get(links[n]!) : "(à associer)"}`));
 
-        // Unmatched lines: the page makes the user create or pick an ingredient; here each gets a household ingredient.
-        for (let n = 0; n < links.length; n++) {
-          if (links[n]) continue;
-          const created = must(await sb.from("ingredients").insert({ household_id: householdId, name: `TEST ${draft.ingredients[n].name}`, aisle: "autre" }).select("id,name").single()) as { id: string; name: string };
-          links[n] = created.id;
-          nameOf.set(created.id, created.name);
-          console.log(`  + nouvel ingrédient du foyer : ${created.name}`);
-        }
-
-        const recipe = must(await sb.from("recipes").insert({
-          household_id: householdId,
-          title: draft.title || "Recette sans titre",
-          source_type: mode === "url" ? "url" : "manual",
-          source_url: mode === "url" ? (body as { url: string }).url : null,
-          image_url: draft.image,
-          servings: draft.servings,
-          total_minutes: draft.totalMinutes,
-          instructions: draft.instructions,
-          dish_type: null,
-          protein: null,
-          seasons: ["printemps", "ete", "automne", "hiver"],
-        }).select("id").single()) as { id: string };
-        must(await sb.from("recipe_ingredients").insert(draft.ingredients.map((i, position) => ({
-          recipe_id: recipe.id, position, section: i.section, raw: i.raw, quantity: i.quantity, quantity_max: i.quantityMax,
-          unit: i.unit, name: i.name, note: i.note, optional: i.optional, ingredient_id: links[position],
-        }))));
-        const learned = draft.ingredients
-          .map((i, n) => ({ alias: nameKey(i.name), ingredient_id: links[n] }))
-          .filter((a, n) => a.ingredient_id && a.alias && matchIngredient(draft.ingredients[n].name, index) !== a.ingredient_id);
-        for (const a of learned) must(await sb.from("ingredient_aliases").insert({ ...a, household_id: householdId }));
-
-        const back = must(await sb.from("recipe_ingredients").select("id,ingredient_id").eq("recipe_id", recipe.id)) as { ingredient_id: string | null }[];
-        if (back.length !== draft.ingredients.length || back.some((b) => !b.ingredient_id)) throw new Error("relecture incomplète");
-        const again = await aliasIndex();
-        const relearned = learned.filter((a) => matchIngredient(draft.ingredients.filter((_, k) => links[k] === a.ingredient_id)[0]?.name ?? "", again) === a.ingredient_id).length;
-        console.log(`OK : recette enregistrée et relue (${back.length} lignes), ${learned.length} alias appris, ${relearned} reconnus ensuite`);
+        // Only the Momo et Jéjé household saves recipes: a test household must be refused.
+        const refused = await sb.from("recipes").insert({ household_id: householdId, title: draft.title, source_type: "manual", instructions: draft.instructions, seasons: [] });
+        if (!refused.error) throw new Error("un foyer ordinaire a pu enregistrer une recette");
+        console.log(`OK : lecture et association correctes; enregistrement refusé pour un foyer ordinaire (${links.filter(Boolean).length}/${links.length} ingrédients reconnus)`);
       } catch (e) {
         failures++;
         console.log(`ÉCHEC : ${e instanceof Error ? e.message : e}`);

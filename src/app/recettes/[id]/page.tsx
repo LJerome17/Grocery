@@ -7,8 +7,11 @@ import { RecipeImage } from "@/components/RecipeImage";
 import { DISH_TYPES, PROTEINS, RECIPE_COLUMNS, type Recipe, type RecipeIngredient } from "@/lib/db";
 import { SEASON_LABEL, type Season } from "@/lib/planner";
 import { supabase } from "@/lib/supabase";
+import { useApp } from "@/components/AppProvider";
 
 function RecipeView() {
+  // Only the Momo et Jéjé household changes recipes; the others read them.
+  const canEdit = !!useApp().household?.is_book;
   const { id } = useParams<{ id: string }>();
   const params = useSearchParams();
   const router = useRouter();
@@ -74,7 +77,7 @@ function RecipeView() {
         </p>
         <div className="flex items-center gap-1">
           {[1, 2, 3, 4, 5].map((n) => (
-            <button key={n} className={`text-2xl ${recipe.rating && n <= recipe.rating ? "text-amber-500" : "text-line"}`} onClick={() => update({ rating: recipe.rating === n ? null : n })}>
+            <button key={n} disabled={!canEdit} className={`text-2xl ${recipe.rating && n <= recipe.rating ? "text-amber-500" : "text-line"}`} onClick={() => update({ rating: recipe.rating === n ? null : n })}>
               ★
             </button>
           ))}
@@ -119,6 +122,7 @@ function RecipeView() {
         </section>
       )}
 
+      {canEdit && (
       <section className="card space-y-4 p-4">
         <button className="flex w-full items-center justify-between font-semibold" onClick={() => setEditing(!editing)}>
           Préférences {editing ? "▾" : "▸"}
@@ -170,6 +174,7 @@ function RecipeView() {
           </>
         )}
       </section>
+      )}
       <Link href="/recettes" className="block text-center text-sm text-muted">
         Toutes les recettes
       </Link>

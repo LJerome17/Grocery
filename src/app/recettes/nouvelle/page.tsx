@@ -19,7 +19,7 @@ const MEAT_RE = /\b(poulet|chicken|b(œ|oe)uf|beef|porc|pork|bacon|jambon|saucis
 const ALL_SEASONS: Season[] = ["printemps", "ete", "automne", "hiver"];
 
 export default function Nouvelle() {
-  const { householdId, session } = useApp();
+  const { household, householdId, session } = useApp();
   const router = useRouter();
   const [mode, setMode] = useState<"url" | "text">("url");
   const [input, setInput] = useState("");
@@ -141,6 +141,17 @@ export default function Nouvelle() {
 
   const meat = draft?.ingredients.filter((i) => MEAT_RE.test(i.name)) ?? [];
   const unmatched = links.filter((l) => !l).length;
+
+  if (household && !household.is_book) {
+    return (
+      <div className="card mt-10 space-y-3 p-5 text-center">
+        <p>Les recettes sont celles de Momo et Jéjé : seuls eux peuvent en ajouter.</p>
+        <button onClick={() => router.back()} className="btn-ghost">
+          ← Retour
+        </button>
+      </div>
+    );
+  }
 
   if (!draft) {
     return (

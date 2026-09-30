@@ -16,7 +16,7 @@ export function useKitchen(householdId: string) {
   const reload = useCallback(async () => {
     if (!householdId) return;
     try {
-      const [r, c] = await Promise.all([loadRecipes(householdId), loadCatalog()]);
+      const [r, c] = await Promise.all([loadRecipes(), loadCatalog()]);
       const ing = await loadRecipeIngredients(r.map((x) => x.id));
       setRecipes(r);
       setCatalog(c);

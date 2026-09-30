@@ -26,7 +26,6 @@ export type PlannerRecipe = {
   /** Weeks since it was last planned, null if never. */
   weeksSinceEaten: number | null;
   /** Ingredients on sale this week (phase 3). */
-  dealCount?: number;
   active?: boolean;
 };
 
@@ -198,7 +197,6 @@ export function score(r: PlannerRecipe, season: Season, picked: PlannerRecipe[],
   if (r.rating) s += (r.rating - 3) * 0.4;
   if (r.weeksSinceEaten === null) s += 0.3; // not planned yet
   else s += Math.min(r.weeksSinceEaten, 12) * 0.05; // long time no see
-  s += (r.dealCount ?? 0) * 0.5;
   // Shared fresh ingredients with the rest of the week: an opened bunch of coriander gets used up.
   const pickedIngredients = new Set(picked.flatMap((p) => p.ingredientIds));
   s += r.ingredientIds.filter((i) => pickedIngredients.has(i)).length * 0.3;

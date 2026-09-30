@@ -21,8 +21,6 @@ import {
   type Planned,
   type Season,
 } from "@/lib/planner";
-import { formatPrice } from "@/lib/flyer";
-import { dealsByIngredient, useDeals } from "@/lib/useDeals";
 import { nameKey } from "@/lib/text";
 import { useKitchen } from "@/lib/useKitchen";
 import { generateList, loadWeek, saveWeek, servingsOf, type WeekSettings } from "@/lib/weekPlan";
@@ -115,25 +113,10 @@ export default function Semaine() {
     };
   }, [householdId, week]);
 
-  // Maxi flyer valid on the week's Monday; ingredients on sale push their recipes up in the suggestions.
-  const flyer = useDeals(household?.postal_code ?? "H4C 0B8", week);
-  const dealMap = useMemo(() => dealsByIngredient(flyer.deals), [flyer.deals]);
-  const onSale = useMemo(() => new Set(kitchen.catalog.filter((c) => dealMap.has(c.name)).map((c) => c.id)), [kitchen.catalog, dealMap]);
-  const usedIngredients = useMemo(() => new Set(kitchen.ingredients.map((i) => i.ingredient_id)), [kitchen.ingredients]);
-  const relevantDeals = useMemo(
-    () =>
-      [...dealMap.values()]
-        .filter((d) => kitchen.catalog.some((c) => c.name === d.ingredient && !c.pantry && usedIngredients.has(c.id)))
-        .sort((a, b) => a.ingredient.localeCompare(b.ingredient, "fr")),
-    [dealMap, kitchen.catalog, usedIngredients],
-  );
-  const [showDeals, setShowDeals] = useState(false);
-
   const planner = useMemo(
-    () => toPlannerRecipes(kitchen.recipes, kitchen.ingredients, kitchen.catalog, history, onSale),
-    [kitchen, history, onSale],
+    () => toPlannerRecipes(kitchen.recipes, kitchen.ingredients, kitchen.catalog, history),
+    [kitchen, history],
   );
-  const dealCountOf = useMemo(() => new Map(planner.map((p) => [p.id, p.dealCount ?? 0])), [planner]);
   const recipeById = useMemo(() => new Map(kitchen.recipes.map((r) => [r.id, r])), [kitchen.recipes]);
   const sv = (id: string) => servingsOf(recipeById.get(id));
   const rules = household
@@ -232,10 +215,12 @@ export default function Semaine() {
   if (!kitchen.recipes.length) {
     return (
       <div className="card mt-10 space-y-3 p-5 text-center">
-        <p>Votre foyer n&apos;a encore aucune recette.</p>
-        <Link href="/recettes/nouvelle" className="btn-primary">
-          Ajouter une recette
-        </Link>
+        <p>Aucune recette pour l&apos;instant.</p>
+        {household?.is_book && (
+          <Link href="/recettes/nouvelle" className="btn-primary">
+            Ajouter une recette
+          </Link>
+        )}
       </div>
     );
   }
@@ -301,33 +286,6 @@ export default function Semaine() {
         )}
       </section>
 
-      {relevantDeals.length > 0 && (
-        <section className="card p-4">
-          <button className="flex w-full items-center justify-between text-sm" onClick={() => setShowDeals(!showDeals)}>
-            <span className="font-medium">🏷️ Rabais Maxi qui touchent vos recettes ({relevantDeals.length})</span>
-            <span className="text-muted">{showDeals ? "▾" : "▸"}</span>
-          </button>
-          {showDeals && (
-            <ul className="mt-3 space-y-1.5 text-sm">
-              {relevantDeals.map((d) => (
-                  <li key={d.ingredient} className="flex justify-between gap-3">
-                    <span>
-                      <span className="font-medium">{d.ingredient}</span>
-                      <span className="block text-xs text-muted">{d.item.toLowerCase()}</span>
-                    </span>
-                    <span className="shrink-0 font-semibold text-accent">{formatPrice(d.price)}</span>
-                  </li>
-                ))}
-              {flyer.validFrom && (
-                <li className="pt-1 text-xs text-muted">
-                  Circulaire valide du {frenchWeek(flyer.validFrom)} au {frenchWeek(flyer.validTo!)}. Les suggestions favorisent ces recettes.
-                </li>
-              )}
-            </ul>
-          )}
-        </section>
-      )}
-
       {error && <p className="text-sm text-red-700">{error}</p>}
 
       {!loadingWeek && current.length > 0 && !respectsRules(current, planner, rules) && (
@@ -368,9 +326,6 @@ export default function Semaine() {
                         {m > 1 ? `${sv(r.id)} × ${m} = ${plural(sv(r.id) * m, "portion")}` : plural(sv(r.id), "portion")}
                         {r.dish_type ? ` · ${r.dish_type}` : ""}
                       </p>
-                      {(dealCountOf.get(r.id) ?? 0) > 0 && (
-                        <p className="text-xs font-medium text-accent">🏷️ {plural(dealCountOf.get(r.id)!, "ingrédient")} en rabais</p>
-                      )}
                     </div>
                   </Link>
                   <div className="flex items-center justify-between px-3 pb-2 text-sm">

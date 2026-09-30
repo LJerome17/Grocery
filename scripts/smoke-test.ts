@@ -54,11 +54,10 @@ async function main() {
   // 3. Household.
   const householdId = await step("create household", async () => must(await sb.rpc("create_household", { p_name: "TEST Claude (à supprimer)", p_display_name: "test" })) as string);
   if (!householdId) return;
-  await step("postal code (default, then changed)", async () => {
-    const h = must(await sb.from("households").select("postal_code,starter_seen").eq("id", householdId).single()) as { postal_code: string };
-    if (h.postal_code !== "H4C 0B8") throw new Error(`default ${h.postal_code}`);
-    must(await sb.from("households").update({ postal_code: "H2X 1Y4" }).eq("id", householdId));
-    return "H4C 0B8 -> H2X 1Y4";
+  await step("new household is not the book", async () => {
+    const h = must(await sb.from("households").select("is_book").eq("id", householdId).single()) as { is_book: boolean };
+    if (h.is_book !== false) throw new Error(`is_book = ${h.is_book}`);
+    return "ok";
   });
 
   try {
@@ -74,19 +73,30 @@ async function main() {
       if (!names.has("Gochujang") || !catalog!.find((c) => c.name === "Ail")?.equiv) throw new Error("0006 not applied");
       return "ok";
     });
-    const full = (await (await fetch(`${SITE}/starter/recipes.json`)).json()) as Record<string, unknown>[];
-    const idByName = new Map(catalog!.map((c) => [c.name as string, c.id as string]));
-    const ids: string[] = [];
-    for (const r of full.slice(0, 3)) {
-      await step(`import "${r.title}"`, async () => {
-        const { ingredients, slug, ...recipe } = r as { ingredients: Record<string, unknown>[]; slug: string };
-        const rec = must(await sb.from("recipes").insert({ ...recipe, starter_slug: slug, household_id: householdId }).select("id").single()) as { id: string };
-        ids.push(rec.id);
-        const rows = ingredients.map(({ catalog: cat, ...i }) => ({ ...i, recipe_id: rec.id, ingredient_id: cat ? idByName.get(cat as string) ?? null : null }));
-        must(await sb.from("recipe_ingredients").insert(rows));
-        return `${rows.length} ingrédients`;
-      });
-    }
+    // Recipes: the Momo et Jéjé book is read live; only the book household may change it.
+    const book = await step("read the recipe book", async () => {
+      const r = must(await sb.from("recipes").select("id,title,household_id").order("title")) as { id: string; household_id: string }[];
+      if (r.length < 60) throw new Error(`${r.length} recettes seulement`);
+      if (r.some((x) => x.household_id !== r[0].household_id)) throw new Error("recipes from more than one household");
+      return `${r.length} recettes`;
+    });
+    const ids = ((book && (must(await sb.from("recipes").select("id").order("title").limit(3)) as { id: string }[])) || []).map((r) => r.id);
+    await step("book recipe ingredients readable", async () => {
+      const n = (must(await sb.from("recipe_ingredients").select("id").in("recipe_id", ids)) as unknown[]).length;
+      if (!n) throw new Error("none");
+      return `${n} lignes`;
+    });
+    await step("adding a recipe is refused", async () => {
+      const r = await sb.from("recipes").insert({ household_id: householdId, title: "TEST", source_type: "manual", instructions: [], seasons: [] });
+      if (!r.error) throw new Error("insert accepted");
+      return "refusé";
+    });
+    await step("changing a book recipe is refused", async () => {
+      const r = await sb.from("recipes").update({ title: "TEST" }).eq("id", ids[0]).select("id");
+      if (r.error) return "refusé";
+      if ((r.data ?? []).length) throw new Error("update accepted");
+      return "refusé";
+    });
 
     // 5. Week plan + list.
     const plan = await step("save week plan", async () =>
@@ -112,14 +122,6 @@ async function main() {
         return "ok";
       });
     }
-
-    // 5b. Maxi deals for the household's postal code (unofficial source: may be empty, must not fail).
-    await step("GET /api/rabais", async () => {
-      const r = await fetch(`${SITE}/api/rabais?cp=H4C0B8`);
-      const d = (await r.json()) as { deals?: { name: string }[]; validTo?: string; unavailable?: boolean; error?: string };
-      if (!r.ok) throw new Error(d.error ?? `HTTP ${r.status}`);
-      return d.unavailable ? "circulaire indisponible" : `${d.deals!.length} rabais jusqu'au ${d.validTo}`;
-    });
 
     // 6. Server import route with the visitor's token.
     await step("POST /api/import (lien)", async () => {
@@ -148,7 +150,6 @@ async function main() {
     });
   } finally {
     // 8. Clean up: recipes (cascade to ingredients), plans (cascade to items), then leave.
-    await step("cleanup recipes", async () => must(await sb.from("recipes").delete().eq("household_id", householdId)));
     await step("cleanup plans", async () => must(await sb.from("week_plans").delete().eq("household_id", householdId)));
     await step("leave test household", async () => must(await sb.from("household_members").delete().eq("household_id", householdId)));
   }

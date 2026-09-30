@@ -5,43 +5,30 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useApp } from "@/components/AppProvider";
 import { messageFr } from "@/lib/erreur";
-import { importStarterRecipes } from "@/lib/starter";
 import { supabase } from "@/lib/supabase";
 
 export default function Foyer() {
   const { session, household, reloadHousehold } = useApp();
   const router = useRouter();
   const [name, setName] = useState("Momo et Jéjé");
-  const [postalCode, setPostalCode] = useState("H4C 0B8");
   const [displayName, setDisplayName] = useState("");
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [progress, setProgress] = useState<string | null>(null);
 
   async function create(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
     setError(null);
-    const { data: id, error } = await supabase().rpc("create_household", { p_name: name, p_display_name: displayName || null });
+    const { error } = await supabase().rpc("create_household", { p_name: name, p_display_name: displayName || null });
     if (error) {
       setError(messageFr(error));
       setBusy(false);
       return;
     }
-    // Postal code: which regional Maxi flyer to read.
-    const cp = postalCode.trim().toUpperCase();
-    if (/^[A-Z]\d[A-Z] ?\d[A-Z]\d$/.test(cp)) await supabase().from("households").update({ postal_code: cp }).eq("id", id as string);
-    // Every new household starts with the Momo et Jéjé recipes (they can be removed afterwards).
-    let ok = true;
-    try {
-      await importStarterRecipes(id as string, (d, t) => setProgress(`Ajout des recettes : ${d} / ${t}`));
-    } catch (err) {
-      ok = false;
-      setError(`Foyer créé, mais l'ajout des recettes a échoué : ${messageFr(err)}`);
-    }
+    // The recipes come from the Momo et Jéjé recipe book, shared read-only with every household.
     await reloadHousehold();
-    if (ok) router.push("/semaine");
+    router.push("/semaine");
     setBusy(false);
   }
 
@@ -74,7 +61,8 @@ export default function Foyer() {
   return (
     <div className="space-y-5 pt-6">
       <div className="text-center">
-        <div className="text-5xl">🥕</div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo.webp" alt="" width={360} height={234} className="mx-auto w-44 rounded-2xl" />
         <p className="mt-2 font-semibold">Momo et Jéjé cuisinent végé</p>
       </div>
       <h1 className="text-2xl font-bold">Votre foyer</h1>
@@ -86,20 +74,8 @@ export default function Foyer() {
       <form onSubmit={create} className="card space-y-3 p-5">
         <h2 className="font-semibold">Créer un foyer</h2>
         <input className="input" value={name} onChange={(e) => setName(e.target.value)} required />
-        <label className="block">
-          <span className="text-xs text-muted">Code postal (pour la circulaire Maxi de votre région)</span>
-          <input
-            className="input mt-1 uppercase"
-            value={postalCode}
-            maxLength={7}
-            pattern="[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d"
-            title="Format : H4C 0B8"
-            onChange={(e) => setPostalCode(e.target.value)}
-            required
-          />
-        </label>
         <button className="btn-primary w-full" disabled={busy}>
-          {busy && progress ? progress : "Créer"}
+          {busy ? "Création…" : "Créer"}
         </button>
       </form>
 

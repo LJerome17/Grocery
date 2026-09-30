@@ -5,8 +5,9 @@ import { RECIPE_COLUMNS, type Ingredient, type Recipe, type RecipeIngredient } f
 import type { PlannerRecipe } from "./planner";
 import { supabase } from "./supabase";
 
-export async function loadRecipes(householdId: string): Promise<Recipe[]> {
-  const { data, error } = await supabase().from("recipes").select(RECIPE_COLUMNS).eq("household_id", householdId).order("title");
+/** The household's own recipes and the Momo et Jéjé book (row-level security returns exactly those). */
+export async function loadRecipes(): Promise<Recipe[]> {
+  const { data, error } = await supabase().from("recipes").select(RECIPE_COLUMNS).order("title");
   if (error) throw error;
   return (data ?? []) as Recipe[];
 }
@@ -79,7 +80,6 @@ export function toPlannerRecipes(
   catalog: Ingredient[],
   history: Map<string, number>,
   /** Catalogue ingredient ids on sale this week. */
-  onSale: Set<string> = new Set(),
 ): PlannerRecipe[] {
   const pantry = new Set(catalog.filter((c) => c.pantry).map((c) => c.id));
   const perRecipe = new Map<string, Set<string>>();
@@ -98,6 +98,5 @@ export function toPlannerRecipes(
     ingredientIds: [...(perRecipe.get(r.id) ?? [])],
     weeksSinceEaten: history.get(r.id) ?? null,
     active: r.active,
-    dealCount: [...(perRecipe.get(r.id) ?? [])].filter((id) => onSale.has(id)).length,
   }));
 }

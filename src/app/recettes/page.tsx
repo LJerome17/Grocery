@@ -10,7 +10,7 @@ import { nameKey } from "@/lib/text";
 import { useKitchen } from "@/lib/useKitchen";
 
 export default function Recettes() {
-  const { householdId } = useApp();
+  const { household, householdId } = useApp();
   const { recipes, ingredients, loading } = useKitchen(householdId);
   const [search, setSearch] = useState("");
   const [dish, setDish] = useState<string | null>(null);
@@ -39,9 +39,11 @@ export default function Recettes() {
     <div className="space-y-4">
       <header className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Recettes</h1>
-        <Link href="/recettes/nouvelle" className="btn-primary">
-          ＋ Ajouter
-        </Link>
+        {household?.is_book && (
+          <Link href="/recettes/nouvelle" className="btn-primary">
+            ＋ Ajouter
+          </Link>
+        )}
       </header>
 
       <input className="input" placeholder="Chercher un titre ou un ingrédient…" value={search} onChange={(e) => setSearch(e.target.value)} />

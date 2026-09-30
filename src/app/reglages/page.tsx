@@ -147,22 +147,7 @@ export default function Reglages() {
         <Rule label="Pause avant de revoir une recette" help="En semaines" value={household.repeat_cooldown_weeks} min={0} max={12} onChange={(v) => update({ repeat_cooldown_weeks: v })} />
       </section>
 
-      <section className="card space-y-2 p-4">
-        <h2 className="font-semibold">Circulaire Maxi</h2>
-        <label className="block text-sm">
-          <span className="text-xs text-muted">Code postal (la circulaire varie selon la région)</span>
-          <input
-            className="input mt-1 uppercase"
-            defaultValue={household.postal_code ?? "H4C 0B8"}
-            maxLength={7}
-            onBlur={(e) => {
-              const v = e.target.value.trim().toUpperCase();
-              if (/^[A-Z]\d[A-Z] ?\d[A-Z]\d$/.test(v) && v !== household.postal_code) update({ postal_code: v });
-            }}
-          />
-        </label>
-      </section>
-
+      {household.is_book && (
       <section className="card space-y-2 p-4">
         <h2 className="font-semibold">Recettes de départ</h2>
         <p className="text-sm text-muted">Applique les dernières corrections (ingrédients, étapes, liens) sans toucher à vos préférences, et ajoute les nouvelles recettes.</p>
@@ -171,6 +156,7 @@ export default function Reglages() {
         </button>
         {!syncing && syncMsg && <p className="text-sm text-muted">{syncMsg}</p>}
       </section>
+      )}
 
       <section className="card p-4 text-sm">
         {session?.user.is_anonymous ? <ProtectAccount /> : <p className="text-muted">Connecté : {session?.user.email}</p>}

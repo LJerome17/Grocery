@@ -7,9 +7,7 @@ import { useApp } from "@/components/AppProvider";
 import { AISLE_LABEL, AISLE_ORDER } from "@/lib/aisles";
 import type { ShoppingItem } from "@/lib/db";
 import { messageFr } from "@/lib/erreur";
-import { formatPrice } from "@/lib/flyer";
 import { weekStart } from "@/lib/planner";
-import { dealsByIngredient, useDeals } from "@/lib/useDeals";
 import { supabase } from "@/lib/supabase";
 
 export default function ListePage() {
@@ -21,13 +19,9 @@ export default function ListePage() {
 }
 
 function Liste() {
-  const { household, householdId } = useApp();
+  const { householdId } = useApp();
   const requested = useSearchParams().get("plan");
   const [planId, setPlanId] = useState<string | null>(null);
-  const [week, setWeek] = useState<string | null>(null);
-  // Maxi price next to the items on sale for the list's week.
-  const flyer = useDeals(week ? household?.postal_code ?? "H4C 0B8" : null, week ?? "");
-  const dealMap = useMemo(() => dealsByIngredient(flyer.deals), [flyer.deals]);
   const [items, setItems] = useState<ShoppingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [newItem, setNewItem] = useState("");
@@ -63,14 +57,12 @@ function Liste() {
       const { data } = await supabase().from("shopping_items").select("*").eq("plan_id", p.id).order("position");
       if (data?.length) {
         setPlanId(p.id);
-        setWeek(p.week_start);
         setItems(data as ShoppingItem[]);
         setLoading(false);
         return;
       }
     }
     setPlanId(ordered[0]?.id ?? null);
-    setWeek(ordered[0]?.week_start ?? null);
     setItems([]);
     setLoading(false);
   }, [householdId, requested]);
@@ -189,11 +181,6 @@ function Liste() {
       <button onClick={() => toggle(item)} className={`flex-1 text-left ${item.checked ? "text-muted line-through" : ""}`}>
         <span className="font-medium">{item.label}</span>
         {item.quantity_text && <span className="ml-2 text-sm text-muted">{item.quantity_text}</span>}
-        {dealMap.get(item.label.replace(/ \(facultatif\)$/, "")) && (
-          <span className="ml-2 whitespace-nowrap text-xs font-semibold text-accent">
-            🏷️ {formatPrice(dealMap.get(item.label.replace(/ \(facultatif\)$/, ""))!.price)} Maxi
-          </span>
-        )}
       </button>
       {item.manual && (
         <button onClick={() => removeItem(item)} className="text-muted" aria-label="Supprimer">

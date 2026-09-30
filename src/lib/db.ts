@@ -10,8 +10,8 @@ export type Household = {
   max_same_dish_type: number;
   max_same_protein: number;
   repeat_cooldown_weeks: number;
-  /** For the regional Maxi flyer. */
-  postal_code: string | null;
+  /** The Momo et Jéjé household: its recipes are the book every household reads (only it can change them). */
+  is_book: boolean;
   /** Starter recipes already received (so a deleted one is never added back). */
   starter_seen: string[] | null;
 };
