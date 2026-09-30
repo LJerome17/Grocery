@@ -37,7 +37,7 @@ export default function Connexion() {
         }
         await protectAccess(login, password);
       }
-      router.push("/foyer");
+      router.push("/semaine"); // no household yet: the route guard sends to /foyer
     } catch (err) {
       setError(messageFr(err));
     }

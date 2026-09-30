@@ -323,9 +323,14 @@ export default function Semaine() {
       {loadingWeek ? (
         <p className="py-6 text-center text-sm text-muted">{tr("Chargement de la semaine…", "Loading the week…")}</p>
       ) : !items.length ? (
-        <button className="btn-primary w-full py-4 text-base" onClick={() => suggestAll()} disabled={busy || !available}>
-          ✨ {tr(`Proposer une semaine de ${settings.portions} portions`, `Suggest a week of ${settings.portions} servings`)}
-        </button>
+        <div className="space-y-2">
+          <button className="btn-primary w-full py-4 text-base" onClick={() => suggestAll()} disabled={busy || !available}>
+            ✨ {tr(`Proposer une semaine de ${settings.portions} portions`, `Suggest a week of ${settings.portions} servings`)}
+          </button>
+          <button className="btn-ghost w-full" onClick={() => setPicker(true)} disabled={busy}>
+            ＋ {tr("Choisir une recette", "Pick a recipe")}
+          </button>
+        </div>
       ) : (
         <>
           <p className={`text-sm ${diff < 0 ? "font-semibold text-red-700" : "text-muted"}`}>
