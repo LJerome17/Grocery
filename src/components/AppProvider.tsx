@@ -34,8 +34,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const sb = supabase();
-    sb.auth.getSession().then(({ data }) => {
-      setSession(data.session);
+    // No sign-up wall: a first visit gets an invisible anonymous identity (kept in the browser).
+    // An email can be attached later in Réglages. People who signed out explicitly land on /connexion.
+    sb.auth.getSession().then(async ({ data }) => {
+      let s = data.session;
+      if (!s && window.location.pathname !== "/connexion") {
+        const anon = await sb.auth.signInAnonymously();
+        s = anon.data.session;
+      }
+      setSession(s);
       setAuthReady(true);
     });
     const { data } = sb.auth.onAuthStateChange((_event, s) => setSession(s));
@@ -68,12 +75,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const loading = !authReady || loadedFor !== (userId ?? "");
 
-  // Route guard: sign in first, then create or join a household.
+  // Route guard: an identity first (anonymous is fine), then create or join a household.
+  // /connexion stays reachable for anonymous visitors who want to use an existing account.
   useEffect(() => {
     if (loading) return;
-    if (!session && !PUBLIC_PATHS.includes(pathname)) router.replace("/connexion");
-    else if (session && !household && pathname !== "/foyer") router.replace("/foyer");
-    else if (session && household && (pathname === "/connexion" || pathname === "/")) router.replace("/semaine");
+    const onLogin = PUBLIC_PATHS.includes(pathname);
+    if (!session) {
+      if (!onLogin) router.replace("/connexion");
+    } else if (onLogin) {
+      if (!session.user.is_anonymous) router.replace(household ? "/semaine" : "/foyer");
+    } else if (!household && pathname !== "/foyer") router.replace("/foyer");
+    else if (household && pathname === "/") router.replace("/semaine");
   }, [loading, session, household, pathname, router]);
 
   return <Ctx.Provider value={{ session, household, loading, reloadHousehold }}>{children}</Ctx.Provider>;

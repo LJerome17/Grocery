@@ -1,6 +1,6 @@
 {
-  "name": "Momo et Jeje mangent végé",
-  "short_name": "Momo & Jeje",
+  "name": "Momo et Jéjé mangent végé",
+  "short_name": "Momo & Jéjé",
   "description": "Recettes de la semaine et liste d'épicerie automatique",
   "lang": "fr-CA",
   "start_url": "/semaine",

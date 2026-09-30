@@ -1,9 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 
 export default function Connexion() {
+  const router = useRouter();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,11 +30,20 @@ export default function Connexion() {
     setBusy(false);
   }
 
+  async function anonymous() {
+    setBusy(true);
+    setError(null);
+    const { error } = await supabase().auth.signInAnonymously();
+    if (error) setError("L'accès sans compte n'est pas activé pour l'instant. Créez un compte ci-dessus.");
+    else router.push("/foyer");
+    setBusy(false);
+  }
+
   return (
     <div className="pt-10">
       <div className="mb-8 text-center">
         <div className="text-5xl">🥕</div>
-        <h1 className="mt-3 text-2xl font-bold">Momo et Jeje mangent végé</h1>
+        <h1 className="mt-3 text-2xl font-bold">Momo et Jéjé mangent végé</h1>
         <p className="mt-1 text-sm text-muted">Les recettes de la semaine et la liste d&apos;épicerie, sans y penser.</p>
       </div>
 
@@ -62,6 +73,9 @@ export default function Connexion() {
           {busy ? "…" : mode === "login" ? "Se connecter" : "Créer mon compte"}
         </button>
       </form>
+      <button className="btn-ghost mt-4 w-full" onClick={anonymous} disabled={busy}>
+        Continuer sans compte
+      </button>
     </div>
   );
 }

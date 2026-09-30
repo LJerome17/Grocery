@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useApp } from "@/components/AppProvider";
@@ -9,7 +10,7 @@ import { supabase } from "@/lib/supabase";
 export default function Foyer() {
   const { session, household, reloadHousehold } = useApp();
   const router = useRouter();
-  const [name, setName] = useState("Momo et Jeje");
+  const [name, setName] = useState("Momo et Jéjé");
   const [displayName, setDisplayName] = useState("");
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
@@ -57,7 +58,7 @@ export default function Foyer() {
       <div className="space-y-4 pt-6">
         <h1 className="text-2xl font-bold">Bienvenue, {household.name} 🎉</h1>
         <div className="card space-y-3 p-5">
-          <p>Voulez-vous partir avec les 68 recettes de Momo et Jeje ? Vous pourrez retirer celles qui ne vous plaisent pas.</p>
+          <p>Voulez-vous partir avec les 68 recettes de Momo et Jéjé ? Vous pourrez retirer celles qui ne vous plaisent pas.</p>
           <button className="btn-primary w-full" onClick={loadStarter} disabled={busy}>
             {busy ? progress ?? "Import…" : "Importer les recettes de départ"}
           </button>
@@ -72,6 +73,10 @@ export default function Foyer() {
 
   return (
     <div className="space-y-5 pt-6">
+      <div className="text-center">
+        <div className="text-5xl">🥕</div>
+        <p className="mt-2 font-semibold">Momo et Jéjé mangent végé</p>
+      </div>
       <h1 className="text-2xl font-bold">Votre foyer</h1>
       <p className="text-sm text-muted">
         Un foyer regroupe les personnes qui partagent les recettes, la semaine et la liste d&apos;épicerie.
@@ -94,6 +99,11 @@ export default function Foyer() {
         </button>
       </form>
       {error && <p className="text-sm text-red-700">{error}</p>}
+      {session.user.is_anonymous && (
+        <Link href="/connexion" className="block text-center text-sm text-muted underline">
+          J&apos;ai déjà un compte avec courriel
+        </Link>
+      )}
     </div>
   );
 }
