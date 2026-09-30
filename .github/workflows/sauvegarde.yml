@@ -1,10 +1,14 @@
 # Weekly copy of the recipe book into backup/ (Monday morning, Montréal), also runnable by hand from the Actions tab.
 # Reading the book also keeps the free Supabase project from pausing for inactivity.
+# Also runs when this file changes, so a new version of it is tried right away.
 name: Sauvegarde des recettes
 on:
   schedule:
     - cron: "0 11 * * 1"
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [.github/workflows/sauvegarde.yml]
 permissions:
   contents: write
 jobs:
