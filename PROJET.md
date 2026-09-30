@@ -87,7 +87,7 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
 | 0008 | livre déplacé vers le foyer 5e35aedc | appliquée |
 | 0009 | variété par défaut 2 / 3 | appliquée |
 | 0010 | légumes d'accompagnement des recettes de tofu seul | appliquée |
-| 0011 | langue du foyer + noms anglais du catalogue | à appliquer |
+| 0011 | langue du foyer + noms anglais du catalogue | appliquée |
 
 ## Procédures
 - **Publier** : `npx vitest run`, `npx tsc --noEmit`, `npx eslint src scripts`, `npm run build`, puis commit et push sur `main`.
