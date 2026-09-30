@@ -33,9 +33,9 @@ export type ListLine = {
 };
 
 /** Units bought whole: 1.3 cans means buying 2. */
-const WHOLE_UNITS = new Set(["", "can", "pack", "block", "bunch", "clove", "stalk", "piece", "cube", "slice"]);
+const WHOLE_UNITS = new Set(["", "can", "pack", "carton", "punnet", "portion", "sheet", "ball", "block", "bunch", "clove", "stalk", "piece", "cube", "slice"]);
 /** Units too small to matter on a shopping list. */
-const NEGLIGIBLE_UNITS = new Set(["pinch", "sprig", "handful"]);
+const NEGLIGIBLE_UNITS = new Set(["pinch", "sprig", "handful", "drizzle"]);
 
 type Acc = {
   line: ListLine;

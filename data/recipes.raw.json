@@ -1593,8 +1593,8 @@
         "section": null,
         "quantity": 20,
         "quantityMax": 25,
-        "unit": null,
-        "name": "feuilles de sauge",
+        "unit": "sheet",
+        "name": "sauge",
         "note": null,
         "optional": false
       },
@@ -2035,8 +2035,8 @@
         "section": "Légumes grillés",
         "quantity": 0.5,
         "quantityMax": null,
-        "unit": null,
-        "name": "barquette de tomates cerises",
+        "unit": "punnet",
+        "name": "tomates cerises",
         "note": null,
         "optional": false
       },
@@ -3011,8 +3011,8 @@
         "section": null,
         "quantity": 1,
         "quantityMax": null,
-        "unit": null,
-        "name": "filet de lait de coco ou yogourt nature",
+        "unit": "drizzle",
+        "name": "lait de coco ou yogourt nature",
         "note": null,
         "optional": false
       },
@@ -3979,8 +3979,8 @@
         "section": null,
         "quantity": 1,
         "quantityMax": null,
-        "unit": null,
-        "name": "boule de mozzarella fraîche",
+        "unit": "ball",
+        "name": "mozzarella fraîche",
         "note": "250 g",
         "optional": false
       }
@@ -4021,8 +4021,8 @@
         "section": null,
         "quantity": 4,
         "quantityMax": null,
-        "unit": null,
-        "name": "portions de nouilles ramen ou nouilles asiatiques au choix",
+        "unit": "portion",
+        "name": "nouilles ramen ou nouilles asiatiques au choix",
         "note": null,
         "optional": false
       },
@@ -5571,8 +5571,8 @@
         "section": null,
         "quantity": 1,
         "quantityMax": null,
-        "unit": null,
-        "name": "Tinned Chopped Tomatoes",
+        "unit": "can",
+        "name": "Chopped Tomatoes",
         "note": "400g",
         "optional": false
       },
@@ -6241,8 +6241,8 @@
         "section": null,
         "quantity": 2,
         "quantityMax": null,
-        "unit": null,
-        "name": "casseaux de tomates cerises",
+        "unit": "punnet",
+        "name": "tomates cerises",
         "note": "coupées en 2; 551ml chacun",
         "optional": false
       },
@@ -8085,11 +8085,11 @@
         "optional": false
       },
       {
-        "raw": "1/4 fresh basil",
+        "raw": "1/4 cup fresh basil",
         "section": null,
         "quantity": 0.25,
         "quantityMax": null,
-        "unit": null,
+        "unit": "cup",
         "name": "fresh basil",
         "note": null,
         "optional": false
@@ -8499,6 +8499,16 @@
         "name": "spinach or basil torn",
         "note": null,
         "optional": false
+      },
+      {
+        "raw": "3/4 cup vegetable broth",
+        "section": null,
+        "quantity": 0.75,
+        "quantityMax": null,
+        "unit": "cup",
+        "name": "vegetable broth",
+        "note": null,
+        "optional": false
       }
     ],
     "instructions": [
@@ -8743,8 +8753,8 @@
         "section": "tofu crémeux façon burrata",
         "quantity": 1,
         "quantityMax": null,
-        "unit": null,
-        "name": "berlingot Crème de soya de type Belsoy",
+        "unit": "carton",
+        "name": "Crème de soya de type Belsoy",
         "note": "1 tasse; 250 ml",
         "optional": false
       },
@@ -12425,8 +12435,8 @@
         "section": "Salsa de tomates",
         "quantity": 1,
         "quantityMax": null,
-        "unit": null,
-        "name": "contenant de tomates cerises",
+        "unit": "punnet",
+        "name": "tomates cerises",
         "note": "coupées en 2; 551ml",
         "optional": false
       },

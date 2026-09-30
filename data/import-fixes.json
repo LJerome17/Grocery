@@ -8,7 +8,8 @@
       "1 green onion (garnish)",
       "1 tbsp toasted sesame seeds (garnish)"
     ],
-    "Silken tofu": "300 g silken tofu"
+    "Silken tofu": "300 g silken tofu",
+    "1/4 fresh basil": "1/4 cup fresh basil"
   },
   "pdfUrls": {
     "Salade-tiède-de-légumes-grillés-aux-lentilles-_-margauxfood.ca.pdf": "https://margauxfood.ca/recette/salade-de-legumes-grilles-aux-lentilles/",
@@ -18,7 +19,10 @@
     "https://dashofhoney.ca/fr/wpzoom_rcb_print/25056/": "https://dashofhoney.ca/fr/lasagne-au-pesto-petits-pois-et-courgette/"
   },
   "manualForUrl": {
-    "https://www.allrecipes.com/recipe/25311/vegetarian-moussaka/": { "file": "data/manual/vegetarian-moussaka.txt", "totalMinutes": 155 }
+    "https://www.allrecipes.com/recipe/25311/vegetarian-moussaka/": {
+      "file": "data/manual/vegetarian-moussaka.txt",
+      "totalMinutes": 155
+    }
   },
   "exclude": {
     "_doc": "recipe titles removed at the user's request (source files are kept)",
@@ -58,10 +62,21 @@
   },
   "addIngredients": {
     "_doc": "recipe title -> ingredient lines appended (user request: make it a full meal)",
-    "Sundried Tomato Pesto": ["450 g de pâtes courtes"],
-    "Tofu croustillant sésame et érable": ["Légumes pour accompagner le tofu (au choix)"],
-    "Tofu Magique": ["Légumes pour accompagner le tofu (au choix)"],
-    "Tofu Magique Bang Bang": ["Légumes pour accompagner le tofu (au choix)"]
+    "Sundried Tomato Pesto": [
+      "450 g de pâtes courtes"
+    ],
+    "Tofu croustillant sésame et érable": [
+      "Légumes pour accompagner le tofu (au choix)"
+    ],
+    "Tofu Magique": [
+      "Légumes pour accompagner le tofu (au choix)"
+    ],
+    "Tofu Magique Bang Bang": [
+      "Légumes pour accompagner le tofu (au choix)"
+    ],
+    "Marry Me Chickpeas": [
+      "3/4 cup vegetable broth"
+    ]
   },
   "titles": {
     "1 bloc de tofu ferme": "Tofu croustillant sésame et érable",

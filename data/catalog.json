@@ -272,7 +272,8 @@
         "tomates cerises",
         "cherry tomatoes",
         "grape tomatoes"
-      ]
+      ],
+      "count_unit": "punnet"
     },
     {
       "name": "Concombre",
@@ -321,7 +322,11 @@
         "piments chili doux",
         "piment chili",
         "chilli",
-        "chili pepper"
+        "chili pepper",
+        "scotch bonnet",
+        "scotch bonnet pepper",
+        "habanero",
+        "piment habanero"
       ]
     },
     {
@@ -405,7 +410,8 @@
         "champignons enoki",
         "enoki",
         "enoki mushrooms"
-      ]
+      ],
+      "count_unit": "pack"
     },
     {
       "name": "Fèves germées",
@@ -482,7 +488,8 @@
         "sauge",
         "feuilles de sauge",
         "sage"
-      ]
+      ],
+      "count_unit": "sheet"
     },
     {
       "name": "Maïs en épi",
@@ -582,7 +589,8 @@
         "udon noodles",
         "nouilles udon",
         "udon"
-      ]
+      ],
+      "count_unit": "portion"
     },
     {
       "name": "Beurre",
@@ -722,7 +730,11 @@
         "tortilla",
         "tortillas",
         "tortillas de ble",
-        "tortilla de ble"
+        "tortilla de ble",
+        "flour tortillas",
+        "soft flour tortillas",
+        "small soft flour tortillas",
+        "tortillas de farine"
       ]
     },
     {
@@ -812,7 +824,8 @@
         "pates a lasagne",
         "lasagna sheets",
         "dried lasagna sheets"
-      ]
+      ],
+      "count_unit": "sheet"
     },
     {
       "name": "Nouilles ramen",
@@ -821,7 +834,8 @@
         "nouilles ramen",
         "ramen noodles",
         "nouilles instantanees"
-      ]
+      ],
+      "count_unit": "portion"
     },
     {
       "name": "Lentilles corail",
@@ -923,7 +937,8 @@
         "tomates concassees",
         "chopped tomatoes",
         "diced tomatoes"
-      ]
+      ],
+      "count_unit": "can"
     },
     {
       "name": "Sauce tomate (conserve)",
@@ -947,7 +962,8 @@
         "tomates entieres",
         "tomates entieres pelees",
         "tomates pelees"
-      ]
+      ],
+      "count_unit": "can"
     },
     {
       "name": "Pâte de tomate",
@@ -974,7 +990,8 @@
       "aliases": [
         "lait de coco",
         "coconut milk"
-      ]
+      ],
+      "count_unit": "can"
     },
     {
       "name": "Crème de coco",
@@ -996,7 +1013,8 @@
         "vegetable stock cube",
         "cube de bouillon",
         "bouillon"
-      ]
+      ],
+      "count_unit": "cube"
     },
     {
       "name": "Bouillon aux champignons",
@@ -1062,7 +1080,8 @@
         "nori",
         "nori sheets",
         "feuilles de nori"
-      ]
+      ],
+      "count_unit": "sheet"
     },
     {
       "name": "Sambal oelek",
@@ -1589,7 +1608,8 @@
         "bay",
         "bay leaf",
         "bay leaves"
-      ]
+      ],
+      "count_unit": "sheet"
     },
     {
       "name": "Thym séché",
@@ -1859,7 +1879,8 @@
         "fromage halloumi",
         "fromage a griller",
         "grilling cheese"
-      ]
+      ],
+      "count_unit": "block"
     },
     {
       "name": "Mozzarella fraîche",
@@ -1870,7 +1891,8 @@
         "boule de mozzarella",
         "fresh mozzarella",
         "burrata"
-      ]
+      ],
+      "count_unit": "ball"
     },
     {
       "name": "Fromage de chèvre",
@@ -1900,7 +1922,8 @@
         "creme vegetale",
         "creme vegetale a cuisson",
         "plant based cream"
-      ]
+      ],
+      "count_unit": "carton"
     },
     {
       "name": "Houmous",
@@ -1982,7 +2005,8 @@
         "knife pare noodles",
         "knife cut noodles",
         "noodles"
-      ]
+      ],
+      "count_unit": "portion"
     },
     {
       "name": "Purée de citrouille",
@@ -2070,7 +2094,8 @@
         "rice noodles",
         "vermicelles de riz",
         "rice vermicelli"
-      ]
+      ],
+      "count_unit": "portion"
     },
     {
       "name": "Sauce aux huîtres",
