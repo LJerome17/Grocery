@@ -4,15 +4,16 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useApp } from "@/components/AppProvider";
-import { AISLE_LABEL, AISLE_ORDER } from "@/lib/aisles";
+import { AISLE_ORDER, aisleLabel } from "@/lib/aisles";
 import type { ShoppingItem } from "@/lib/db";
 import { messageFr } from "@/lib/erreur";
+import { plural, tr } from "@/lib/i18n";
 import { weekStart } from "@/lib/planner";
 import { supabase } from "@/lib/supabase";
 
 export default function ListePage() {
   return (
-    <Suspense fallback={<p className="py-20 text-center text-muted">Chargement…</p>}>
+    <Suspense fallback={<p className="py-20 text-center text-muted">{tr("Chargement…", "Loading…")}</p>}>
       <Liste />
     </Suspense>
   );
@@ -156,14 +157,14 @@ function Liste() {
   const pantry = items.filter((i) => i.pantry);
   const remaining = items.filter((i) => !i.pantry && !i.checked).length;
 
-  if (loading) return <p className="py-20 text-center text-muted">Chargement…</p>;
+  if (loading) return <p className="py-20 text-center text-muted">{tr("Chargement…", "Loading…")}</p>;
 
   if (!planId) {
     return (
       <div className="card mt-10 space-y-3 p-5 text-center">
-        <p>Pas encore de liste. Choisissez d&apos;abord les recettes de la semaine.</p>
+        <p>{tr("Pas encore de liste. Choisissez d'abord les recettes de la semaine.", "No list yet. Pick this week's recipes first.")}</p>
         <Link href="/semaine" className="btn-primary">
-          Planifier la semaine
+          {tr("Planifier la semaine", "Plan the week")}
         </Link>
       </div>
     );
@@ -174,7 +175,7 @@ function Liste() {
       <button
         onClick={() => toggle(item)}
         className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md border-2 ${item.checked ? "border-brand bg-brand text-white" : "border-line"}`}
-        aria-label={item.checked ? "Décocher" : "Cocher"}
+        aria-label={item.checked ? tr("Décocher", "Uncheck") : tr("Cocher", "Check")}
       >
         {item.checked && "✓"}
       </button>
@@ -183,7 +184,7 @@ function Liste() {
         {item.quantity_text && <span className="ml-2 text-sm text-muted">{item.quantity_text}</span>}
       </button>
       {item.manual && (
-        <button onClick={() => removeItem(item)} className="text-muted" aria-label="Supprimer">
+        <button onClick={() => removeItem(item)} className="text-muted" aria-label={tr("Supprimer", "Delete")}>
           ✕
         </button>
       )}
@@ -194,26 +195,26 @@ function Liste() {
     <div className="space-y-4">
       <header className="flex items-end justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Épicerie</h1>
-          <p className="text-sm text-muted">{remaining} article{remaining > 1 ? "s" : ""} à acheter</p>
+          <h1 className="text-2xl font-bold">{tr("Épicerie", "Groceries")}</h1>
+          <p className="text-sm text-muted">{plural(remaining, ["article", "articles"], ["item", "items"])} {tr("à acheter", "to buy")}</p>
         </div>
         <button className={hideChecked ? "chip-on" : "chip"} onClick={() => setHideChecked(!hideChecked)}>
-          {hideChecked ? "Tout afficher" : "Masquer les cochés"}
+          {hideChecked ? tr("Tout afficher", "Show all") : tr("Masquer les cochés", "Hide checked")}
         </button>
       </header>
 
       {error && <p className="text-sm text-red-700">{error}</p>}
 
       <form onSubmit={addItem} className="flex gap-2">
-        <input className="input" placeholder="Ajouter un article (papier de toilette…)" value={newItem} onChange={(e) => setNewItem(e.target.value)} />
-        <button className="btn-primary" aria-label="Ajouter">
+        <input className="input" placeholder={tr("Ajouter un article (papier de toilette…)", "Add an item (toilet paper…)")} value={newItem} onChange={(e) => setNewItem(e.target.value)} />
+        <button className="btn-primary" aria-label={tr("Ajouter", "Add")}>
           ＋
         </button>
       </form>
 
       {groups.map(([aisle, list]) => (
         <section key={aisle}>
-          <h2 className="mb-1 px-1 text-xs font-semibold uppercase tracking-wide text-muted">{AISLE_LABEL[aisle] ?? "Autre"}</h2>
+          <h2 className="mb-1 px-1 text-xs font-semibold uppercase tracking-wide text-muted">{aisleLabel(aisle)}</h2>
           <ul className="card divide-y divide-line">
             {list.map((i) => (
               <Row key={i.id} item={i} />
@@ -225,7 +226,7 @@ function Liste() {
       {pantry.length > 0 && (
         <section>
           <button className="mb-1 px-1 text-xs font-semibold uppercase tracking-wide text-muted" onClick={() => setShowPantry(!showPantry)}>
-            {showPantry ? "▾" : "▸"} À vérifier au garde-manger ({pantry.filter((p) => !p.checked).length})
+            {showPantry ? "▾" : "▸"} {tr("À vérifier au garde-manger", "Check the pantry")} ({pantry.filter((p) => !p.checked).length})
           </button>
           {showPantry && (
             <ul className="card divide-y divide-line">
@@ -239,7 +240,7 @@ function Liste() {
 
       {items.some((i) => i.checked) && (
         <button className="btn-ghost w-full" onClick={clearChecked}>
-          Retirer les articles cochés
+          {tr("Retirer les articles cochés", "Remove checked items")}
         </button>
       )}
     </div>

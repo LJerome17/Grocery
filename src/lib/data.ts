@@ -32,7 +32,7 @@ export async function loadRecipeIngredients(recipeIds: string[]): Promise<Recipe
 }
 
 export async function loadCatalog(): Promise<Ingredient[]> {
-  const { data, error } = await supabase().from("ingredients").select("id,household_id,name,aisle,pantry,count_unit,equiv").order("name");
+  const { data, error } = await supabase().from("ingredients").select("id,household_id,name,name_en,aisle,pantry,count_unit,equiv").order("name");
   if (error) throw error;
   return (data ?? []) as Ingredient[];
 }

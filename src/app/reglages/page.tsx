@@ -6,6 +6,7 @@ import type { Household } from "@/lib/db";
 import { syncStarterRecipes } from "@/lib/starter";
 import { supabase } from "@/lib/supabase";
 import { messageFr } from "@/lib/erreur";
+import { plural, tr, type Lang } from "@/lib/i18n";
 import { accountName, protectAccess } from "@/lib/username";
 
 function Rule({ label, help, value, min, max, onChange }: { label: string; help: string; value: number; min: number; max: number; onChange: (v: number) => void }) {
@@ -41,7 +42,7 @@ function ProtectAccount() {
     setMsg(null);
     try {
       await protectAccess(login, password);
-      setMsg("C'est fait : connectez-vous avec ce nom d'utilisateur sur n'importe quel appareil.");
+      setMsg(tr("C'est fait : connectez-vous avec ce nom d'utilisateur sur n'importe quel appareil.", "Done: sign in with this username on any device."));
     } catch (err) {
       setMsg(messageFr(err));
     }
@@ -51,12 +52,12 @@ function ProtectAccount() {
   return (
     <form onSubmit={protect} className="space-y-2">
       <p className="text-sm">
-        Vous utilisez l&apos;app sans compte : l&apos;accès est lié à ce navigateur. Choisissez un nom d&apos;utilisateur pour le retrouver sur un autre appareil.
+        {tr("Vous utilisez l'app sans compte : l'accès est lié à ce navigateur. Choisissez un nom d'utilisateur pour le retrouver sur un autre appareil.", "You're using the app without an account: access is tied to this browser. Choose a username to get it back on another device.")}
       </p>
-      <input className="input" autoComplete="username" autoCapitalize="none" placeholder="Nom d'utilisateur" value={login} onChange={(e) => setLogin(e.target.value)} required />
-      <input className="input" type="password" autoComplete="new-password" placeholder="Mot de passe (6 caractères minimum)" minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} required />
+      <input className="input" autoComplete="username" autoCapitalize="none" placeholder={tr("Nom d'utilisateur", "Username")} value={login} onChange={(e) => setLogin(e.target.value)} required />
+      <input className="input" type="password" autoComplete="new-password" placeholder={tr("Mot de passe (6 caractères minimum)", "Password (at least 6 characters)")} minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} required />
       <button className="btn-primary w-full" disabled={busy}>
-        Créer mon nom d&apos;utilisateur
+        {tr("Créer mon nom d'utilisateur", "Create my username")}
       </button>
       {msg && <p className="text-sm text-muted">{msg}</p>}
     </form>
@@ -89,8 +90,8 @@ export default function Reglages() {
   async function leave() {
     const alone = members.length <= 1;
     const warning = alone
-      ? "Vous êtes le seul membre : les recettes de ce foyer ne seront plus accessibles. Quitter quand même ?"
-      : "Quitter ce foyer ? Vous pourrez en créer un autre ou en rejoindre un avec un code.";
+      ? tr("Vous êtes le seul membre : les recettes de ce foyer ne seront plus accessibles. Quitter quand même ?", "You're the only member: this household's recipes will no longer be accessible. Leave anyway?")
+      : tr("Quitter ce foyer ? Vous pourrez en créer un autre ou en rejoindre un avec un code.", "Leave this household? You can create another one or join one with a code.");
     if (!confirm(warning)) return;
     await supabase().from("household_members").delete().eq("household_id", household!.id).eq("user_id", session!.user.id);
     await reloadHousehold();
@@ -100,8 +101,8 @@ export default function Reglages() {
     setSyncing(true);
     setSyncMsg(null);
     try {
-      const r = await syncStarterRecipes(household!.id, (d, t) => setSyncMsg(`Mise à jour : ${d} / ${t}`));
-      setSyncMsg(`${r.updated} recette${r.updated > 1 ? "s" : ""} mise${r.updated > 1 ? "s" : ""} à jour${r.added ? `, ${r.added} ajoutée${r.added > 1 ? "s" : ""}` : ""}. Refaites la liste d'épicerie pour en profiter.`);
+      const r = await syncStarterRecipes(household!.id, (d, t) => setSyncMsg(`${tr("Mise à jour : ", "Updating: ")}${d} / ${t}`));
+      setSyncMsg(`${plural(r.updated, ["recette mise à jour", "recettes mises à jour"], ["recipe updated", "recipes updated"])}${r.added ? `, ${plural(r.added, ["ajoutée", "ajoutées"], ["added", "added"])}` : ""}. ${tr("Refaites la liste d'épicerie pour en profiter.", "Make the grocery list again to get them.")}`);
     } catch (e) {
       setSyncMsg(messageFr(e));
     }
@@ -109,7 +110,7 @@ export default function Reglages() {
   }
 
   async function copyInvite() {
-    const text = `Rejoignez notre foyer sur ${window.location.origin} avec le code : ${household!.invite_code}`;
+    const text = tr(`Rejoignez notre foyer sur ${window.location.origin} avec le code : ${household!.invite_code}`, `Join our household on ${window.location.origin} with the code: ${household!.invite_code}`);
     try {
       if (navigator.share) await navigator.share({ text });
       else {
@@ -123,52 +124,66 @@ export default function Reglages() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-2xl font-bold">Réglages</h1>
+      <h1 className="text-2xl font-bold">{tr("Réglages", "Settings")}</h1>
 
       <section className="card p-4">
         <h2 className="font-semibold">{household.name}</h2>
         <p className="mt-1 text-sm text-muted">
-          {members.length} membre{members.length > 1 ? "s" : ""}
-          {members.some((m) => m.display_name) ? ` : ${members.map((m) => m.display_name ?? "?").join(", ")}` : ""}
+          {plural(members.length, ["membre", "membres"], ["member", "members"])}
+          {members.some((m) => m.display_name) ? `${tr(" : ", ": ")}${members.map((m) => m.display_name ?? "?").join(", ")}` : ""}
         </p>
         <div className="mt-3 flex items-center justify-between rounded-xl bg-brand-soft p-3">
           <div>
-            <p className="text-xs text-muted">Code d&apos;invitation</p>
+            <p className="text-xs text-muted">{tr("Code d'invitation", "Invite code")}</p>
             <p className="font-mono text-lg font-bold tracking-widest">{household.invite_code}</p>
           </div>
           <button className="btn-primary" onClick={copyInvite}>
-            {copied ? "Copié ✓" : "Partager"}
+            {copied ? tr("Copié ✓", "Copied ✓") : tr("Partager", "Share")}
           </button>
         </div>
-        <p className="mt-2 text-xs text-muted">Votre conjoint·e crée son compte, puis choisit « Rejoindre un foyer » avec ce code.</p>
+        <p className="mt-2 text-xs text-muted">{tr("Votre conjoint·e crée son compte, puis choisit « Rejoindre un foyer » avec ce code.", "Your partner creates an account, then chooses “Join an existing household” with this code.")}</p>
+      </section>
+
+      <section className="card space-y-2 p-4">
+        <h2 className="font-semibold">{tr("Langue", "Language")}</h2>
+        <div className="flex gap-2">
+          {([["fr", "Français"], ["en", "English"]] as [Lang, string][]).map(([l, name]) => (
+            <button key={l} className={household.lang === l ? "chip-on" : "chip"} onClick={() => update({ lang: l })}>
+              {name}
+            </button>
+          ))}
+        </div>
+        <p className="text-xs text-muted">
+          {tr("La liste d'épicerie prend la nouvelle langue la prochaine fois que vous la faites. Les recettes ne sont jamais traduites.", "The grocery list switches language the next time you make it. Recipes are never translated.")}
+        </p>
       </section>
 
       <section className="card divide-y divide-line px-4">
-        <h2 className="py-3 font-semibold">Variété des suggestions</h2>
-        <Rule label="Même type de plat" help="Maximum par semaine (ex. 2 ramen)" value={household.max_same_dish_type} min={1} max={7} onChange={(v) => update({ max_same_dish_type: v })} />
-        <Rule label="Même protéine" help="Maximum par semaine (ex. 3 tofu)" value={household.max_same_protein} min={1} max={7} onChange={(v) => update({ max_same_protein: v })} />
-        <Rule label="Pause avant de revoir une recette" help="En semaines" value={household.repeat_cooldown_weeks} min={0} max={12} onChange={(v) => update({ repeat_cooldown_weeks: v })} />
+        <h2 className="py-3 font-semibold">{tr("Variété des suggestions", "Variety of suggestions")}</h2>
+        <Rule label={tr("Même type de plat", "Same type of dish")} help={tr("Maximum par semaine (ex. 2 ramen)", "Maximum per week (e.g. 2 ramen)")} value={household.max_same_dish_type} min={1} max={7} onChange={(v) => update({ max_same_dish_type: v })} />
+        <Rule label={tr("Même protéine", "Same protein")} help={tr("Maximum par semaine (ex. 3 tofu)", "Maximum per week (e.g. 3 tofu)")} value={household.max_same_protein} min={1} max={7} onChange={(v) => update({ max_same_protein: v })} />
+        <Rule label={tr("Pause avant de revoir une recette", "Break before a recipe comes back")} help={tr("En semaines", "In weeks")} value={household.repeat_cooldown_weeks} min={0} max={12} onChange={(v) => update({ repeat_cooldown_weeks: v })} />
       </section>
 
       {household.is_book && (
       <section className="card space-y-2 p-4">
-        <h2 className="font-semibold">Recettes de départ</h2>
-        <p className="text-sm text-muted">Applique les dernières corrections (ingrédients, étapes, liens) sans toucher à vos préférences, et ajoute les nouvelles recettes.</p>
+        <h2 className="font-semibold">{tr("Recettes de départ", "Starter recipes")}</h2>
+        <p className="text-sm text-muted">{tr("Applique les dernières corrections (ingrédients, étapes, liens) sans toucher à vos préférences, et ajoute les nouvelles recettes.", "Applies the latest fixes (ingredients, steps, links) without touching your preferences, and adds the new recipes.")}</p>
         <button className="btn-ghost w-full" onClick={sync} disabled={syncing}>
-          {syncing ? syncMsg ?? "Mise à jour…" : "Mettre à jour les recettes de départ"}
+          {syncing ? syncMsg ?? tr("Mise à jour…", "Updating…") : tr("Mettre à jour les recettes de départ", "Update the starter recipes")}
         </button>
         {!syncing && syncMsg && <p className="text-sm text-muted">{syncMsg}</p>}
       </section>
       )}
 
       <section className="card p-4 text-sm">
-        {session?.user.is_anonymous ? <ProtectAccount /> : <p className="text-muted">Connecté : {accountName(session?.user.email, session?.user.user_metadata?.username)}</p>}
+        {session?.user.is_anonymous ? <ProtectAccount /> : <p className="text-muted">{tr("Connecté : ", "Signed in: ")}{accountName(session?.user.email, session?.user.user_metadata?.username)}</p>}
         <button className="btn-ghost mt-3 w-full" onClick={leave}>
-          Quitter ce foyer
+          {tr("Quitter ce foyer", "Leave this household")}
         </button>
         {!session?.user.is_anonymous && (
           <button className="btn-ghost mt-3 w-full" onClick={() => supabase().auth.signOut()}>
-            Se déconnecter
+            {tr("Se déconnecter", "Sign out")}
           </button>
         )}
       </section>

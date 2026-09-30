@@ -1,6 +1,7 @@
 // Row types of the Supabase tables (see supabase/migrations).
 
 import type { Equiv } from "./shopping";
+import { lang, type Lang } from "./i18n";
 import { SUPABASE_URL } from "./supabase";
 
 export type Household = {
@@ -12,6 +13,8 @@ export type Household = {
   repeat_cooldown_weeks: number;
   /** The Momo et Jéjé household: its recipes are the book every household reads (only it can change them). */
   is_book: boolean;
+  /** Interface language of the household. */
+  lang: Lang;
   /** Starter recipes already received (so a deleted one is never added back). */
   starter_seen: string[] | null;
 };
@@ -53,6 +56,8 @@ export type Ingredient = {
   id: string;
   household_id: string | null;
   name: string;
+  /** English grocery-list name (catalogue items; household items only have `name`). */
+  name_en?: string | null;
   aisle: string;
   pantry: boolean;
   count_unit: string | null;
@@ -108,6 +113,30 @@ export const PROTEINS = [
   "tofu", "tempeh", "pois chiches", "haricots noirs", "haricots rouges", "haricots blancs", "lentilles", "édamames",
   "haché végé", "fromage", "œufs", "végé", "poisson", "poulet",
 ];
+
+/** Grocery-list name of a catalogue item in the household's language. */
+export function catalogName(c: { name: string; name_en?: string | null }): string {
+  return (lang() === "en" && c.name_en) || c.name;
+}
+
+const DISH_EN: Record<string, string> = {
+  bol: "bowl", salade: "salad", soupe: "soup", ramen: "ramen", nouilles: "noodles", "pâtes": "pasta", riz: "rice",
+  "mijoté": "stew", four: "oven-baked", plaque: "sheet pan", grillades: "grilled", wrap: "wrap", sandwich: "sandwich",
+  "pain plat": "flatbread", accompagnement: "side dish",
+};
+const PROTEIN_EN: Record<string, string> = {
+  tofu: "tofu", tempeh: "tempeh", "pois chiches": "chickpeas", "haricots noirs": "black beans", "haricots rouges": "red beans",
+  "haricots blancs": "white beans", lentilles: "lentils", "édamames": "edamame", "haché végé": "veggie ground round",
+  fromage: "cheese", "œufs": "eggs", "végé": "veggie", poisson: "fish", poulet: "chicken",
+};
+
+/** Dish type / protein as shown (the French word is the stored key). */
+export function dishTypeLabel(key: string): string {
+  return lang() === "en" ? DISH_EN[key] ?? key : key;
+}
+export function proteinLabel(key: string): string {
+  return lang() === "en" ? PROTEIN_EN[key] ?? key : key;
+}
 
 /** image_url is a web URL, a site path (/starter/...) or "storage:<bucket>/<path>". */
 export function imageSrc(url: string | null): string | null {

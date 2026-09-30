@@ -4,6 +4,7 @@ import type { Session } from "@supabase/supabase-js";
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import type { Household } from "@/lib/db";
+import { setLang, tr, type Lang } from "@/lib/i18n";
 import { supabase } from "@/lib/supabase";
 
 type AppState = {
@@ -11,6 +12,9 @@ type AppState = {
   household: Household | null;
   loading: boolean;
   reloadHousehold: () => Promise<void>;
+  /** Interface language: the household's, or the one picked before creating it. */
+  lang: Lang;
+  chooseLang: (l: Lang) => void;
 };
 
 const Ctx = createContext<AppState | null>(null);
@@ -30,6 +34,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // User id whose household has been loaded ("" = signed out), to know when loading is over.
   const [loadedFor, setLoadedFor] = useState<string | null>(null);
   const [offline, setOffline] = useState(false);
+  const [chosenLang, chooseLang] = useState<Lang>("fr");
   const router = useRouter();
   const pathname = usePathname();
 
@@ -95,17 +100,24 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     else if (household && pathname === "/") router.replace("/semaine");
   }, [loading, session, household, pathname, router]);
 
+  // Every tr() below reads this; set before the children render.
+  const lang: Lang = household?.lang ?? chosenLang;
+  setLang(lang);
+  useEffect(() => {
+    document.documentElement.lang = lang === "en" ? "en" : "fr";
+  }, [lang]);
+
   if (offline) {
     return (
       <div className="px-4 py-24 text-center">
-        <p className="text-lg font-semibold">Connexion impossible</p>
-        <p className="mt-1 text-sm text-muted">Vérifiez votre connexion Internet, puis réessayez.</p>
+        <p className="text-lg font-semibold">{tr("Connexion impossible", "Cannot connect")}</p>
+        <p className="mt-1 text-sm text-muted">{tr("Vérifiez votre connexion Internet, puis réessayez.", "Check your Internet connection, then try again.")}</p>
         <button className="btn-primary mt-5" onClick={() => reloadHousehold()}>
-          Réessayer
+          {tr("Réessayer", "Try again")}
         </button>
       </div>
     );
   }
 
-  return <Ctx.Provider value={{ session, household, loading, reloadHousehold }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ session, household, loading, reloadHousehold, lang, chooseLang }}>{children}</Ctx.Provider>;
 }

@@ -11,7 +11,7 @@ import { nameKey } from "../src/lib/text";
 const ROOT = join(__dirname, "..");
 const read = <T>(f: string) => JSON.parse(readFileSync(join(ROOT, "data", f), "utf8")) as T;
 
-type CatalogEntry = { name: string; aisle: string; pantry?: boolean; ml_per_can?: number; count_unit?: string; equiv?: object; aliases: string[] };
+type CatalogEntry = { name: string; name_en?: string; aisle: string; pantry?: boolean; ml_per_can?: number; count_unit?: string; equiv?: object; aliases: string[] };
 const catalog = read<{ ingredients: CatalogEntry[] }>("catalog.json").ingredients;
 const recipes = read<(ImportedRecipe & { slug: string; sourceType: string; error?: string })[]>("recipes.raw.json").filter((r) => !r.error);
 // Pictures live in the public "recipe-images" storage bucket (uploaded from data/images/); keep the web URL as a fallback.
@@ -40,14 +40,14 @@ for (const [from, to] of Object.entries(renames)) {
   cat.push(`update ingredients set name = ${q(to)} where household_id is null and name = ${q(from)} and not exists (select 1 from ingredients x where x.household_id is null and x.name = ${q(to)});`);
 }
 const items = catalog
-  .map((c) => `(${q(c.name)}, ${q(c.aisle)}, ${q(!!c.pantry)}, ${q(c.ml_per_can ?? null)}::numeric, ${q(c.count_unit ?? null)}, ${c.equiv ? `${q(JSON.stringify(c.equiv))}::jsonb` : "null"})`)
+  .map((c) => `(${q(c.name)}, ${q(c.aisle)}, ${q(!!c.pantry)}, ${q(c.ml_per_can ?? null)}::numeric, ${q(c.count_unit ?? null)}, ${c.equiv ? `${q(JSON.stringify(c.equiv))}::jsonb` : "null"}, ${q(c.name_en ?? null)})`)
   .join(",\n");
 const aliasRows = catalog
   .flatMap((c) => [...new Set(c.aliases.map(nameKey))].map((a) => `(${q(c.name)}, ${q(a)})`))
   .join(",\n");
 cat.push(
   // Items: new ones inserted, existing ones updated (the update does not see the rows inserted by the same statement, which are already right).
-  `with c(name, aisle, pantry, ml_per_can, count_unit, equiv) as (values\n${items}\n), added as (insert into ingredients (household_id, name, aisle, pantry, ml_per_can, count_unit, equiv) select null, c.name, c.aisle, c.pantry, c.ml_per_can, c.count_unit, c.equiv from c where not exists (select 1 from ingredients i where i.household_id is null and i.name = c.name) returning 1)\nupdate ingredients i set aisle = c.aisle, pantry = c.pantry, ml_per_can = c.ml_per_can, count_unit = c.count_unit, equiv = c.equiv from c where i.household_id is null and i.name = c.name;`,
+  `with c(name, aisle, pantry, ml_per_can, count_unit, equiv, name_en) as (values\n${items}\n), added as (insert into ingredients (household_id, name, aisle, pantry, ml_per_can, count_unit, equiv, name_en) select null, c.name, c.aisle, c.pantry, c.ml_per_can, c.count_unit, c.equiv, c.name_en from c where not exists (select 1 from ingredients i where i.household_id is null and i.name = c.name) returning 1)\nupdate ingredients i set aisle = c.aisle, pantry = c.pantry, ml_per_can = c.ml_per_can, count_unit = c.count_unit, equiv = c.equiv, name_en = c.name_en from c where i.household_id is null and i.name = c.name;`,
   // Aliases removed from the catalogue (or moved to another item) go first, then the current ones are added.
   `with c(name, alias) as (values\n${aliasRows}\n)\ndelete from ingredient_aliases a using ingredients i where a.ingredient_id = i.id and a.household_id is null and i.household_id is null and not exists (select 1 from c where c.name = i.name and c.alias = a.alias);`,
   `with c(name, alias) as (values\n${aliasRows}\n)\ninsert into ingredient_aliases (ingredient_id, household_id, alias) select i.id, null, c.alias from c join ingredients i on i.household_id is null and i.name = c.name on conflict do nothing;`,

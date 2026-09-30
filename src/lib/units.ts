@@ -1,4 +1,5 @@
-// Units: aliases (FR + EN), conversion to base units and French display labels.
+// Units: aliases (FR + EN), conversion to base units and display labels (in the household's language).
+import { lang } from "./i18n";
 
 export type Dim = "mass" | "volume" | "count";
 
@@ -69,7 +70,7 @@ const NICE_FRACTIONS: [number, string][] = [
   [0.25, "¼"], [1 / 3, "⅓"], [0.5, "½"], [2 / 3, "⅔"], [0.75, "¾"],
 ];
 
-/** 1.5 -> "1 ½", 0.333 -> "⅓", 2.37 -> "2,4" (French decimal comma). */
+/** 1.5 -> "1 ½", 0.333 -> "⅓", 2.37 -> "2,4" (decimal comma in French, point in English). */
 export function formatNumber(n: number): string {
   const whole = Math.floor(n + 1e-9);
   const frac = n - whole;
@@ -77,14 +78,26 @@ export function formatNumber(n: number): string {
   for (const [v, s] of NICE_FRACTIONS) {
     if (Math.abs(frac - v) < 0.04) return whole ? `${whole} ${s}` : s;
   }
-  return (Math.round(n * 10) / 10).toString().replace(".", ",");
+  const d = (Math.round(n * 10) / 10).toString();
+  return lang() === "en" ? d : d.replace(".", ",");
 }
+
+/** English labels where they differ from the French ones (g, ml, kg… are the same). */
+const LABEL_EN: Record<string, [string, string]> = {
+  tsp: ["tsp", "tsp"], tbsp: ["tbsp", "tbsp"], cup: ["cup", "cups"], floz: ["fl oz", "fl oz"], can: ["can", "cans"],
+  pack: ["pack", "packs"], carton: ["carton", "cartons"], punnet: ["container", "containers"], portion: ["serving", "servings"],
+  sheet: ["sheet", "sheets"], ball: ["ball", "balls"], head: ["head", "heads"], drizzle: ["drizzle", "drizzles"],
+  clove: ["clove", "cloves"], stalk: ["stalk", "stalks"], bunch: ["bunch", "bunches"], pinch: ["pinch", "pinches"],
+  handful: ["handful", "handfuls"], slice: ["slice", "slices"], sprig: ["sprig", "sprigs"], cube: ["cube", "cubes"],
+  block: ["block", "blocks"], piece: ["piece", "pieces"], inch: ["inch", "inches"],
+};
 
 export function unitLabel(unit: string | null, qty: number): string {
   if (!unit) return "";
   const u = UNIT_BY_KEY[unit];
   if (!u) return unit;
-  return qty > 1 ? u.label[1] : u.label[0];
+  const label = (lang() === "en" && LABEL_EN[u.key]) || u.label;
+  return qty > 1 ? label[1] : label[0];
 }
 
 /** Display a base amount (g or ml) with a sensible unit: 1500 g -> "1,5 kg". */

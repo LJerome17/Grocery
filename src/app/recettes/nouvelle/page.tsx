@@ -3,14 +3,15 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useApp } from "@/components/AppProvider";
-import { messageFr } from "@/lib/erreur";
+import { messageFr, UserMessage } from "@/lib/erreur";
 import { RecipeImage } from "@/components/RecipeImage";
-import { AISLES } from "@/lib/aisles";
+import { AISLES, aisleLabel } from "@/lib/aisles";
 import { matchIngredient, type AliasIndex } from "@/lib/catalog";
 import { loadAliasIndex, loadCatalog } from "@/lib/data";
-import { DISH_TYPES, PROTEINS, type Ingredient } from "@/lib/db";
+import { DISH_TYPES, PROTEINS, catalogName, dishTypeLabel, proteinLabel, type Ingredient } from "@/lib/db";
+import { plural, tr } from "@/lib/i18n";
 import type { ImportedRecipe } from "@/lib/importRecipe";
-import { SEASON_LABEL, type Season } from "@/lib/planner";
+import { seasonLabel, type Season } from "@/lib/planner";
 import { resizeImage } from "@/lib/resizeImage";
 import { supabase } from "@/lib/supabase";
 import { nameKey } from "@/lib/text";
@@ -38,7 +39,7 @@ export default function Nouvelle() {
         setCatalog(c);
         setAliases(a);
       })
-      .catch((e) => setError(`Catalogue inaccessible : ${messageFr(e)}`));
+      .catch((e) => setError(tr(`Catalogue inaccessible : ${messageFr(e)}`, `Catalogue unavailable: ${messageFr(e)}`)));
   }, []);
 
   const catalogById = useMemo(() => new Map(catalog.map((c) => [c.id, c])), [catalog]);
@@ -54,9 +55,9 @@ export default function Nouvelle() {
         body: JSON.stringify(mode === "url" ? { url: input.trim() } : { text: input }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Import impossible.");
+      if (!res.ok) throw data.error ? new Error(data.error) : new UserMessage(tr("Import impossible.", "Import failed."));
       const r = data as ImportedRecipe;
-      if (!r.ingredients.length) throw new Error("Aucun ingrédient trouvé. Essayez de coller le texte de la recette.");
+      if (!r.ingredients.length) throw new UserMessage(tr("Aucun ingrédient trouvé. Essayez de coller le texte de la recette.", "No ingredients found. Try pasting the recipe text."));
       setDraft(r);
       setLinks(r.ingredients.map((i) => (aliases ? matchIngredient(i.name, aliases) : null)));
     } catch (e) {
@@ -66,9 +67,9 @@ export default function Nouvelle() {
   }
 
   async function newIngredient(index: number) {
-    const name = prompt("Nom de l'ingrédient sur la liste d'épicerie :", draft?.ingredients[index].name ?? "");
+    const name = prompt(tr("Nom de l'ingrédient sur la liste d'épicerie :", "Ingredient name on the grocery list:"), draft?.ingredients[index].name ?? "");
     if (!name) return;
-    const aisle = prompt(`Rayon ? (${AISLES.map(([k]) => k).join(", ")})`, "autre") ?? "autre";
+    const aisle = prompt(tr(`Rayon ? (${AISLES.map(([k]) => k).join(", ")})`, `Aisle? (${AISLES.map(([k]) => `${k} = ${aisleLabel(k)}`).join(", ")})`), "autre") ?? "autre";
     const { data, error } = await supabase()
       .from("ingredients")
       .insert({ household_id: householdId, name, aisle: AISLES.some(([k]) => k === aisle) ? aisle : "autre" })
@@ -107,7 +108,7 @@ export default function Nouvelle() {
         .from("recipes")
         .insert({
           household_id: householdId,
-          title: draft.title || "Recette sans titre",
+          title: draft.title || tr("Recette sans titre", "Untitled recipe"),
           source_type: mode === "url" ? "url" : "manual",
           source_url: mode === "url" ? input.trim() : null,
           image_url,
@@ -155,7 +156,7 @@ export default function Nouvelle() {
   if (household && !household.is_book) {
     return (
       <div className="card mt-10 space-y-3 p-5 text-center">
-        <p>Les recettes sont celles de Momo et Jéjé : seuls eux peuvent en ajouter.</p>
+        <p>{tr("Les recettes sont celles de Momo et Jéjé : seuls eux peuvent en ajouter.", "The recipes belong to Momo and Jéjé: only they can add new ones.")}</p>
         <button onClick={() => router.back()} className="btn-ghost">
           ← Retour
         </button>
@@ -169,13 +170,13 @@ export default function Nouvelle() {
         <button onClick={() => router.back()} className="text-sm text-muted">
           ← Retour
         </button>
-        <h1 className="text-2xl font-bold">Nouvelle recette</h1>
+        <h1 className="text-2xl font-bold">{tr("Nouvelle recette", "New recipe")}</h1>
         <div className="flex gap-2">
           <button className={mode === "url" ? "chip-on" : "chip"} onClick={() => setMode("url")}>
-            Lien web
+            {tr("Lien web", "Web link")}
           </button>
           <button className={mode === "text" ? "chip-on" : "chip"} onClick={() => setMode("text")}>
-            Coller le texte
+            {tr("Coller le texte", "Paste the text")}
           </button>
         </div>
         <form onSubmit={analyse} className="space-y-3">
@@ -184,19 +185,19 @@ export default function Nouvelle() {
           ) : (
             <textarea
               className="input min-h-72 font-mono text-sm"
-              placeholder={"Titre\nPortions : 4\n\nIngrédients\n2 tasses de …\n\nPréparation\n1. …"}
+              placeholder={tr("Titre\nPortions : 4\n\nIngrédients\n2 tasses de …\n\nPréparation\n1. …", "Title\nServings: 4\n\nIngredients\n2 cups of …\n\nMethod\n1. …")}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               required
             />
           )}
           <button className="btn-primary w-full" disabled={busy || !aliases}>
-            {busy ? "Lecture…" : "Lire la recette"}
+            {busy ? tr("Lecture…", "Reading…") : tr("Lire la recette", "Read the recipe")}
           </button>
         </form>
         {error && <p className="text-sm text-red-700">{error}</p>}
         <p className="text-xs text-muted">
-          Pour une recette en photo ou en PDF, copiez-en le texte et utilisez « Coller le texte ».
+          {tr("Pour une recette en photo ou en PDF, copiez-en le texte et utilisez « Coller le texte ».", "For a recipe in a photo or a PDF, copy its text and use “Paste the text”.")}
         </p>
       </div>
     );
@@ -205,36 +206,40 @@ export default function Nouvelle() {
   return (
     <div className="space-y-4">
       <button onClick={() => setDraft(null)} className="text-sm text-muted">
-        ← Recommencer
+        ← {tr("Recommencer", "Start over")}
       </button>
       {draft.image && !photo && <RecipeImage url={draft.image} title={draft.title} className="h-44 w-full rounded-2xl" />}
-      <input className="input text-lg font-semibold" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} placeholder="Titre" />
+      <input className="input text-lg font-semibold" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} placeholder={tr("Titre", "Title")} />
 
       {meat.length > 0 && (
         <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-900">
-          ⚠️ Contient peut-être de la viande ou du poisson : {meat.map((m) => m.name).join(", ")}.
+          ⚠️ {tr("Contient peut-être de la viande ou du poisson :", "May contain meat or fish:")} {meat.map((m) => m.name).join(", ")}.
         </p>
       )}
 
       <div className="grid grid-cols-2 gap-2">
         <label className="text-xs text-muted">
-          Portions
+          {tr("Portions", "Servings")}
           <input className="input mt-1" type="number" min={1} value={draft.servings ?? ""} onChange={(e) => setDraft({ ...draft, servings: e.target.value ? Number(e.target.value) : null })} />
         </label>
         <label className="text-xs text-muted">
-          Photo {draft.image ? "(remplacer)" : ""}
+          Photo {draft.image ? tr("(remplacer)", "(replace)") : ""}
           <input className="input mt-1 text-xs" type="file" accept="image/*" onChange={(e) => setPhoto(e.target.files?.[0] ?? null)} />
         </label>
         <select className="input" value={meta.dish_type} onChange={(e) => setMeta({ ...meta, dish_type: e.target.value })}>
-          <option value="">Type de plat…</option>
+          <option value="">{tr("Type de plat…", "Dish type…")}</option>
           {DISH_TYPES.map((d) => (
-            <option key={d}>{d}</option>
+            <option key={d} value={d}>
+              {dishTypeLabel(d)}
+            </option>
           ))}
         </select>
         <select className="input" value={meta.protein} onChange={(e) => setMeta({ ...meta, protein: e.target.value })}>
-          <option value="">Protéine…</option>
+          <option value="">{tr("Protéine…", "Protein…")}</option>
           {PROTEINS.map((d) => (
-            <option key={d}>{d}</option>
+            <option key={d} value={d}>
+              {proteinLabel(d)}
+            </option>
           ))}
         </select>
       </div>
@@ -243,7 +248,7 @@ export default function Nouvelle() {
           const on = meta.seasons.includes(s);
           return (
             <button key={s} className={on ? "chip-on" : "chip"} onClick={() => setMeta({ ...meta, seasons: on ? meta.seasons.filter((x) => x !== s) : [...meta.seasons, s] })}>
-              {SEASON_LABEL[s]}
+              {seasonLabel(s)}
             </button>
           );
         })}
@@ -251,7 +256,7 @@ export default function Nouvelle() {
 
       <section className="card divide-y divide-line">
         <h2 className="p-3 font-semibold">
-          Ingrédients {unmatched > 0 && <span className="text-sm font-normal text-accent">· {unmatched} à associer</span>}
+          {tr("Ingrédients", "Ingredients")} {unmatched > 0 && <span className="text-sm font-normal text-accent">· {tr(`${unmatched} à associer`, `${unmatched} to match`)}</span>}
         </h2>
         {draft.ingredients.map((i, n) => (
           <div key={n} className="space-y-1.5 p-3 text-sm">
@@ -262,25 +267,25 @@ export default function Nouvelle() {
                 value={links[n] ?? ""}
                 onChange={(e) => setLinks(links.map((l, k) => (k === n ? e.target.value || null : l)))}
               >
-                <option value="">— À associer —</option>
+                <option value="">{tr("— À associer —", "— To match —")}</option>
                 {catalog.map((c) => (
                   <option key={c.id} value={c.id}>
-                    {c.name}
+                    {catalogName(c)}
                   </option>
                 ))}
               </select>
-              <button className="btn-ghost !px-3 !py-1.5" onClick={() => newIngredient(n)} title="Nouvel ingrédient">
+              <button className="btn-ghost !px-3 !py-1.5" onClick={() => newIngredient(n)} title={tr("Nouvel ingrédient", "New ingredient")}>
                 ＋
               </button>
             </div>
-            {links[n] && catalogById.get(links[n]!)?.pantry && <p className="text-xs text-muted">Garde-manger</p>}
+            {links[n] && catalogById.get(links[n]!)?.pantry && <p className="text-xs text-muted">{tr("Garde-manger", "Pantry")}</p>}
           </div>
         ))}
       </section>
 
       {draft.instructions.length > 0 && (
         <details className="card p-3 text-sm">
-          <summary className="font-semibold">Préparation ({draft.instructions.length} étapes)</summary>
+          <summary className="font-semibold">{tr("Préparation", "Method")} ({plural(draft.instructions.length, ["étape", "étapes"], ["step", "steps"])})</summary>
           <ol className="mt-2 list-decimal space-y-2 pl-5">
             {draft.instructions.map((s, n) => (
               <li key={n}>{s}</li>
@@ -292,11 +297,11 @@ export default function Nouvelle() {
       {error && <p className="text-sm text-red-700">{error}</p>}
       {unmatched > 0 && (
         <p className="text-sm text-accent">
-          Associez chaque ingrédient à un article du catalogue (ou créez-en un avec ＋) : c&apos;est ce nom français qui apparaîtra sur la liste d&apos;épicerie.
+          {tr("Associez chaque ingrédient à un article du catalogue (ou créez-en un avec ＋) : c'est ce nom français qui apparaîtra sur la liste d'épicerie.", "Match each ingredient to a catalogue item (or create one with ＋): that name is what will appear on the grocery list.")}
         </p>
       )}
       <button className="btn-primary w-full py-3" onClick={save} disabled={busy || unmatched > 0}>
-        {busy ? "Enregistrement…" : unmatched > 0 ? `${unmatched} ingrédient${unmatched > 1 ? "s" : ""} à associer` : "Enregistrer la recette"}
+        {busy ? tr("Enregistrement…", "Saving…") : unmatched > 0 ? plural(unmatched, ["ingrédient à associer", "ingrédients à associer"], ["ingredient to match", "ingredients to match"]) : tr("Enregistrer la recette", "Save the recipe")}
       </button>
     </div>
   );

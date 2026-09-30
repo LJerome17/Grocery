@@ -69,6 +69,7 @@
   "ingredients": [
     {
       "name": "Ail",
+      "name_en": "Garlic",
       "aisle": "fruits-legumes",
       "aliases": [
         "ail",
@@ -90,6 +91,7 @@
     },
     {
       "name": "Oignon jaune",
+      "name_en": "Yellow onion",
       "aisle": "fruits-legumes",
       "aliases": [
         "oignon",
@@ -107,6 +109,7 @@
     },
     {
       "name": "Oignon rouge",
+      "name_en": "Red onion",
       "aisle": "fruits-legumes",
       "aliases": [
         "oignon rouge",
@@ -121,6 +124,7 @@
     },
     {
       "name": "Oignon vert",
+      "name_en": "Green onions",
       "aisle": "fruits-legumes",
       "aliases": [
         "oignon vert",
@@ -144,6 +148,7 @@
     },
     {
       "name": "Échalote française",
+      "name_en": "Shallot",
       "aisle": "fruits-legumes",
       "aliases": [
         "echalote francaise",
@@ -155,6 +160,7 @@
     },
     {
       "name": "Gingembre",
+      "name_en": "Ginger",
       "aisle": "fruits-legumes",
       "aliases": [
         "gingembre",
@@ -171,6 +177,7 @@
     },
     {
       "name": "Céleri",
+      "name_en": "Celery",
       "aisle": "fruits-legumes",
       "aliases": [
         "celeri",
@@ -180,6 +187,7 @@
     },
     {
       "name": "Carotte",
+      "name_en": "Carrot",
       "aisle": "fruits-legumes",
       "aliases": [
         "carotte",
@@ -194,6 +202,7 @@
     },
     {
       "name": "Aubergine",
+      "name_en": "Eggplant",
       "aisle": "fruits-legumes",
       "aliases": [
         "aubergine",
@@ -203,6 +212,7 @@
     },
     {
       "name": "Courgette",
+      "name_en": "Zucchini",
       "aisle": "fruits-legumes",
       "aliases": [
         "courgette",
@@ -216,6 +226,7 @@
     },
     {
       "name": "Courge musquée (butternut)",
+      "name_en": "Butternut squash",
       "aisle": "fruits-legumes",
       "aliases": [
         "courge musquee",
@@ -226,6 +237,7 @@
     },
     {
       "name": "Chou-fleur",
+      "name_en": "Cauliflower",
       "aisle": "fruits-legumes",
       "aliases": [
         "chou fleur",
@@ -234,6 +246,7 @@
     },
     {
       "name": "Brocoli",
+      "name_en": "Broccoli",
       "aisle": "fruits-legumes",
       "aliases": [
         "brocoli",
@@ -244,6 +257,7 @@
     },
     {
       "name": "Chou de Savoie",
+      "name_en": "Savoy cabbage",
       "aisle": "fruits-legumes",
       "aliases": [
         "chou de savoie",
@@ -252,6 +266,7 @@
     },
     {
       "name": "Chou frisé (kale)",
+      "name_en": "Kale",
       "aisle": "fruits-legumes",
       "aliases": [
         "kale",
@@ -260,6 +275,7 @@
     },
     {
       "name": "Épinards",
+      "name_en": "Spinach",
       "aisle": "fruits-legumes",
       "aliases": [
         "epinards",
@@ -275,6 +291,7 @@
     },
     {
       "name": "Roquette",
+      "name_en": "Arugula",
       "aisle": "fruits-legumes",
       "aliases": [
         "roquette",
@@ -283,6 +300,7 @@
     },
     {
       "name": "Laitue iceberg",
+      "name_en": "Iceberg lettuce",
       "aisle": "fruits-legumes",
       "aliases": [
         "laitue iceberg",
@@ -291,6 +309,7 @@
     },
     {
       "name": "Bok choy",
+      "name_en": "Bok choy",
       "aisle": "fruits-legumes",
       "aliases": [
         "bok choy",
@@ -300,6 +319,7 @@
     },
     {
       "name": "Tomate",
+      "name_en": "Tomato",
       "aisle": "fruits-legumes",
       "aliases": [
         "tomate",
@@ -314,6 +334,7 @@
     },
     {
       "name": "Tomates cerises",
+      "name_en": "Cherry tomatoes",
       "aisle": "fruits-legumes",
       "aliases": [
         "tomates cerises",
@@ -329,6 +350,7 @@
     },
     {
       "name": "Concombre",
+      "name_en": "Cucumber",
       "aisle": "fruits-legumes",
       "aliases": [
         "concombre",
@@ -343,6 +365,7 @@
     },
     {
       "name": "Poivron rouge",
+      "name_en": "Red bell pepper",
       "aisle": "fruits-legumes",
       "aliases": [
         "poivron",
@@ -359,6 +382,7 @@
     },
     {
       "name": "Poivron vert",
+      "name_en": "Green bell pepper",
       "aisle": "fruits-legumes",
       "aliases": [
         "poivron vert",
@@ -369,6 +393,7 @@
     },
     {
       "name": "Piment jalapeño",
+      "name_en": "Jalapeño pepper",
       "aisle": "fruits-legumes",
       "aliases": [
         "piment jalapeno",
@@ -377,6 +402,7 @@
     },
     {
       "name": "Piment fort frais",
+      "name_en": "Hot chili pepper (fresh)",
       "aisle": "fruits-legumes",
       "aliases": [
         "long green chili pepper",
@@ -401,6 +427,7 @@
     },
     {
       "name": "Patate douce",
+      "name_en": "Sweet potato",
       "aisle": "fruits-legumes",
       "aliases": [
         "patate douce",
@@ -415,6 +442,7 @@
     },
     {
       "name": "Pomme de terre",
+      "name_en": "Potato",
       "aisle": "fruits-legumes",
       "aliases": [
         "pomme de terre",
@@ -429,6 +457,7 @@
     },
     {
       "name": "Pomme",
+      "name_en": "Apple",
       "aisle": "fruits-legumes",
       "aliases": [
         "pomme",
@@ -439,6 +468,7 @@
     },
     {
       "name": "Citron",
+      "name_en": "Lemon",
       "aisle": "fruits-legumes",
       "aliases": [
         "citron",
@@ -455,6 +485,7 @@
     },
     {
       "name": "Lime",
+      "name_en": "Lime",
       "aisle": "fruits-legumes",
       "aliases": [
         "lime",
@@ -470,6 +501,7 @@
     },
     {
       "name": "Avocat",
+      "name_en": "Avocado",
       "aisle": "fruits-legumes",
       "aliases": [
         "avocat",
@@ -482,6 +514,7 @@
     },
     {
       "name": "Champignons pleurotes",
+      "name_en": "Oyster mushrooms",
       "aisle": "fruits-legumes",
       "aliases": [
         "champignons pleurotes",
@@ -491,6 +524,7 @@
     },
     {
       "name": "Champignons enoki",
+      "name_en": "Enoki mushrooms",
       "aisle": "fruits-legumes",
       "aliases": [
         "champignons enokis",
@@ -502,6 +536,7 @@
     },
     {
       "name": "Fèves germées",
+      "name_en": "Bean sprouts",
       "aisle": "fruits-legumes",
       "aliases": [
         "feves germees",
@@ -510,6 +545,7 @@
     },
     {
       "name": "Coriandre fraîche",
+      "name_en": "Cilantro (fresh)",
       "aisle": "fruits-legumes",
       "aliases": [
         "coriandre",
@@ -526,6 +562,7 @@
     },
     {
       "name": "Persil frais",
+      "name_en": "Parsley (fresh)",
       "aisle": "fruits-legumes",
       "aliases": [
         "persil",
@@ -541,6 +578,7 @@
     },
     {
       "name": "Basilic frais",
+      "name_en": "Basil (fresh)",
       "aisle": "fruits-legumes",
       "aliases": [
         "basilic",
@@ -556,6 +594,7 @@
     },
     {
       "name": "Menthe fraîche",
+      "name_en": "Mint (fresh)",
       "aisle": "fruits-legumes",
       "aliases": [
         "menthe",
@@ -570,6 +609,7 @@
     },
     {
       "name": "Aneth frais",
+      "name_en": "Dill (fresh)",
       "aisle": "fruits-legumes",
       "aliases": [
         "aneth",
@@ -582,6 +622,7 @@
     },
     {
       "name": "Ciboulette",
+      "name_en": "Chives",
       "aisle": "fruits-legumes",
       "aliases": [
         "ciboulette",
@@ -590,6 +631,7 @@
     },
     {
       "name": "Sauge fraîche",
+      "name_en": "Sage (fresh)",
       "aisle": "fruits-legumes",
       "aliases": [
         "sauge",
@@ -600,6 +642,7 @@
     },
     {
       "name": "Maïs en épi",
+      "name_en": "Corn on the cob",
       "aisle": "fruits-legumes",
       "aliases": [
         "epi de mais",
@@ -611,6 +654,7 @@
     },
     {
       "name": "Légumes d'accompagnement (au choix)",
+      "name_en": "Side vegetables (your choice)",
       "aisle": "fruits-legumes",
       "aliases": [
         "legumes pour accompagner le tofu",
@@ -621,6 +665,7 @@
     },
     {
       "name": "Thym frais",
+      "name_en": "Thyme (fresh)",
       "aisle": "fruits-legumes",
       "aliases": [
         "thym frais",
@@ -630,6 +675,7 @@
     },
     {
       "name": "Origan frais",
+      "name_en": "Oregano (fresh)",
       "aisle": "fruits-legumes",
       "aliases": [
         "origan frais",
@@ -638,6 +684,7 @@
     },
     {
       "name": "Pousses de luzerne",
+      "name_en": "Alfalfa sprouts",
       "aisle": "fruits-legumes",
       "aliases": [
         "luzerne",
@@ -646,6 +693,7 @@
     },
     {
       "name": "Tofu ferme",
+      "name_en": "Firm tofu",
       "aisle": "refrigeres",
       "aliases": [
         "tofu",
@@ -661,6 +709,7 @@
     },
     {
       "name": "Tofu extra-ferme",
+      "name_en": "Extra-firm tofu",
       "aisle": "refrigeres",
       "aliases": [
         "tofu extra ferme",
@@ -674,6 +723,7 @@
     },
     {
       "name": "Tofu soyeux",
+      "name_en": "Silken tofu",
       "aisle": "refrigeres",
       "aliases": [
         "tofu soyeux",
@@ -682,6 +732,7 @@
     },
     {
       "name": "Tempeh",
+      "name_en": "Tempeh",
       "aisle": "refrigeres",
       "aliases": [
         "tempeh"
@@ -693,6 +744,7 @@
     },
     {
       "name": "Haché végé",
+      "name_en": "Plant-based ground round",
       "aisle": "refrigeres",
       "aliases": [
         "vegan mince",
@@ -702,6 +754,7 @@
     },
     {
       "name": "Beurre végétal",
+      "name_en": "Vegan butter",
       "aisle": "refrigeres",
       "aliases": [
         "vegan butter",
@@ -711,6 +764,7 @@
     },
     {
       "name": "Miso blanc",
+      "name_en": "White miso",
       "aisle": "refrigeres",
       "aliases": [
         "miso",
@@ -721,6 +775,7 @@
     },
     {
       "name": "Nouilles udon",
+      "name_en": "Udon noodles",
       "aisle": "refrigeres",
       "aliases": [
         "udon noodles",
@@ -731,6 +786,7 @@
     },
     {
       "name": "Beurre",
+      "name_en": "Butter",
       "aisle": "laitiers",
       "aliases": [
         "beurre",
@@ -741,6 +797,7 @@
     },
     {
       "name": "Lait",
+      "name_en": "Milk",
       "aisle": "laitiers",
       "aliases": [
         "lait",
@@ -749,6 +806,7 @@
     },
     {
       "name": "Boisson de soya",
+      "name_en": "Soy milk",
       "aisle": "laitiers",
       "aliases": [
         "boisson de soya",
@@ -758,6 +816,7 @@
     },
     {
       "name": "Boisson végétale",
+      "name_en": "Plant-based milk",
       "aisle": "laitiers",
       "aliases": [
         "lait vegetal",
@@ -773,6 +832,7 @@
     },
     {
       "name": "Crème sure",
+      "name_en": "Sour cream",
       "aisle": "laitiers",
       "aliases": [
         "creme sure",
@@ -781,6 +841,7 @@
     },
     {
       "name": "Crème sure végétalienne",
+      "name_en": "Vegan sour cream",
       "aisle": "laitiers",
       "aliases": [
         "creme sure vegetalienne",
@@ -789,6 +850,7 @@
     },
     {
       "name": "Yogourt nature",
+      "name_en": "Plain yogurt",
       "aisle": "laitiers",
       "aliases": [
         "yogourt",
@@ -798,6 +860,7 @@
     },
     {
       "name": "Crème à cuisson 15 %",
+      "name_en": "Cooking cream 15%",
       "aisle": "laitiers",
       "aliases": [
         "creme a cuisson",
@@ -806,6 +869,7 @@
     },
     {
       "name": "Feta",
+      "name_en": "Feta",
       "aisle": "laitiers",
       "aliases": [
         "feta",
@@ -815,6 +879,7 @@
     },
     {
       "name": "Parmesan",
+      "name_en": "Parmesan",
       "aisle": "laitiers",
       "aliases": [
         "parmesan",
@@ -823,6 +888,7 @@
     },
     {
       "name": "Parmesan végane",
+      "name_en": "Vegan parmesan",
       "aisle": "laitiers",
       "aliases": [
         "vegan parmesan",
@@ -834,6 +900,7 @@
     },
     {
       "name": "Cheddar fort",
+      "name_en": "Old cheddar",
       "aisle": "laitiers",
       "aliases": [
         "cheddar",
@@ -842,6 +909,7 @@
     },
     {
       "name": "Fromage végane râpé",
+      "name_en": "Shredded vegan cheese",
       "aisle": "laitiers",
       "aliases": [
         "grated vegan cheese",
@@ -851,6 +919,7 @@
     },
     {
       "name": "Œufs",
+      "name_en": "Eggs",
       "aisle": "laitiers",
       "aliases": [
         "oeuf",
@@ -861,6 +930,7 @@
     },
     {
       "name": "Hauts de cuisse de poulet désossés",
+      "name_en": "Boneless chicken thighs",
       "aisle": "viandes",
       "aliases": [
         "hauts de cuisse de poulet",
@@ -869,6 +939,7 @@
     },
     {
       "name": "Tortillas de blé",
+      "name_en": "Flour tortillas",
       "aisle": "boulangerie",
       "aliases": [
         "tortilla",
@@ -883,6 +954,7 @@
     },
     {
       "name": "Pâte à tarte",
+      "name_en": "Pie crust",
       "aisle": "surgeles",
       "aliases": [
         "pate a tarte",
@@ -895,6 +967,7 @@
     },
     {
       "name": "Croûtons",
+      "name_en": "Croutons",
       "aisle": "boulangerie",
       "aliases": [
         "croutons"
@@ -902,6 +975,7 @@
     },
     {
       "name": "Quinoa",
+      "name_en": "Quinoa",
       "aisle": "cereales",
       "aliases": [
         "quinoa"
@@ -909,6 +983,7 @@
     },
     {
       "name": "Orge perlé",
+      "name_en": "Pearl barley",
       "aisle": "cereales",
       "aliases": [
         "orge",
@@ -919,6 +994,7 @@
     },
     {
       "name": "Riz à risotto (arborio)",
+      "name_en": "Risotto rice (arborio)",
       "aisle": "cereales",
       "aliases": [
         "riz a risotto",
@@ -927,6 +1003,7 @@
     },
     {
       "name": "Riz à sushi",
+      "name_en": "Sushi rice",
       "aisle": "cereales",
       "aliases": [
         "riz a sushi",
@@ -935,6 +1012,7 @@
     },
     {
       "name": "Riz blanc",
+      "name_en": "White rice",
       "aisle": "cereales",
       "aliases": [
         "riz",
@@ -950,6 +1028,7 @@
     },
     {
       "name": "Riz sauvage",
+      "name_en": "Wild rice",
       "aisle": "cereales",
       "aliases": [
         "riz sauvage",
@@ -958,6 +1037,7 @@
     },
     {
       "name": "Couscous perlé",
+      "name_en": "Pearl couscous",
       "aisle": "cereales",
       "aliases": [
         "couscous perle",
@@ -966,6 +1046,7 @@
     },
     {
       "name": "Macaronis",
+      "name_en": "Macaroni",
       "aisle": "cereales",
       "aliases": [
         "macaroni",
@@ -974,6 +1055,7 @@
     },
     {
       "name": "Pâtes à lasagne",
+      "name_en": "Lasagna noodles",
       "aisle": "cereales",
       "aliases": [
         "lasagnes",
@@ -985,6 +1067,7 @@
     },
     {
       "name": "Nouilles ramen",
+      "name_en": "Ramen noodles",
       "aisle": "cereales",
       "aliases": [
         "nouilles ramen",
@@ -1000,6 +1083,7 @@
     },
     {
       "name": "Lentilles brunes ou vertes (sèches)",
+      "name_en": "Brown or green lentils (dried)",
       "aisle": "cereales",
       "aliases": [
         "lentilles brunes seches",
@@ -1020,6 +1104,7 @@
     },
     {
       "name": "Lentilles corail",
+      "name_en": "Red lentils",
       "aisle": "cereales",
       "aliases": [
         "lentilles corail",
@@ -1034,6 +1119,7 @@
     },
     {
       "name": "Chapelure panko",
+      "name_en": "Panko breadcrumbs",
       "aisle": "cereales",
       "aliases": [
         "chapelure panko",
@@ -1042,6 +1128,7 @@
     },
     {
       "name": "Chapelure",
+      "name_en": "Breadcrumbs",
       "aisle": "cereales",
       "aliases": [
         "chapelure",
@@ -1051,6 +1138,7 @@
     },
     {
       "name": "Pois chiches (conserve)",
+      "name_en": "Chickpeas (canned)",
       "aisle": "conserves",
       "ml_per_can": 540,
       "aliases": [
@@ -1067,6 +1155,7 @@
     },
     {
       "name": "Haricots noirs (conserve)",
+      "name_en": "Black beans (canned)",
       "aisle": "conserves",
       "ml_per_can": 540,
       "aliases": [
@@ -1081,6 +1170,7 @@
     },
     {
       "name": "Haricots blancs (conserve)",
+      "name_en": "White beans (canned)",
       "aisle": "conserves",
       "ml_per_can": 540,
       "aliases": [
@@ -1096,6 +1186,7 @@
     },
     {
       "name": "Haricots rouges (conserve)",
+      "name_en": "Red kidney beans (canned)",
       "aisle": "conserves",
       "ml_per_can": 540,
       "aliases": [
@@ -1111,6 +1202,7 @@
     },
     {
       "name": "Haricots pinto (conserve)",
+      "name_en": "Pinto beans (canned)",
       "aisle": "conserves",
       "ml_per_can": 540,
       "aliases": [
@@ -1126,6 +1218,7 @@
     },
     {
       "name": "Lentilles brunes (conserve)",
+      "name_en": "Brown lentils (canned)",
       "aisle": "conserves",
       "ml_per_can": 540,
       "aliases": [
@@ -1146,6 +1239,7 @@
     },
     {
       "name": "Tomates en dés (conserve)",
+      "name_en": "Diced tomatoes (canned)",
       "aisle": "conserves",
       "ml_per_can": 796,
       "aliases": [
@@ -1162,6 +1256,7 @@
     },
     {
       "name": "Sauce tomate (conserve)",
+      "name_en": "Tomato sauce (canned)",
       "aisle": "conserves",
       "aliases": [
         "sauce tomate",
@@ -1174,6 +1269,7 @@
     },
     {
       "name": "Tomates entières (conserve)",
+      "name_en": "Whole tomatoes (canned)",
       "aisle": "conserves",
       "ml_per_can": 796,
       "aliases": [
@@ -1191,6 +1287,7 @@
     },
     {
       "name": "Poivrons rouges rôtis (pot)",
+      "name_en": "Roasted red peppers (jar)",
       "aisle": "conserves",
       "aliases": [
         "poivrons rouges rotis",
@@ -1202,6 +1299,7 @@
     },
     {
       "name": "Pâte de tomate",
+      "name_en": "Tomato paste",
       "aisle": "conserves",
       "aliases": [
         "pate de tomate",
@@ -1212,6 +1310,7 @@
     },
     {
       "name": "Tomates séchées",
+      "name_en": "Sun-dried tomatoes",
       "aisle": "conserves",
       "aliases": [
         "tomates sechees",
@@ -1222,6 +1321,7 @@
     },
     {
       "name": "Lait de coco",
+      "name_en": "Coconut milk",
       "aisle": "conserves",
       "ml_per_can": 400,
       "aliases": [
@@ -1237,6 +1337,7 @@
     },
     {
       "name": "Crème de coco",
+      "name_en": "Coconut cream",
       "aisle": "conserves",
       "ml_per_can": 400,
       "aliases": [
@@ -1250,6 +1351,7 @@
     },
     {
       "name": "Bouillon de légumes",
+      "name_en": "Vegetable broth",
       "aisle": "conserves",
       "aliases": [
         "bouillon de legumes",
@@ -1267,6 +1369,7 @@
     },
     {
       "name": "Bouillon aux champignons",
+      "name_en": "Mushroom broth",
       "aisle": "conserves",
       "aliases": [
         "bouillon aux champignons",
@@ -1275,6 +1378,7 @@
     },
     {
       "name": "Olives noires",
+      "name_en": "Black olives",
       "aisle": "conserves",
       "aliases": [
         "olives noires",
@@ -1283,6 +1387,7 @@
     },
     {
       "name": "Câpres",
+      "name_en": "Capers",
       "aisle": "conserves",
       "aliases": [
         "capres",
@@ -1291,6 +1396,7 @@
     },
     {
       "name": "Oignons marinés",
+      "name_en": "Pickled onions",
       "aisle": "conserves",
       "aliases": [
         "oignons marines",
@@ -1302,6 +1408,7 @@
     },
     {
       "name": "Cornichons",
+      "name_en": "Pickles",
       "aisle": "conserves",
       "aliases": [
         "cornichons",
@@ -1310,6 +1417,7 @@
     },
     {
       "name": "Sauce aux canneberges",
+      "name_en": "Cranberry sauce",
       "aisle": "conserves",
       "aliases": [
         "sauce aux canneberges",
@@ -1318,6 +1426,7 @@
     },
     {
       "name": "Champignons séchés",
+      "name_en": "Mushrooms (dried)",
       "aisle": "conserves",
       "aliases": [
         "champignons seches",
@@ -1327,6 +1436,7 @@
     },
     {
       "name": "Pâte de fèves pimentée (doubanjiang)",
+      "name_en": "Chili bean paste (doubanjiang)",
       "aisle": "international",
       "aliases": [
         "doubanjiang"
@@ -1334,6 +1444,7 @@
     },
     {
       "name": "Feuilles de nori",
+      "name_en": "Nori sheets",
       "aisle": "international",
       "aliases": [
         "nori",
@@ -1344,6 +1455,7 @@
     },
     {
       "name": "Sambal oelek",
+      "name_en": "Sambal oelek",
       "aisle": "international",
       "pantry": true,
       "aliases": [
@@ -1354,6 +1466,7 @@
     },
     {
       "name": "Huile d'olive",
+      "name_en": "Olive oil",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1363,6 +1476,7 @@
     },
     {
       "name": "Huile végétale",
+      "name_en": "Vegetable oil",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1376,6 +1490,7 @@
     },
     {
       "name": "Huile de coco",
+      "name_en": "Coconut oil",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1385,6 +1500,7 @@
     },
     {
       "name": "Huile d'avocat",
+      "name_en": "Avocado oil",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1394,6 +1510,7 @@
     },
     {
       "name": "Huile de sésame grillé",
+      "name_en": "Toasted sesame oil",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1404,6 +1521,7 @@
     },
     {
       "name": "Huile pimentée (chili croquant)",
+      "name_en": "Chili oil (chili crisp)",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1419,6 +1537,7 @@
     },
     {
       "name": "Sauce soya",
+      "name_en": "Soy sauce",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1433,6 +1552,7 @@
     },
     {
       "name": "Sauce soya foncée",
+      "name_en": "Dark soy sauce",
       "aisle": "international",
       "pantry": true,
       "aliases": [
@@ -1442,6 +1562,7 @@
     },
     {
       "name": "Vinaigre de riz",
+      "name_en": "Rice vinegar",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1452,6 +1573,7 @@
     },
     {
       "name": "Vinaigre de vin rouge",
+      "name_en": "Red wine vinegar",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1462,6 +1584,7 @@
     },
     {
       "name": "Vinaigre balsamique",
+      "name_en": "Balsamic vinegar",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1471,6 +1594,7 @@
     },
     {
       "name": "Vinaigre de cidre",
+      "name_en": "Apple cider vinegar",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1480,6 +1604,7 @@
     },
     {
       "name": "Moutarde de Dijon",
+      "name_en": "Dijon mustard",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1489,6 +1614,7 @@
     },
     {
       "name": "Moutarde à l'ancienne",
+      "name_en": "Grainy mustard",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1498,6 +1624,7 @@
     },
     {
       "name": "Mayonnaise",
+      "name_en": "Mayonnaise",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1507,6 +1634,7 @@
     },
     {
       "name": "Mayonnaise végétalienne (Vegenaise)",
+      "name_en": "Vegan mayonnaise (Vegenaise)",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1518,6 +1646,7 @@
     },
     {
       "name": "Harissa",
+      "name_en": "Harissa",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1528,6 +1657,7 @@
     },
     {
       "name": "Sauce piquante",
+      "name_en": "Hot sauce",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1538,6 +1668,7 @@
     },
     {
       "name": "Sauce piri-piri",
+      "name_en": "Piri-piri sauce",
       "aisle": "condiments",
       "aliases": [
         "sauce piri piri",
@@ -1546,6 +1677,7 @@
     },
     {
       "name": "Sauce barbecue",
+      "name_en": "Barbecue sauce",
       "aisle": "condiments",
       "aliases": [
         "sauce bbq",
@@ -1555,6 +1687,7 @@
     },
     {
       "name": "Sauce Worcestershire",
+      "name_en": "Worcestershire sauce",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1564,6 +1697,7 @@
     },
     {
       "name": "Sirop d'érable",
+      "name_en": "Maple syrup",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1573,6 +1707,7 @@
     },
     {
       "name": "Miel",
+      "name_en": "Honey",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1582,6 +1717,7 @@
     },
     {
       "name": "Beurre d'arachide",
+      "name_en": "Peanut butter",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1591,6 +1727,7 @@
     },
     {
       "name": "Beurre d'amande ou de cajou",
+      "name_en": "Almond or cashew butter",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1603,6 +1740,7 @@
     },
     {
       "name": "Tahini",
+      "name_en": "Tahini",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -1613,6 +1751,7 @@
     },
     {
       "name": "Farine tout usage",
+      "name_en": "All-purpose flour",
       "aisle": "cuisson",
       "pantry": true,
       "aliases": [
@@ -1625,6 +1764,7 @@
     },
     {
       "name": "Fécule de maïs",
+      "name_en": "Cornstarch",
       "aisle": "cuisson",
       "pantry": true,
       "aliases": [
@@ -1636,6 +1776,7 @@
     },
     {
       "name": "Cassonade",
+      "name_en": "Brown sugar",
       "aisle": "cuisson",
       "pantry": true,
       "aliases": [
@@ -1645,6 +1786,7 @@
     },
     {
       "name": "Sucre",
+      "name_en": "Sugar",
       "aisle": "cuisson",
       "pantry": true,
       "aliases": [
@@ -1656,6 +1798,7 @@
     },
     {
       "name": "Levure alimentaire",
+      "name_en": "Nutritional yeast",
       "aisle": "cuisson",
       "pantry": true,
       "aliases": [
@@ -1666,6 +1809,7 @@
     },
     {
       "name": "Sel",
+      "name_en": "Salt",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1679,6 +1823,7 @@
     },
     {
       "name": "Poivre noir",
+      "name_en": "Black pepper",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1694,6 +1839,7 @@
     },
     {
       "name": "Poudre d'ail",
+      "name_en": "Garlic powder",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1703,6 +1849,7 @@
     },
     {
       "name": "Poudre d'oignon",
+      "name_en": "Onion powder",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1712,6 +1859,7 @@
     },
     {
       "name": "Paprika",
+      "name_en": "Paprika",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1723,6 +1871,7 @@
     },
     {
       "name": "Paprika fumé",
+      "name_en": "Smoked paprika",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1732,6 +1881,7 @@
     },
     {
       "name": "Cumin moulu",
+      "name_en": "Ground cumin",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1742,6 +1892,7 @@
     },
     {
       "name": "Graines de cumin",
+      "name_en": "Cumin seeds",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1751,6 +1902,7 @@
     },
     {
       "name": "Graines de fenouil",
+      "name_en": "Fennel seeds",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1760,6 +1912,7 @@
     },
     {
       "name": "Coriandre moulue",
+      "name_en": "Ground coriander",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1769,6 +1922,7 @@
     },
     {
       "name": "Graines de coriandre",
+      "name_en": "Coriander seeds",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1778,6 +1932,7 @@
     },
     {
       "name": "Curcuma",
+      "name_en": "Turmeric",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1787,6 +1942,7 @@
     },
     {
       "name": "Garam masala",
+      "name_en": "Garam masala",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1796,6 +1952,7 @@
     },
     {
       "name": "Cari",
+      "name_en": "Curry powder",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1806,6 +1963,7 @@
     },
     {
       "name": "Cannelle",
+      "name_en": "Cinnamon",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1815,6 +1973,7 @@
     },
     {
       "name": "Muscade",
+      "name_en": "Nutmeg",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1824,6 +1983,7 @@
     },
     {
       "name": "Piment de la Jamaïque",
+      "name_en": "Allspice",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1833,6 +1993,7 @@
     },
     {
       "name": "Piment de Cayenne",
+      "name_en": "Cayenne pepper",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1843,6 +2004,7 @@
     },
     {
       "name": "Piment gochugaru",
+      "name_en": "Gochugaru (Korean chili flakes)",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1852,6 +2014,7 @@
     },
     {
       "name": "Flocons de piment fort",
+      "name_en": "Red pepper flakes",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1869,6 +2032,7 @@
     },
     {
       "name": "Assaisonnement au chili",
+      "name_en": "Chili powder",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1880,6 +2044,7 @@
     },
     {
       "name": "Moutarde en poudre",
+      "name_en": "Mustard powder",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1889,6 +2054,7 @@
     },
     {
       "name": "Feuilles de laurier",
+      "name_en": "Bay leaves",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1902,6 +2068,7 @@
     },
     {
       "name": "Thym séché",
+      "name_en": "Thyme (dried)",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1913,6 +2080,7 @@
     },
     {
       "name": "Origan séché",
+      "name_en": "Oregano (dried)",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1923,6 +2091,7 @@
     },
     {
       "name": "Basilic séché",
+      "name_en": "Basil (dried)",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1932,6 +2101,7 @@
     },
     {
       "name": "Persil séché",
+      "name_en": "Parsley (dried)",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1941,6 +2111,7 @@
     },
     {
       "name": "Romarin séché",
+      "name_en": "Rosemary (dried)",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1950,6 +2121,7 @@
     },
     {
       "name": "Fines herbes italiennes",
+      "name_en": "Italian seasoning",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -1962,6 +2134,7 @@
     },
     {
       "name": "Arachides rôties",
+      "name_en": "Roasted peanuts",
       "aisle": "noix",
       "aliases": [
         "arachides",
@@ -1971,6 +2144,7 @@
     },
     {
       "name": "Amandes",
+      "name_en": "Almonds",
       "aisle": "noix",
       "aliases": [
         "amandes",
@@ -1980,6 +2154,7 @@
     },
     {
       "name": "Noix de Grenoble",
+      "name_en": "Walnuts",
       "aisle": "noix",
       "aliases": [
         "noix de grenoble",
@@ -1988,6 +2163,7 @@
     },
     {
       "name": "Noix de macadamia",
+      "name_en": "Macadamia nuts",
       "aisle": "noix",
       "aliases": [
         "noix de macadamia",
@@ -1996,6 +2172,7 @@
     },
     {
       "name": "Graines de citrouille",
+      "name_en": "Pumpkin seeds",
       "aisle": "noix",
       "aliases": [
         "graines de citrouille",
@@ -2007,6 +2184,7 @@
     },
     {
       "name": "Graines de sésame grillées",
+      "name_en": "Toasted sesame seeds",
       "aisle": "noix",
       "pantry": true,
       "aliases": [
@@ -2018,6 +2196,7 @@
     },
     {
       "name": "Croustilles de maïs",
+      "name_en": "Tortilla chips",
       "aisle": "collations",
       "aliases": [
         "chips de mais",
@@ -2029,6 +2208,7 @@
     },
     {
       "name": "Édamames",
+      "name_en": "Edamame",
       "aisle": "surgeles",
       "aliases": [
         "edamame",
@@ -2038,6 +2218,7 @@
     },
     {
       "name": "Petits pois surgelés",
+      "name_en": "Peas (frozen)",
       "aisle": "surgeles",
       "aliases": [
         "pois surgeles",
@@ -2047,6 +2228,7 @@
     },
     {
       "name": "Maïs en grains",
+      "name_en": "Corn kernels",
       "aisle": "surgeles",
       "aliases": [
         "mais en grains",
@@ -2057,6 +2239,7 @@
     },
     {
       "name": "Vin blanc",
+      "name_en": "White wine",
       "aisle": "boissons",
       "aliases": [
         "vin blanc",
@@ -2066,6 +2249,7 @@
     },
     {
       "name": "Poireau",
+      "name_en": "Leek",
       "aisle": "fruits-legumes",
       "aliases": [
         "poireau",
@@ -2076,6 +2260,7 @@
     },
     {
       "name": "Champignons blancs",
+      "name_en": "White mushrooms",
       "aisle": "fruits-legumes",
       "aliases": [
         "champignons",
@@ -2087,6 +2272,7 @@
     },
     {
       "name": "Champignons shiitakes",
+      "name_en": "Shiitake mushrooms",
       "aisle": "fruits-legumes",
       "aliases": [
         "shiitake",
@@ -2097,6 +2283,7 @@
     },
     {
       "name": "Chou rouge",
+      "name_en": "Red cabbage",
       "aisle": "fruits-legumes",
       "aliases": [
         "chou rouge",
@@ -2106,6 +2293,7 @@
     },
     {
       "name": "Radis",
+      "name_en": "Radishes",
       "aisle": "fruits-legumes",
       "aliases": [
         "radis",
@@ -2115,6 +2303,7 @@
     },
     {
       "name": "Laitue romaine",
+      "name_en": "Romaine lettuce",
       "aisle": "fruits-legumes",
       "aliases": [
         "laitue romaine",
@@ -2125,6 +2314,7 @@
     },
     {
       "name": "Mesclun",
+      "name_en": "Mixed greens",
       "aisle": "fruits-legumes",
       "aliases": [
         "mesclun",
@@ -2136,6 +2326,7 @@
     },
     {
       "name": "Grenade",
+      "name_en": "Pomegranate",
       "aisle": "fruits-legumes",
       "aliases": [
         "grenade",
@@ -2146,6 +2337,7 @@
     },
     {
       "name": "Pêches",
+      "name_en": "Peaches",
       "aisle": "fruits-legumes",
       "aliases": [
         "peche",
@@ -2156,6 +2348,7 @@
     },
     {
       "name": "Fines herbes fraîches (au choix)",
+      "name_en": "Fresh herbs (your choice)",
       "aisle": "fruits-legumes",
       "aliases": [
         "herbes fraiches",
@@ -2165,6 +2358,7 @@
     },
     {
       "name": "Halloumi",
+      "name_en": "Halloumi",
       "aisle": "laitiers",
       "aliases": [
         "halloumi",
@@ -2176,6 +2370,7 @@
     },
     {
       "name": "Mozzarella fraîche",
+      "name_en": "Mozzarella (fresh)",
       "aisle": "laitiers",
       "aliases": [
         "mozzarella fraiche",
@@ -2187,6 +2382,7 @@
     },
     {
       "name": "Fromage de chèvre",
+      "name_en": "Goat cheese",
       "aisle": "laitiers",
       "aliases": [
         "fromage de chevre",
@@ -2197,6 +2393,7 @@
     },
     {
       "name": "Yogourt de soya",
+      "name_en": "Soy yogurt",
       "aisle": "laitiers",
       "aliases": [
         "yogourt de soya",
@@ -2206,6 +2403,7 @@
     },
     {
       "name": "Crème végétale à cuisson (Belsoy)",
+      "name_en": "Plant-based cooking cream (Belsoy)",
       "aisle": "laitiers",
       "aliases": [
         "creme de soya",
@@ -2218,6 +2416,7 @@
     },
     {
       "name": "Houmous",
+      "name_en": "Hummus",
       "aisle": "refrigeres",
       "aliases": [
         "houmous",
@@ -2227,6 +2426,7 @@
     },
     {
       "name": "Pesto",
+      "name_en": "Pesto",
       "aisle": "refrigeres",
       "aliases": [
         "pesto",
@@ -2236,6 +2436,7 @@
     },
     {
       "name": "Pains naan",
+      "name_en": "Naan breads",
       "aisle": "boulangerie",
       "aliases": [
         "naan",
@@ -2247,6 +2448,7 @@
     },
     {
       "name": "Pains plats (pita)",
+      "name_en": "Flatbreads (pita)",
       "aisle": "boulangerie",
       "aliases": [
         "pain plat",
@@ -2260,6 +2462,7 @@
     },
     {
       "name": "Pain de campagne (levain)",
+      "name_en": "Country bread (sourdough)",
       "aisle": "boulangerie",
       "aliases": [
         "pain de campagne",
@@ -2270,6 +2473,7 @@
     },
     {
       "name": "Pâtes courtes",
+      "name_en": "Short pasta",
       "aisle": "cereales",
       "aliases": [
         "pates",
@@ -2285,6 +2489,7 @@
     },
     {
       "name": "Nouilles asiatiques (soba, orientales)",
+      "name_en": "Asian noodles (soba, oriental)",
       "aisle": "cereales",
       "aliases": [
         "nouilles",
@@ -2301,6 +2506,7 @@
     },
     {
       "name": "Purée de citrouille",
+      "name_en": "Pumpkin purée",
       "aisle": "conserves",
       "aliases": [
         "puree de citrouille",
@@ -2309,6 +2515,7 @@
     },
     {
       "name": "Maïs en crème (conserve)",
+      "name_en": "Creamed corn (canned)",
       "aisle": "conserves",
       "aliases": [
         "mais en creme",
@@ -2318,6 +2525,7 @@
     },
     {
       "name": "Bouillon de poulet",
+      "name_en": "Chicken broth",
       "aisle": "conserves",
       "aliases": [
         "bouillon de poulet",
@@ -2327,6 +2535,7 @@
     },
     {
       "name": "Olives vertes",
+      "name_en": "Green olives",
       "aisle": "conserves",
       "aliases": [
         "olives vertes",
@@ -2336,6 +2545,7 @@
     },
     {
       "name": "Thon en conserve",
+      "name_en": "Canned tuna",
       "aisle": "conserves",
       "aliases": [
         "thon",
@@ -2346,6 +2556,7 @@
     },
     {
       "name": "Chipotle en sauce adobo",
+      "name_en": "Chipotle peppers in adobo sauce",
       "aisle": "international",
       "aliases": [
         "chipotle",
@@ -2357,6 +2568,7 @@
     },
     {
       "name": "Sauce hoisin",
+      "name_en": "Hoisin sauce",
       "aisle": "international",
       "pantry": true,
       "aliases": [
@@ -2367,6 +2579,7 @@
     },
     {
       "name": "Pâte de cari rouge",
+      "name_en": "Red curry paste",
       "aisle": "international",
       "pantry": true,
       "aliases": [
@@ -2379,6 +2592,7 @@
     },
     {
       "name": "Nouilles de riz",
+      "name_en": "Rice noodles",
       "aisle": "international",
       "aliases": [
         "nouilles de riz",
@@ -2390,6 +2604,7 @@
     },
     {
       "name": "Gochujang",
+      "name_en": "Gochujang",
       "aisle": "international",
       "pantry": true,
       "aliases": [
@@ -2399,6 +2614,7 @@
     },
     {
       "name": "Sauce aux huîtres végétale (champignons)",
+      "name_en": "Vegetarian oyster sauce (mushroom)",
       "aisle": "international",
       "pantry": true,
       "aliases": [
@@ -2412,6 +2628,7 @@
     },
     {
       "name": "Sauce aux huîtres",
+      "name_en": "Oyster sauce",
       "aisle": "international",
       "pantry": true,
       "aliases": [
@@ -2421,6 +2638,7 @@
     },
     {
       "name": "Sauce de poisson",
+      "name_en": "Fish sauce",
       "aisle": "international",
       "pantry": true,
       "aliases": [
@@ -2431,6 +2649,7 @@
     },
     {
       "name": "Vinaigre blanc",
+      "name_en": "White vinegar",
       "aisle": "condiments",
       "pantry": true,
       "aliases": [
@@ -2440,6 +2659,7 @@
     },
     {
       "name": "Graines de moutarde",
+      "name_en": "Mustard seeds",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -2449,6 +2669,7 @@
     },
     {
       "name": "Épices à tourtière",
+      "name_en": "Tourtière spice",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -2457,6 +2678,7 @@
     },
     {
       "name": "Sumac",
+      "name_en": "Sumac",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -2465,6 +2687,7 @@
     },
     {
       "name": "Herbes de Provence",
+      "name_en": "Herbes de Provence",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -2473,6 +2696,7 @@
     },
     {
       "name": "Assaisonnement cajun",
+      "name_en": "Cajun seasoning",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -2483,6 +2707,7 @@
     },
     {
       "name": "Assaisonnement à tacos",
+      "name_en": "Taco seasoning",
       "aisle": "epices",
       "pantry": true,
       "aliases": [
@@ -2494,6 +2719,7 @@
     },
     {
       "name": "Pistaches",
+      "name_en": "Pistachios",
       "aisle": "noix",
       "aliases": [
         "pistaches",
@@ -2502,6 +2728,7 @@
     },
     {
       "name": "Noix de cajou",
+      "name_en": "Cashews",
       "aisle": "noix",
       "aliases": [
         "noix de cajou",
@@ -2512,6 +2739,7 @@
     },
     {
       "name": "Noix de pin",
+      "name_en": "Pine nuts",
       "aisle": "noix",
       "aliases": [
         "noix de pin",
@@ -2521,6 +2749,7 @@
     },
     {
       "name": "Graines de tournesol",
+      "name_en": "Sunflower seeds",
       "aisle": "noix",
       "aliases": [
         "graines de tournesol",
@@ -2529,6 +2758,7 @@
     },
     {
       "name": "Raisins secs",
+      "name_en": "Raisins",
       "aisle": "noix",
       "aliases": [
         "raisins secs",
@@ -2537,6 +2767,7 @@
     },
     {
       "name": "Canneberges séchées",
+      "name_en": "Cranberries (dried)",
       "aisle": "noix",
       "aliases": [
         "canneberges sechees",
@@ -2546,6 +2777,7 @@
     },
     {
       "name": "Noix mélangées",
+      "name_en": "Mixed nuts",
       "aisle": "noix",
       "aliases": [
         "noix au choix",
@@ -2555,6 +2787,7 @@
     },
     {
       "name": "Croustilles de pita",
+      "name_en": "Pita chips",
       "aisle": "collations",
       "aliases": [
         "chips de pita",
@@ -2564,6 +2797,7 @@
     },
     {
       "name": "Eau",
+      "name_en": "Water",
       "aisle": "aucun",
       "aliases": [
         "eau",

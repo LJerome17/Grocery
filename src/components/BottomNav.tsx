@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useApp } from "./AppProvider";
+import { tr } from "@/lib/i18n";
 
 const TABS = [
-  { href: "/semaine", label: "Semaine", icon: "📅" },
-  { href: "/liste", label: "Épicerie", icon: "🛒" },
-  { href: "/recettes", label: "Recettes", icon: "📖" },
-  { href: "/reglages", label: "Réglages", icon: "⚙️" },
+  { href: "/semaine", label: () => tr("Semaine", "Week"), icon: "📅" },
+  { href: "/liste", label: () => tr("Épicerie", "Groceries"), icon: "🛒" },
+  { href: "/recettes", label: () => tr("Recettes", "Recipes"), icon: "📖" },
+  { href: "/reglages", label: () => tr("Réglages", "Settings"), icon: "⚙️" },
 ];
 
 export function BottomNav() {
@@ -29,7 +30,7 @@ export function BottomNav() {
                 <span className="text-xl" aria-hidden>
                   {t.icon}
                 </span>
-                {t.label}
+                {t.label()}
               </Link>
             </li>
           );

@@ -1,5 +1,7 @@
 // Accounts by username, without email: Supabase needs an address, so a username becomes an internal one
 // (never written to, as no email is ever sent). A real email address typed instead is used as is.
+import { UserMessage } from "./erreur";
+import { tr } from "./i18n";
 import { supabase } from "./supabase";
 
 const DOMAIN = "utilisateurs.momo-et-jeje.app";
@@ -23,13 +25,13 @@ export function accountName(email: string | undefined, typed?: unknown): string 
   return email?.endsWith(`@${DOMAIN}`) ? email.slice(0, -DOMAIN.length - 1) : email ?? "";
 }
 
-export const USERNAME_RULE = "3 à 30 caractères : lettres, chiffres, point, tiret ou trait de soulignement.";
+export const usernameRule = () => tr("3 à 30 caractères : lettres, chiffres, point, tiret ou trait de soulignement.", "3 to 30 characters: letters, digits, dot, dash or underscore.");
 
 /** Attach a username (or email) and a password to the current anonymous access; throws a French message. */
 export async function protectAccess(input: string, password: string): Promise<void> {
   const email = loginEmail(input);
-  if (!email) throw new Error(`Nom d'utilisateur invalide (${USERNAME_RULE})`);
-  if (password.length < 6) throw new Error("Le mot de passe doit contenir au moins 6 caractères.");
+  if (!email) throw new UserMessage(tr(`Nom d'utilisateur invalide (${usernameRule()})`, `Invalid username (${usernameRule()})`));
+  if (password.length < 6) throw new UserMessage(tr("Le mot de passe doit contenir au moins 6 caractères.", "The password must have at least 6 characters."));
   const sb = supabase();
   await setLogin(input, email);
   const b = await sb.auth.updateUser({ password });
@@ -40,5 +42,5 @@ export async function protectAccess(input: string, password: string): Promise<vo
 
 async function setLogin(input: string, email: string) {
   const { error } = await supabase().auth.updateUser({ email, data: { username: input.includes("@") ? null : input.trim() } });
-  if (error) throw /already|exists/i.test(error.message) ? new Error("Ce nom d'utilisateur est déjà pris.") : error;
+  if (error) throw /already|exists/i.test(error.message) ? new UserMessage(tr("Ce nom d'utilisateur est déjà pris.", "This username is taken.")) : error;
 }

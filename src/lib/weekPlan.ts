@@ -4,6 +4,7 @@ import { NO_AISLE } from "./aisles";
 import type { Ingredient, Recipe, RecipeIngredient, WeekPlan, WeekPlanRecipe } from "./db";
 import { DEFAULT_SERVINGS, type Planned } from "./planner";
 import { buildShoppingList, type CatalogItem } from "./shopping";
+import { tr } from "./i18n";
 import { supabase } from "./supabase";
 
 export type WeekSettings = {
@@ -98,12 +99,12 @@ export async function generateList(
   const rows = lines.map((l, position) => ({
     plan_id: planId,
     ingredient_id: l.ingredientId,
-    label: l.optional ? `${l.label} (facultatif)` : l.label,
+    label: l.optional ? `${l.label} ${tr("(facultatif)", "(optional)")}` : l.label,
     quantity_text: l.quantityText,
     aisle: l.aisle,
     pantry: l.pantry,
     manual: false,
-    checked: ticked.has(l.ingredientId ?? `label:${l.optional ? `${l.label} (facultatif)` : l.label}`),
+    checked: ticked.has(l.ingredientId ?? `label:${l.optional ? `${l.label} ${tr("(facultatif)", "(optional)")}` : l.label}`),
     position,
   }));
   if (rows.length) {

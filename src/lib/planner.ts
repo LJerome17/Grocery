@@ -1,3 +1,5 @@
+import { lang } from "./i18n";
+
 // Weekly suggestions: pick N suppers that fit the season, respect the variety rules,
 // avoid recent repeats and share fresh ingredients (less waste).
 
@@ -9,6 +11,13 @@ export const SEASON_LABEL: Record<Season, string> = {
   automne: "Automne",
   hiver: "Hiver",
 };
+
+const SEASON_EN: Record<Season, string> = { printemps: "Spring", ete: "Summer", automne: "Fall", hiver: "Winter" };
+
+/** Season name in the household's language. */
+export function seasonLabel(s: Season): string {
+  return lang() === "en" ? SEASON_EN[s] : SEASON_LABEL[s];
+}
 
 /** Dish types never proposed as a supper. */
 export const NOT_A_MEAL = new Set(["accompagnement"]);

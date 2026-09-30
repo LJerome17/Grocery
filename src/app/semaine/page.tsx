@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useApp } from "@/components/AppProvider";
 import { RecipeImage } from "@/components/RecipeImage";
 import { loadHistory, toPlannerRecipes } from "@/lib/data";
-import { DISH_TYPES, type WeekPlanRecipe } from "@/lib/db";
+import { DISH_TYPES, dishTypeLabel, type WeekPlanRecipe } from "@/lib/db";
 import {
   assignMultipliers,
   NOT_A_MEAL,
@@ -14,6 +14,7 @@ import {
   planWeek,
   respectsRules,
   SEASON_LABEL,
+  seasonLabel,
   seasonOf,
   swapInPlan,
   weekStart,
@@ -25,6 +26,7 @@ import { nameKey } from "@/lib/text";
 import { useKitchen } from "@/lib/useKitchen";
 import { generateList, loadWeek, saveWeek, servingsOf, type WeekSettings } from "@/lib/weekPlan";
 import { messageFr } from "@/lib/erreur";
+import { locale, plural, tr } from "@/lib/i18n";
 
 const ALL_SEASONS = Object.keys(SEASON_LABEL) as Season[];
 
@@ -34,7 +36,7 @@ function Stepper(props: { label: string; value: number; min: number; max: number
     <div className="flex flex-1 flex-col items-center gap-1">
       <span className="text-xs text-muted">{label}</span>
       <div className="flex items-center gap-2">
-        <button className="btn-ghost h-9 w-9 !p-0 text-lg" disabled={disabled || value <= min} onClick={() => onChange(value - 1)} aria-label={`Diminuer : ${label}`}>
+        <button className="btn-ghost h-9 w-9 !p-0 text-lg" disabled={disabled || value <= min} onClick={() => onChange(value - 1)} aria-label={tr(`Diminuer : ${label}`, `Decrease: ${label}`)}>
           −
         </button>
         {/* Typed number, applied when leaving the field (or Enter), so each keystroke does not replan the week. */}
@@ -57,7 +59,7 @@ function Stepper(props: { label: string; value: number; min: number; max: number
             else e.target.value = String(value);
           }}
         />
-        <button className="btn-ghost h-9 w-9 !p-0 text-lg" disabled={disabled || value >= max} onClick={() => onChange(value + 1)} aria-label={`Augmenter : ${label}`}>
+        <button className="btn-ghost h-9 w-9 !p-0 text-lg" disabled={disabled || value >= max} onClick={() => onChange(value + 1)} aria-label={tr(`Augmenter : ${label}`, `Increase: ${label}`)}>
           +
         </button>
       </div>
@@ -66,10 +68,10 @@ function Stepper(props: { label: string; value: number; min: number; max: number
 }
 
 function frenchWeek(week: string) {
-  return new Date(`${week}T12:00:00`).toLocaleDateString("fr-CA", { day: "numeric", month: "long" });
+  return new Date(`${week}T12:00:00`).toLocaleDateString(locale(), { day: "numeric", month: "long" });
 }
 
-const plural = (n: number, word: string) => `${n} ${word}${Math.abs(n) > 1 ? "s" : ""}`;
+const portions = (n: number) => plural(n, ["portion", "portions"], ["serving", "servings"]);
 
 export default function Semaine() {
   const { household, householdId } = useApp();
@@ -170,7 +172,7 @@ export default function Semaine() {
 
   function suggestAll(s = settings) {
     const plan = planWeek(planner, s.recipes, s.portions, rules, season, { filters: { seasons: s.seasons, excludeDishTypes: s.excludeDishTypes } });
-    if (!plan.length) return setError("Aucune recette ne correspond aux catégories choisies.");
+    if (!plan.length) return setError(tr("Aucune recette ne correspond aux catégories choisies.", "No recipe matches the chosen categories."));
     return persist(plan, s);
   }
 
@@ -191,7 +193,7 @@ export default function Semaine() {
 
   async function swap(recipeId: string) {
     const next = swapInPlan(planner, current, recipeId, settings.portions, rules, season, { avoid: swappedAway, filters });
-    if (!next) return setError("Aucune autre recette ne convient aux catégories et aux règles de variété.");
+    if (!next) return setError(tr("Aucune autre recette ne convient aux catégories et aux règles de variété.", "No other recipe fits the categories and variety rules."));
     setSwappedAway([...swappedAway, recipeId]);
     await persist(next);
   }
@@ -230,14 +232,14 @@ export default function Semaine() {
   const dishTypes = DISH_TYPES.filter((d) => !NOT_A_MEAL.has(d) && kitchen.recipes.some((r) => r.dish_type === d));
   const toggle = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
 
-  if (kitchen.loading) return <p className="py-20 text-center text-muted">Chargement…</p>;
+  if (kitchen.loading) return <p className="py-20 text-center text-muted">{tr("Chargement…", "Loading…")}</p>;
   if (!kitchen.recipes.length) {
     return (
       <div className="card mt-10 space-y-3 p-5 text-center">
-        <p>Aucune recette pour l&apos;instant.</p>
+        <p>{tr("Aucune recette pour l'instant.", "No recipes yet.")}</p>
         {household?.is_book && (
           <Link href="/recettes/nouvelle" className="btn-primary">
-            Ajouter une recette
+            {tr("Ajouter une recette", "Add a recipe")}
           </Link>
         )}
       </div>
@@ -248,45 +250,45 @@ export default function Semaine() {
     <div className="space-y-5">
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Semaine du {frenchWeek(week)}</h1>
-          <p className="text-sm text-muted">{SEASON_LABEL[season]}</p>
+          <h1 className="text-2xl font-bold">{tr(`Semaine du ${frenchWeek(week)}`, `Week of ${frenchWeek(week)}`)}</h1>
+          <p className="text-sm text-muted">{seasonLabel(season)}</p>
         </div>
         <div className="flex gap-1">
           <button className={offset === 0 ? "chip-on" : "chip"} disabled={busy} onClick={() => setOffset(0)}>
-            Cette semaine
+            {tr("Cette semaine", "This week")}
           </button>
           <button className={offset === 1 ? "chip-on" : "chip"} disabled={busy} onClick={() => setOffset(1)}>
-            Suivante
+            {tr("Suivante", "Next")}
           </button>
         </div>
       </header>
 
       <section className="card space-y-3 p-4">
         <div className="flex gap-2">
-          <Stepper label="Portions" value={settings.portions} min={1} max={80} disabled={busy} onChange={(v) => changeSettings({ ...settings, portions: v })} />
-          <Stepper label="Recettes (au plus)" value={settings.recipes} min={1} max={10} disabled={busy} onChange={(v) => changeSettings({ ...settings, recipes: v })} />
+          <Stepper label={tr("Portions", "Servings")} value={settings.portions} min={1} max={80} disabled={busy} onChange={(v) => changeSettings({ ...settings, portions: v })} />
+          <Stepper label={tr("Recettes (au plus)", "Recipes (max)")} value={settings.recipes} min={1} max={10} disabled={busy} onChange={(v) => changeSettings({ ...settings, recipes: v })} />
         </div>
         <button className="flex w-full items-center justify-between border-t border-line pt-3 text-sm" onClick={() => setShowFilters(!showFilters)}>
-          <span className="font-medium">Catégories proposées</span>
+          <span className="font-medium">{tr("Catégories proposées", "Suggested categories")}</span>
           <span className="text-muted">
-            {settings.seasons.map((s) => SEASON_LABEL[s as Season]).join(", ") || "Aucune saison cochée : toutes"}
-            {settings.excludeDishTypes.length ? ` · sans : ${settings.excludeDishTypes.join(", ")}` : ""} {showFilters ? "▾" : "▸"}
+            {settings.seasons.map((s) => seasonLabel(s as Season)).join(", ") || tr("Aucune saison cochée : toutes", "No season checked: all")}
+            {settings.excludeDishTypes.length ? tr(` · sans : ${settings.excludeDishTypes.map(dishTypeLabel).join(", ")}`, ` · without: ${settings.excludeDishTypes.map(dishTypeLabel).join(", ")}`) : ""} {showFilters ? "▾" : "▸"}
           </span>
         </button>
         {showFilters && (
           <div className="space-y-3">
             <div>
-              <p className="mb-1 text-xs text-muted">Seules les recettes marquées pour au moins une des saisons cochées sont proposées</p>
+              <p className="mb-1 text-xs text-muted">{tr("Seules les recettes marquées pour au moins une des saisons cochées sont proposées", "Only recipes marked for at least one of the checked seasons are suggested")}</p>
               <div className="flex flex-wrap gap-2">
                 {ALL_SEASONS.map((s) => (
                   <button key={s} disabled={busy} className={settings.seasons.includes(s) ? "chip-on" : "chip"} onClick={() => changeSettings({ ...settings, seasons: toggle(settings.seasons, s) })}>
-                    {SEASON_LABEL[s]}
+                    {seasonLabel(s)}
                   </button>
                 ))}
               </div>
             </div>
             <div>
-              <p className="mb-1 text-xs text-muted">Types de plats à éviter cette semaine</p>
+              <p className="mb-1 text-xs text-muted">{tr("Types de plats à éviter cette semaine", "Dish types to avoid this week")}</p>
               <div className="flex flex-wrap gap-2">
                 {dishTypes.map((d) => (
                   <button
@@ -295,12 +297,12 @@ export default function Semaine() {
                     className={settings.excludeDishTypes.includes(d) ? "chip border-red-300 bg-red-50 text-red-800 line-through" : "chip"}
                     onClick={() => changeSettings({ ...settings, excludeDishTypes: toggle(settings.excludeDishTypes, d) })}
                   >
-                    {d}
+                    {dishTypeLabel(d)}
                   </button>
                 ))}
               </div>
             </div>
-            <p className="text-xs text-muted">{available === 0 ? "Aucune recette ne correspond" : available === 1 ? "1 recette correspond" : `${available} recettes correspondent`} à ces catégories.</p>
+            <p className="text-xs text-muted">{tr(`${available === 0 ? "Aucune recette ne correspond" : available === 1 ? "1 recette correspond" : `${available} recettes correspondent`} à ces catégories.`, `${available === 0 ? "No recipes match" : available === 1 ? "1 recipe matches" : `${available} recipes match`} these categories.`)}</p>
           </div>
         )}
       </section>
@@ -309,26 +311,26 @@ export default function Semaine() {
 
       {!loadingWeek && current.length > 0 && !respectsRules(current, planner, rules) && (
         <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-900">
-          Variété assouplie : pas assez de recettes différentes dans ces catégories pour respecter toutes les règles de variété.
+          {tr("Variété assouplie : pas assez de recettes différentes dans ces catégories pour respecter toutes les règles de variété.", "Variety relaxed: not enough different recipes in these categories to follow every variety rule.")}
         </p>
       )}
       {!available && !loadingWeek && (
         <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-900">
-          Aucune recette ne correspond aux catégories choisies : cochez une saison ou retirez un type de plat exclu.
+          {tr("Aucune recette ne correspond aux catégories choisies : cochez une saison ou retirez un type de plat exclu.", "No recipe matches the chosen categories: check a season or remove an excluded dish type.")}
         </p>
       )}
 
       {loadingWeek ? (
-        <p className="py-6 text-center text-sm text-muted">Chargement de la semaine…</p>
+        <p className="py-6 text-center text-sm text-muted">{tr("Chargement de la semaine…", "Loading the week…")}</p>
       ) : !items.length ? (
         <button className="btn-primary w-full py-4 text-base" onClick={() => suggestAll()} disabled={busy || !available}>
-          ✨ Proposer une semaine de {settings.portions} portions
+          ✨ {tr(`Proposer une semaine de ${settings.portions} portions`, `Suggest a week of ${settings.portions} servings`)}
         </button>
       ) : (
         <>
           <p className={`text-sm ${diff < 0 ? "font-semibold text-red-700" : "text-muted"}`}>
-            {plural(planned, "portion")} prévue{planned > 1 ? "s" : ""} pour {settings.portions} demandée{settings.portions > 1 ? "s" : ""}
-            {diff > 0 ? ` · ${plural(diff, "portion")} de plus` : diff < 0 ? ` · il manque ${plural(-diff, "portion")}` : " · exactement le compte"}
+            {tr(`${portions(planned)} prévue${planned > 1 ? "s" : ""} pour ${settings.portions} demandée${settings.portions > 1 ? "s" : ""}`, `${portions(planned)} planned for ${settings.portions} requested`)}
+            {diff > 0 ? tr(` · ${portions(diff)} de plus`, ` · ${portions(diff)} extra`) : diff < 0 ? tr(` · il manque ${portions(-diff)}`, ` · ${portions(-diff)} short`) : tr(" · exactement le compte", " · exactly right")}
           </p>
           <section className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2">
             {items.map((it) => {
@@ -342,28 +344,28 @@ export default function Semaine() {
                     <div className="space-y-1 p-3">
                       <h3 className="line-clamp-2 min-h-10 text-sm font-semibold leading-5">{r.title}</h3>
                       <p className="text-xs text-muted">
-                        {m > 1 ? `${sv(r.id)} × ${m} = ${plural(sv(r.id) * m, "portion")}` : plural(sv(r.id), "portion")}
-                        {r.dish_type ? ` · ${r.dish_type}` : ""}
+                        {m > 1 ? `${sv(r.id)} × ${m} = ${portions(sv(r.id) * m)}` : portions(sv(r.id))}
+                        {r.dish_type ? ` · ${dishTypeLabel(r.dish_type)}` : ""}
                       </p>
                     </div>
                   </Link>
                   <div className="flex items-center justify-between px-3 pb-2 text-sm">
-                    <span className="text-xs text-muted">Multiplier la recette</span>
+                    <span className="text-xs text-muted">{tr("Multiplier la recette", "Multiply the recipe")}</span>
                     <div className="flex items-center gap-2">
-                      <button className="btn-ghost h-7 w-7 !p-0" disabled={busy || m <= 1} onClick={() => setMultiplier(r.id, m - 1)} aria-label="Diminuer">
+                      <button className="btn-ghost h-7 w-7 !p-0" disabled={busy || m <= 1} onClick={() => setMultiplier(r.id, m - 1)} aria-label={tr("Diminuer", "Decrease")}>
                         −
                       </button>
                       <span className="w-4 text-center font-semibold">{m}</span>
-                      <button className="btn-ghost h-7 w-7 !p-0" disabled={busy || m >= 6} onClick={() => setMultiplier(r.id, m + 1)} aria-label="Augmenter">
+                      <button className="btn-ghost h-7 w-7 !p-0" disabled={busy || m >= 6} onClick={() => setMultiplier(r.id, m + 1)} aria-label={tr("Augmenter", "Increase")}>
                         +
                       </button>
                     </div>
                   </div>
                   <div className="flex gap-2 px-3 pb-3">
                     <button className="btn-ghost flex-1 !py-2" onClick={() => swap(r.id)} disabled={busy}>
-                      🔄 Échanger
+                      🔄 {tr("Échanger", "Swap")}
                     </button>
-                    <button className="btn-ghost !px-3 !py-2" onClick={() => remove(r.id)} disabled={busy} aria-label="Retirer">
+                    <button className="btn-ghost !px-3 !py-2" onClick={() => remove(r.id)} disabled={busy} aria-label={tr("Retirer", "Remove")}>
                       ✕
                     </button>
                   </div>
@@ -372,16 +374,16 @@ export default function Semaine() {
             })}
             <button className="card flex w-40 shrink-0 flex-col items-center justify-center gap-2 text-muted" onClick={() => setPicker(true)} disabled={busy}>
               <span className="text-3xl">＋</span>
-              <span className="text-sm">Ajouter</span>
+              <span className="text-sm">{tr("Ajouter", "Add")}</span>
             </button>
           </section>
 
           <div className="flex gap-2">
             <button className="btn-ghost flex-1" onClick={() => suggestAll()} disabled={busy}>
-              ✨ Proposer une autre semaine
+              ✨ {tr("Proposer une autre semaine", "Suggest another week")}
             </button>
             <button className="btn-primary flex-1" onClick={makeList} disabled={busy}>
-              🛒 Faire la liste
+              🛒 {tr("Faire la liste", "Make the list")}
             </button>
           </div>
         </>
@@ -390,14 +392,14 @@ export default function Semaine() {
       {picker && (
         <div className="fixed inset-0 z-30 flex items-end bg-black/40" onClick={() => setPicker(false)}>
           <div className="max-h-[80vh] w-full overflow-y-auto rounded-t-3xl bg-background p-4" onClick={(e) => e.stopPropagation()}>
-            <input className="input mb-3" placeholder="Chercher une recette…" autoFocus value={search} onChange={(e) => setSearch(e.target.value)} />
+            <input className="input mb-3" placeholder={tr("Chercher une recette…", "Search for a recipe…")} autoFocus value={search} onChange={(e) => setSearch(e.target.value)} />
             <ul className="space-y-2">
               {pickable.map((r) => (
                 <li key={r.id}>
                   <button className="card flex w-full items-center gap-3 overflow-hidden text-left" onClick={() => add(r.id)}>
                     <RecipeImage url={r.image_url} title={r.title} className="h-14 w-16 shrink-0" />
                     <span className="flex-1 text-sm font-medium">{r.title}</span>
-                    <span className="pr-3 text-xs text-muted">{plural(servingsOf(r), "portion")}</span>
+                    <span className="pr-3 text-xs text-muted">{portions(servingsOf(r))}</span>
                   </button>
                 </li>
               ))}

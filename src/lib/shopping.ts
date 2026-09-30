@@ -2,6 +2,8 @@
 
 import { AISLE_ORDER, NO_AISLE } from "./aisles";
 import { nameKey } from "./text";
+import { catalogName } from "./db";
+import { tr } from "./i18n";
 import { formatBase, formatNumber, toBase, UNIT_BY_KEY } from "./units";
 
 export type ListIngredient = {
@@ -17,6 +19,7 @@ export type ListIngredient = {
 export type CatalogItem = {
   id: string;
   name: string;
+  name_en?: string | null;
   aisle: string;
   pantry: boolean;
   /** Unit implied by a bare number in a recipe ("2 ail" = 2 cloves, "1 gingembre" = 1 inch). */
@@ -92,7 +95,7 @@ export function buildShoppingList(
           line: {
             key,
             ingredientId: cat?.id ?? null,
-            label: cat?.name ?? i.name,
+            label: cat ? catalogName(cat) : i.name,
             quantityText: "",
             aisle: cat?.aisle ?? "autre",
             pantry: cat?.pantry ?? false,
@@ -130,9 +133,10 @@ export function buildShoppingList(
       // "4 à 8", "250 à 375 ml": the unit is written once when both ends share it.
       const [a, b] = [one(low), one(high)];
       const unitA = a.replace(/^[\d\s,¼½¾⅓⅔]+/, ""), unitB = b.replace(/^[\d\s,¼½¾⅓⅔]+/, "");
-      return unitA && unitA === unitB ? `${a.slice(0, a.length - unitA.length).trim()} à ${b}` : `${a} à ${b}`;
+      const to = tr("à", "to");
+      return unitA && unitA === unitB ? `${a.slice(0, a.length - unitA.length).trim()} ${to} ${b}` : `${a} ${to} ${b}`;
     });
-    if (!parts.length && unquantified) parts.push("au besoin");
+    if (!parts.length && unquantified) parts.push(tr("au besoin", "as needed"));
     return { ...line, quantityText: parts.join(" + "), optional: !requiredSomewhere };
   });
 
