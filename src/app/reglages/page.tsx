@@ -145,8 +145,8 @@ export default function Reglages() {
 
       <section className="card divide-y divide-line px-4">
         <h2 className="py-3 font-semibold">Variété des suggestions</h2>
-        <Rule label="Même type de plat" help="Maximum par semaine (ex. 1 ramen)" value={household.max_same_dish_type} min={1} max={7} onChange={(v) => update({ max_same_dish_type: v })} />
-        <Rule label="Même protéine" help="Maximum par semaine (ex. 2 tofu)" value={household.max_same_protein} min={1} max={7} onChange={(v) => update({ max_same_protein: v })} />
+        <Rule label="Même type de plat" help="Maximum par semaine (ex. 2 ramen)" value={household.max_same_dish_type} min={1} max={7} onChange={(v) => update({ max_same_dish_type: v })} />
+        <Rule label="Même protéine" help="Maximum par semaine (ex. 3 tofu)" value={household.max_same_protein} min={1} max={7} onChange={(v) => update({ max_same_protein: v })} />
         <Rule label="Pause avant de revoir une recette" help="En semaines" value={household.repeat_cooldown_weeks} min={0} max={12} onChange={(v) => update({ repeat_cooldown_weeks: v })} />
       </section>
 
