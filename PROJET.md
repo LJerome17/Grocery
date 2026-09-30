@@ -118,6 +118,9 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
   `scripts/validate/aliases-check.ts` (alias risqués).
 - **Tests d'acceptation (UAT)** : page à cocher sur téléphone, 42 tests en 6 scénarios, résultats partagés que Claude
   peut lire : https://claude.ai/artifact/D18oEMbaNwiZ9p5TtL3Eu6
+- **UAT automatique** : `scripts/uat/uat-e2e.mjs` joue 34 des 42 tests dans un vrai navigateur (Edge), en foyers d'essai.
+  Dernière passe (2026-09-30) : 29 réussis ; C3, C4, E1 en attente de « Mettre à jour les recettes de départ » ; C5 : 2 recettes
+  ajoutées sans photo. A produit deux corrections (arrivée sur la semaine après connexion ; « Choisir une recette » sur une semaine vide).
 - **Sauvegarde** : chaque lundi, l'action GitHub « Sauvegarde des recettes » copie tout le livre (recettes, ingrédients, étapes,
   photos téléversées) dans `backup/` ; lancer à la main avec `npx tsx scripts/backup-recipes.ts` ou Actions → Run workflow.
   Vercel ne republie pas pour une sauvegarde seule (`vercel.json`). La lecture hebdomadaire évite aussi la mise en pause de Supabase.
