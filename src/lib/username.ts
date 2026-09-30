@@ -36,12 +36,7 @@ export async function protectAccess(input: string, password: string): Promise<vo
   if (b.error) throw b.error;
 }
 
-/** New username for the signed-in account (the password stays the same); throws a French message. */
-export async function renameAccount(input: string): Promise<void> {
-  const email = loginEmail(input);
-  if (!email) throw new Error(`Nom d'utilisateur invalide (${USERNAME_RULE})`);
-  await setLogin(input, email);
-}
+// A username cannot be changed afterwards: Supabase would email the (internal) address first.
 
 async function setLogin(input: string, email: string) {
   const { error } = await supabase().auth.updateUser({ email, data: { username: input.includes("@") ? null : input.trim() } });
