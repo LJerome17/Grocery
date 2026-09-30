@@ -194,7 +194,7 @@ function eligible(r: PlannerRecipe, rules: Rules): boolean {
 export function score(r: PlannerRecipe, season: Season, picked: PlannerRecipe[], random: () => number): number {
   let s = 1;
   if (r.seasons.length && !r.seasons.includes(season)) s -= 3;
-  if (r.rating) s += (r.rating - 3) * 0.4;
+  if (r.rating) s += (r.rating - 3) * 0.3;
   if (r.weeksSinceEaten === null) s += 0.3; // not planned yet
   else s += Math.min(r.weeksSinceEaten, 12) * 0.05; // long time no see
   // Shared fresh ingredients with the rest of the week: an opened bunch of coriander gets used up.

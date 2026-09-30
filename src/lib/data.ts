@@ -74,12 +74,14 @@ export async function loadHistory(householdId: string, beforeWeek: string): Prom
   return out;
 }
 
+/** What "Légumes d'accompagnement (au choix)" usually means (user, 2026-09-30): peppers, zucchini, potatoes. */
+const SIDE_VEGETABLES = ["Poivron rouge", "Poivron vert", "Courgette", "Pomme de terre"];
+
 export function toPlannerRecipes(
   recipes: Recipe[],
   ingredients: RecipeIngredient[],
   catalog: Ingredient[],
   history: Map<string, number>,
-  /** Catalogue ingredient ids on sale this week. */
 ): PlannerRecipe[] {
   const pantry = new Set(catalog.filter((c) => c.pantry).map((c) => c.id));
   const perRecipe = new Map<string, Set<string>>();
@@ -88,6 +90,11 @@ export function toPlannerRecipes(
     if (!perRecipe.has(i.recipe_id)) perRecipe.set(i.recipe_id, new Set());
     perRecipe.get(i.recipe_id)!.add(i.ingredient_id);
   }
+  // "Légumes d'accompagnement (au choix)" stays open on the grocery list, but for less waste the planner counts it
+  // as the usual side vegetables, so these recipes come with weeks that already buy some.
+  const side = catalog.find((c) => c.household_id === null && c.name === "Légumes d'accompagnement (au choix)")?.id;
+  const sideVegetables = catalog.filter((c) => c.household_id === null && SIDE_VEGETABLES.includes(c.name)).map((c) => c.id);
+  if (side) for (const ids of perRecipe.values()) if (ids.has(side)) sideVegetables.forEach((id) => ids.add(id));
   return recipes.map((r) => ({
     id: r.id,
     servings: r.servings && r.servings > 0 ? r.servings : undefined,

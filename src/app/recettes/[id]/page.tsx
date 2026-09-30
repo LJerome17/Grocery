@@ -130,7 +130,7 @@ function RecipeView() {
         {editing && (
           <>
             <div>
-              <p className="mb-1 text-xs text-muted">Saisons où on la veut</p>
+              <p className="mb-1 text-xs text-muted">Saison</p>
               <div className="flex flex-wrap gap-2">
                 {(Object.keys(SEASON_LABEL) as Season[]).map((s) => {
                   const on = recipe.seasons.includes(s);
