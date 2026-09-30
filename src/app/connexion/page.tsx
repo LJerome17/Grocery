@@ -55,7 +55,7 @@ export default function Connexion() {
     <div className="pt-10">
       <div className="mb-8 text-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo.webp" alt="" width={360} height={234} className="mx-auto w-44 rounded-2xl" />
+        <img src="/logo.webp" alt="" width={320} height={320} className="mx-auto w-36" />
         <h1 className="mt-3 text-2xl font-bold">Momo et Jéjé cuisinent végé</h1>
         <p className="mt-1 text-sm text-muted">Les recettes de la semaine et la liste d&apos;épicerie, sans y penser.</p>
       </div>

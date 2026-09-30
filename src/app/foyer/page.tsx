@@ -80,7 +80,7 @@ export default function Foyer() {
     <div className="space-y-5 pt-6">
       <div className="text-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo.webp" alt="" width={360} height={234} className="mx-auto w-44 rounded-2xl" />
+        <img src="/logo.webp" alt="" width={320} height={320} className="mx-auto w-36" />
         <p className="mt-2 font-semibold">Momo et Jéjé cuisinent végé</p>
       </div>
       <h1 className="text-2xl font-bold">Votre foyer</h1>

@@ -1,17 +1,29 @@
-// App icons and the page logo from Logo/Icône d'application@1x.png (1024×1024).
+// App icons and the page logo from the round logo in Logo/ (1024×1024, transparent outside the circle).
 // Usage: npx tsx scripts/build-icons.ts
 import sharp from "sharp";
 import { join } from "node:path";
 
 const ROOT = join(__dirname, "..");
-const SRC = join(ROOT, "Logo", "Icône d'application@1x.png");
+const SRC = join(ROOT, "Logo", "Icône avec cercle blanc, fond transparent@1x.png");
+const BG = "#f5eee0"; // app background: phones fill transparent corners with black otherwise
+
+/** Square icon: the circle at `scale` of the side, centred on the app background. */
+async function icon(size: number, scale: number, file: string) {
+  const inner = Math.round(size * scale);
+  const logo = await sharp(SRC).resize(inner, inner).toBuffer();
+  await sharp({ create: { width: size, height: size, channels: 4, background: BG } })
+    .composite([{ input: logo, gravity: "center" }])
+    .png()
+    .toFile(join(ROOT, "public", file));
+}
 
 async function main() {
-  for (const size of [192, 512]) await sharp(SRC).resize(size, size).png().toFile(join(ROOT, "public", `icon-${size}.png`));
-  await sharp(SRC).resize(180, 180).png().toFile(join(ROOT, "public", "apple-touch-icon.png"));
+  await icon(192, 0.92, "icon-192.png");
+  await icon(512, 0.92, "icon-512.png");
+  await icon(512, 0.78, "icon-maskable-512.png"); // Android crops to a circle or rounded square: keep a margin
+  await icon(180, 0.92, "apple-touch-icon.png");
   await sharp(SRC).resize(48, 48).png().toFile(join(ROOT, "public", "favicon-48.png"));
-  // Page logo: the two aprons, without the empty margin.
-  await sharp(SRC).extract({ left: 150, top: 280, width: 724, height: 470 }).resize(360).webp({ quality: 90 }).toFile(join(ROOT, "public", "logo.webp"));
+  await sharp(SRC).resize(320, 320).webp({ quality: 90 }).toFile(join(ROOT, "public", "logo.webp"));
   console.log("icônes et logo -> public/");
 }
 main();
