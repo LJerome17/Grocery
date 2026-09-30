@@ -1,6 +1,7 @@
 // Automated run of the acceptance checklist (UAT) against the live site, in throw-away households (never the recipe book).
 // Needs Playwright once: npm i --no-save playwright ; uses the Edge already installed (fresh temporary profile).
 // Run from scripts/uat: node uat-e2e.mjs  -> uat-results.json + screenshots/ of failures.
+import { chromium } from "playwright";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const SITE = "https://momo-et-jeje-cuisinent-vege.vercel.app";
@@ -156,7 +157,6 @@ await test("C5", pa, async () => {
 });
 
 // ---------- D: week ----------
-let target = 19;
 const cardsTitles = async () => (await pa.locator("article.card h3").allInnerTexts()).map((s) => s.trim());
 const planned = async () => {
   const m = (await text(pa)).match(/(\d+) portions? prévues? pour (\d+) demandées?/);
