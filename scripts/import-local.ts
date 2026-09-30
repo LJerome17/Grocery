@@ -161,8 +161,14 @@ async function main() {
       // The displayed line is rewritten too, so the recipe reads with the multiplied quantities.
       r.ingredients = r.ingredients.map((i) => {
         if (i.quantity === null) return i;
-        // Weights in the notes ("environ 110 g") follow the multiplication too.
-        const note = i.note?.replace(/(\d+(?:[.,]\d+)?)\s*(g|ml|kg|l)\b/gi, (_, n: string, u: string) => `${Math.round(Number(n.replace(",", ".")) * scale * 100) / 100} ${u}`) ?? null;
+        // Weights in the notes ("environ 110 g") follow the multiplication too; a spoon or cup equivalent of the main
+        // quantity ("20 ml (1 c. à thé)") is dropped rather than left unscaled.
+        const note =
+          i.note
+            ?.split("; ")
+            .filter((part) => !/^[\d½¼¾⅓⅔.,/\s]+\s*(?:c\.\s*à\s*(?:thé|soupe|café)|tasses?|cups?|tbsp|tsp)\b/i.test(part))
+            .map((part) => part.replace(/(\d+(?:[.,]\d+)?)\s*(g|ml|kg|l)\b/gi, (_, n: string, u: string) => `${Math.round(Number(n.replace(",", ".")) * scale * 100) / 100} ${u}`))
+            .join("; ") || null;
         const s = { ...i, note, quantity: i.quantity * scale, quantityMax: i.quantityMax === null ? null : i.quantityMax * scale };
         return { ...s, raw: `${scaledQuantity(s.quantity, s.quantityMax, s.unit, 1)} ${s.unit ? "de " : ""}${s.name}${s.note ? ` (${s.note})` : ""}` };
       });

@@ -284,9 +284,10 @@
         "baby spinach"
       ],
       "equiv": {
-        "unit": "g",
-        "ml": 8.33,
-        "bunch": 250
+        "unit": "pack",
+        "g": 200,
+        "ml": 1667,
+        "bunch": 1.25
       }
     },
     {
@@ -341,7 +342,6 @@
         "cherry tomatoes",
         "grape tomatoes"
       ],
-      "count_unit": "punnet",
       "equiv": {
         "unit": "punnet",
         "ml": 551,
@@ -373,7 +373,10 @@
         "poivron rouge",
         "poivrons rouges",
         "red bell pepper",
-        "bell pepper"
+        "bell pepper",
+        "red pepper",
+        "red peppers",
+        "red bell peppers"
       ],
       "equiv": {
         "unit": "",
@@ -388,7 +391,9 @@
         "poivron vert",
         "poivrons verts",
         "green bell pepper",
-        "green pepper"
+        "green pepper",
+        "green bell peppers",
+        "green peppers"
       ]
     },
     {
@@ -415,7 +420,6 @@
         "piment chili rouge",
         "piment rouge",
         "piments chili",
-        "piments chili doux",
         "piment chili",
         "chilli",
         "chili pepper",
@@ -600,7 +604,9 @@
         "menthe",
         "feuilles de menthe",
         "fresh mint",
-        "fresh mint leaves"
+        "fresh mint leaves",
+        "menthe fraiche",
+        "mint leaves"
       ],
       "equiv": {
         "unit": "bunch",
@@ -636,7 +642,11 @@
       "aliases": [
         "sauge",
         "feuilles de sauge",
-        "sage"
+        "sage",
+        "sauge fraiche",
+        "fresh sage",
+        "fresh sage leaves",
+        "sage leaves"
       ],
       "count_unit": "sheet"
     },
@@ -670,7 +680,14 @@
       "aliases": [
         "thym frais",
         "fresh thyme",
-        "branches de thym"
+        "branches de thym",
+        "thyme sprigs",
+        "thyme sprig",
+        "sprigs of thyme",
+        "sprigs thyme",
+        "fresh thyme sprigs",
+        "brins de thym",
+        "branche de thym"
       ]
     },
     {
@@ -755,7 +772,7 @@
     {
       "name": "Beurre végétal",
       "name_en": "Vegan butter",
-      "aisle": "refrigeres",
+      "aisle": "laitiers",
       "aliases": [
         "vegan butter",
         "beurre vegetal",
@@ -771,12 +788,13 @@
         "white miso paste",
         "miso blanc",
         "pate miso"
-      ]
+      ],
+      "pantry": true
     },
     {
       "name": "Nouilles udon",
       "name_en": "Udon noodles",
-      "aisle": "refrigeres",
+      "aisle": "international",
       "aliases": [
         "udon noodles",
         "nouilles udon",
@@ -805,16 +823,6 @@
       ]
     },
     {
-      "name": "Boisson de soya",
-      "name_en": "Soy milk",
-      "aisle": "laitiers",
-      "aliases": [
-        "boisson de soya",
-        "lait de soya",
-        "soy milk"
-      ]
-    },
-    {
       "name": "Boisson végétale",
       "name_en": "Plant-based milk",
       "aisle": "laitiers",
@@ -827,7 +835,14 @@
         "almond milk",
         "lait de riz",
         "rice milk",
-        "lait d avoine"
+        "lait d avoine",
+        "lait de cajou",
+        "cashew milk",
+        "boisson d avoine",
+        "boisson d amande",
+        "boisson de soya",
+        "lait de soya",
+        "soy milk"
       ]
     },
     {
@@ -895,7 +910,9 @@
         "parmesan vegane",
         "vegan parm",
         "parmesan vegetal",
-        "parmesan vegan"
+        "parmesan vegan",
+        "parmesan vegetalien",
+        "parmesan vegetalienne"
       ]
     },
     {
@@ -914,7 +931,17 @@
       "aliases": [
         "grated vegan cheese",
         "vegan cheese",
-        "fromage vegetalien"
+        "fromage vegetalien",
+        "vegan feta",
+        "vegan cheddar",
+        "fromage vegane",
+        "feta vegetalienne",
+        "feta vegane",
+        "cheddar vegetalien",
+        "cheddar vegane",
+        "fromage vegetal",
+        "vegan mozzarella",
+        "mozzarella vegetalienne"
       ]
     },
     {
@@ -979,7 +1006,8 @@
       "aisle": "cereales",
       "aliases": [
         "quinoa"
-      ]
+      ],
+      "cooked_ratio": 3
     },
     {
       "name": "Orge perlé",
@@ -990,7 +1018,8 @@
         "orge perle",
         "barley",
         "pearl barley"
-      ]
+      ],
+      "cooked_ratio": 3.5
     },
     {
       "name": "Riz à risotto (arborio)",
@@ -1008,7 +1037,8 @@
       "aliases": [
         "riz a sushi",
         "sushi rice"
-      ]
+      ],
+      "cooked_ratio": 3
     },
     {
       "name": "Riz blanc",
@@ -1024,7 +1054,8 @@
         "riz basmati",
         "basmati rice",
         "riz jasmin"
-      ]
+      ],
+      "cooked_ratio": 3
     },
     {
       "name": "Riz sauvage",
@@ -1033,7 +1064,8 @@
       "aliases": [
         "riz sauvage",
         "wild rice"
-      ]
+      ],
+      "cooked_ratio": 3.5
     },
     {
       "name": "Couscous perlé",
@@ -1149,7 +1181,7 @@
       ],
       "equiv": {
         "unit": "can",
-        "ml": 375,
+        "ml": 500,
         "g": 400
       }
     },
@@ -1164,7 +1196,7 @@
       ],
       "equiv": {
         "unit": "can",
-        "ml": 375,
+        "ml": 500,
         "g": 400
       }
     },
@@ -1176,11 +1208,15 @@
       "aliases": [
         "haricot blanc",
         "haricots blancs",
-        "white beans"
+        "white beans",
+        "white kidney beans",
+        "cannellini",
+        "cannellini beans",
+        "haricots cannellini"
       ],
       "equiv": {
         "unit": "can",
-        "ml": 375,
+        "ml": 500,
         "g": 400
       }
     },
@@ -1196,7 +1232,7 @@
       ],
       "equiv": {
         "unit": "can",
-        "ml": 375,
+        "ml": 500,
         "g": 400
       }
     },
@@ -1212,7 +1248,7 @@
       ],
       "equiv": {
         "unit": "can",
-        "ml": 375,
+        "ml": 500,
         "g": 400
       }
     },
@@ -1229,11 +1265,12 @@
         "canned lentils",
         "lentilles en conserve",
         "lentilles cuites",
-        "cooked lentils"
+        "cooked lentils",
+        "lentilles vertes en conserve"
       ],
       "equiv": {
         "unit": "can",
-        "ml": 375,
+        "ml": 500,
         "g": 400
       }
     },
@@ -1277,7 +1314,10 @@
         "peeled tomatoes",
         "tomates entieres",
         "tomates entieres pelees",
-        "tomates pelees"
+        "tomates pelees",
+        "tomates en conserve",
+        "canned tomatoes",
+        "tinned tomatoes"
       ],
       "count_unit": "can",
       "equiv": {
@@ -1306,7 +1346,8 @@
         "pate de tomates",
         "tomato paste",
         "tomato puree"
-      ]
+      ],
+      "pantry": true
     },
     {
       "name": "Tomates séchées",
@@ -1357,15 +1398,9 @@
         "bouillon de legumes",
         "vegetable stock",
         "vegetable broth",
-        "vegetable bouillon paste",
         "vegetable stock cube",
         "cube de bouillon"
-      ],
-      "count_unit": "cube",
-      "equiv": {
-        "unit": "ml",
-        "cube": 500
-      }
+      ]
     },
     {
       "name": "Bouillon aux champignons",
@@ -1392,7 +1427,8 @@
       "aliases": [
         "capres",
         "capers"
-      ]
+      ],
+      "pantry": true
     },
     {
       "name": "Oignons marinés",
@@ -1438,6 +1474,7 @@
       "name": "Pâte de fèves pimentée (doubanjiang)",
       "name_en": "Chili bean paste (doubanjiang)",
       "aisle": "international",
+      "pantry": true,
       "aliases": [
         "doubanjiang"
       ]
@@ -1451,7 +1488,8 @@
         "nori sheets",
         "feuilles de nori"
       ],
-      "count_unit": "sheet"
+      "count_unit": "sheet",
+      "pantry": true
     },
     {
       "name": "Sambal oelek",
@@ -1568,7 +1606,9 @@
       "aliases": [
         "vinaigre de riz",
         "rice vinegar",
-        "vinaigre riz"
+        "vinaigre riz",
+        "rice wine vinegar",
+        "vinaigre de vin de riz"
       ]
     },
     {
@@ -1673,7 +1713,8 @@
       "aliases": [
         "sauce piri piri",
         "piri piri sauce"
-      ]
+      ],
+      "pantry": true
     },
     {
       "name": "Sauce barbecue",
@@ -1683,7 +1724,8 @@
         "sauce bbq",
         "bbq sauce",
         "sauce barbecue"
-      ]
+      ],
+      "pantry": true
     },
     {
       "name": "Sauce Worcestershire",
@@ -1781,7 +1823,10 @@
       "pantry": true,
       "aliases": [
         "cassonade",
-        "brown sugar"
+        "brown sugar",
+        "sucre brun",
+        "light brown sugar",
+        "dark brown sugar"
       ]
     },
     {
@@ -2009,7 +2054,10 @@
       "pantry": true,
       "aliases": [
         "gochugaru",
-        "piment gochugaru"
+        "piment gochugaru",
+        "flocons de piment gochugaru",
+        "gochugaru flakes",
+        "gochugaru chili flakes"
       ]
     },
     {
@@ -2027,7 +2075,8 @@
         "crushed red pepper",
         "red chili flakes",
         "red chilli flakes",
-        "flocons de chili"
+        "flocons de chili",
+        "chilli flakes"
       ]
     },
     {
@@ -2116,7 +2165,8 @@
       "pantry": true,
       "aliases": [
         "romarin",
-        "dried rosemary"
+        "dried rosemary",
+        "romarin seche"
       ]
     },
     {
@@ -2234,7 +2284,8 @@
         "mais en grains",
         "corn kernels",
         "frozen corn",
-        "mais surgele"
+        "mais surgele",
+        "maïs"
       ]
     },
     {
@@ -2427,7 +2478,7 @@
     {
       "name": "Pesto",
       "name_en": "Pesto",
-      "aisle": "refrigeres",
+      "aisle": "cereales",
       "aliases": [
         "pesto",
         "pesto vegetalien",
@@ -2436,7 +2487,7 @@
     },
     {
       "name": "Pains naan",
-      "name_en": "Naan breads",
+      "name_en": "Naan",
       "aisle": "boulangerie",
       "aliases": [
         "naan",
@@ -2489,7 +2540,7 @@
     },
     {
       "name": "Nouilles asiatiques (soba, orientales)",
-      "name_en": "Asian noodles (soba, oriental)",
+      "name_en": "Asian noodles (soba)",
       "aisle": "cereales",
       "aliases": [
         "nouilles",
@@ -2598,7 +2649,8 @@
         "nouilles de riz",
         "rice noodles",
         "vermicelles de riz",
-        "rice vermicelli"
+        "rice vermicelli",
+        "pates de riz"
       ],
       "count_unit": "portion"
     },
@@ -2623,7 +2675,9 @@
         "vegan oyster sauce",
         "vegetarian oyster sauce",
         "sauce aux huitres vegetale",
-        "sauce aux huitres vegetarienne"
+        "sauce aux huitres vegetarienne",
+        "mushroom oyster sauce",
+        "sauce aux huitres aux champignons"
       ]
     },
     {
@@ -2802,6 +2856,338 @@
       "aliases": [
         "eau",
         "water"
+      ]
+    },
+    {
+      "name": "Gingembre moulu",
+      "name_en": "Ground ginger",
+      "aisle": "epices",
+      "pantry": true,
+      "aliases": [
+        "gingembre moulu",
+        "gingembre en poudre",
+        "ground ginger",
+        "ginger powder"
+      ]
+    },
+    {
+      "name": "Riz brun",
+      "name_en": "Brown rice",
+      "aisle": "cereales",
+      "aliases": [
+        "riz brun",
+        "riz brun a grain long",
+        "riz complet",
+        "brown rice",
+        "long grain brown rice"
+      ],
+      "cooked_ratio": 3
+    },
+    {
+      "name": "Huile de truffe",
+      "name_en": "Truffle oil",
+      "aisle": "condiments",
+      "pantry": true,
+      "aliases": [
+        "huile de truffe",
+        "huile a la truffe",
+        "huile de truffe blanche",
+        "truffle oil",
+        "white truffle oil"
+      ]
+    },
+    {
+      "name": "Poivron jaune",
+      "name_en": "Yellow bell pepper",
+      "aisle": "fruits-legumes",
+      "aliases": [
+        "poivron jaune",
+        "poivrons jaunes",
+        "poivron orange",
+        "poivrons oranges",
+        "yellow bell pepper",
+        "yellow bell peppers",
+        "yellow pepper",
+        "yellow peppers",
+        "orange bell pepper",
+        "orange bell peppers",
+        "orange pepper"
+      ]
+    },
+    {
+      "name": "Vinaigre de vin blanc",
+      "name_en": "White wine vinegar",
+      "aisle": "condiments",
+      "pantry": true,
+      "aliases": [
+        "vinaigre de vin blanc",
+        "white wine vinegar"
+      ]
+    },
+    {
+      "name": "Pâte de cari vert",
+      "name_en": "Green curry paste",
+      "aisle": "international",
+      "pantry": true,
+      "aliases": [
+        "pate de cari vert",
+        "pate de curry vert",
+        "green curry paste",
+        "thai green curry paste"
+      ]
+    },
+    {
+      "name": "Tortillas de maïs",
+      "name_en": "Corn tortillas",
+      "aisle": "boulangerie",
+      "aliases": [
+        "tortillas de mais",
+        "tortilla de mais",
+        "corn tortillas",
+        "corn tortilla"
+      ]
+    },
+    {
+      "name": "Farine de pois chiches",
+      "name_en": "Chickpea flour",
+      "aisle": "cuisson",
+      "pantry": true,
+      "aliases": [
+        "farine de pois chiches",
+        "farine de pois chiche",
+        "chickpea flour",
+        "gram flour",
+        "besan"
+      ]
+    },
+    {
+      "name": "Farine de maïs",
+      "name_en": "Cornmeal",
+      "aisle": "cuisson",
+      "pantry": true,
+      "aliases": [
+        "farine de mais",
+        "semoule de mais",
+        "cornmeal",
+        "corn meal",
+        "masa harina"
+      ]
+    },
+    {
+      "name": "Eau de coco",
+      "name_en": "Coconut water",
+      "aisle": "boissons",
+      "aliases": [
+        "eau de coco",
+        "coconut water"
+      ]
+    },
+    {
+      "name": "Feuilles de lime kaffir",
+      "name_en": "Makrut lime leaves",
+      "aisle": "international",
+      "aliases": [
+        "feuilles de lime kaffir",
+        "feuille de lime kaffir",
+        "feuilles de lime",
+        "feuilles de kaffir",
+        "kaffir lime leaves",
+        "kaffir lime leaf",
+        "makrut lime leaves",
+        "makrut lime leaf",
+        "lime leaves"
+      ]
+    },
+    {
+      "name": "Citronnelle",
+      "name_en": "Lemongrass",
+      "aisle": "fruits-legumes",
+      "aliases": [
+        "citronnelle",
+        "tige de citronnelle",
+        "tiges de citronnelle",
+        "lemongrass",
+        "lemon grass",
+        "lemongrass stalk",
+        "lemongrass stalks"
+      ]
+    },
+    {
+      "name": "Mélasse de grenade",
+      "name_en": "Pomegranate molasses",
+      "aisle": "international",
+      "pantry": true,
+      "aliases": [
+        "melasse de grenade",
+        "pomegranate molasses"
+      ]
+    },
+    {
+      "name": "Pois mange-tout",
+      "name_en": "Snow peas",
+      "aisle": "fruits-legumes",
+      "aliases": [
+        "pois mange tout",
+        "pois mangetout",
+        "pois sucres",
+        "pois sugar snap",
+        "snow peas",
+        "snap peas",
+        "sugar snap peas"
+      ]
+    },
+    {
+      "name": "Yogourt végétal",
+      "name_en": "Plant-based yogurt",
+      "aisle": "refrigeres",
+      "aliases": [
+        "yogourt vegetal",
+        "yogourt vegetalien",
+        "yogourt vegane",
+        "yogourt de coco",
+        "yogourt a la noix de coco",
+        "coconut yogurt",
+        "vegan yogurt",
+        "plant based yogurt",
+        "dairy free yogurt"
+      ]
+    },
+    {
+      "name": "Sauce de poisson végétalienne",
+      "name_en": "Vegan fish sauce",
+      "aisle": "international",
+      "pantry": true,
+      "aliases": [
+        "sauce de poisson vegetalienne",
+        "sauce de poisson vegane",
+        "sauce de poisson vegetarienne",
+        "sauce poisson vegetalienne",
+        "vegan fish sauce",
+        "vegetarian fish sauce"
+      ]
+    },
+    {
+      "name": "Chipotle en poudre",
+      "name_en": "Chipotle powder",
+      "aisle": "epices",
+      "pantry": true,
+      "aliases": [
+        "chipotle en poudre",
+        "piment chipotle moulu",
+        "chipotle moulu",
+        "chipotle powder",
+        "chipotle chili powder",
+        "ground chipotle"
+      ]
+    },
+    {
+      "name": "Crème de champignons (conserve)",
+      "name_en": "Cream of mushroom soup (canned)",
+      "aisle": "conserves",
+      "aliases": [
+        "creme de champignons",
+        "soupe creme de champignons",
+        "cream of mushroom soup",
+        "cream of mushroom",
+        "condensed cream of mushroom soup"
+      ]
+    },
+    {
+      "name": "Galettes de riz",
+      "name_en": "Rice paper",
+      "aisle": "international",
+      "aliases": [
+        "galettes de riz",
+        "galette de riz",
+        "feuilles de riz",
+        "feuille de riz",
+        "papier de riz",
+        "rice paper",
+        "rice paper wrappers",
+        "rice paper sheets",
+        "spring roll wrappers"
+      ]
+    },
+    {
+      "name": "Base de bouillon (pâte)",
+      "name_en": "Bouillon paste",
+      "aisle": "conserves",
+      "pantry": true,
+      "aliases": [
+        "base de bouillon",
+        "base de bouillon de legumes",
+        "pate de bouillon",
+        "concentre de bouillon",
+        "concentre de bouillon de legumes",
+        "bouillon paste",
+        "vegetable bouillon paste",
+        "better than bouillon",
+        "vegetable bouillon base"
+      ]
+    },
+    {
+      "name": "Romarin frais",
+      "name_en": "Rosemary (fresh)",
+      "aisle": "fruits-legumes",
+      "aliases": [
+        "romarin frais",
+        "branche de romarin",
+        "branches de romarin",
+        "brin de romarin",
+        "brins de romarin",
+        "fresh rosemary",
+        "rosemary sprig",
+        "rosemary sprigs",
+        "sprigs of rosemary"
+      ]
+    },
+    {
+      "name": "Sauge séchée",
+      "name_en": "Sage (dried)",
+      "aisle": "epices",
+      "pantry": true,
+      "aliases": [
+        "sauge sechee",
+        "sauge moulue",
+        "dried sage",
+        "ground sage",
+        "rubbed sage"
+      ]
+    },
+    {
+      "name": "Menthe séchée",
+      "name_en": "Mint (dried)",
+      "aisle": "epices",
+      "pantry": true,
+      "aliases": [
+        "menthe sechee",
+        "dried mint"
+      ]
+    },
+    {
+      "name": "Vinaigre balsamique blanc",
+      "name_en": "White balsamic vinegar",
+      "aisle": "condiments",
+      "pantry": true,
+      "aliases": [
+        "vinaigre balsamique blanc",
+        "white balsamic vinegar",
+        "balsamique blanc"
+      ]
+    },
+    {
+      "name": "Piment doux",
+      "name_en": "Mild chili pepper",
+      "aisle": "fruits-legumes",
+      "pantry": false,
+      "aliases": [
+        "piment doux",
+        "piments doux",
+        "piment chili doux",
+        "piments chili doux",
+        "mild chili",
+        "mild chili pepper",
+        "mild chilies"
       ]
     }
   ]

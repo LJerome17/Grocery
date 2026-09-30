@@ -63,6 +63,10 @@ export type Ingredient = {
   count_unit: string | null;
   /** Buying-unit equivalences (see Equiv in shopping.ts). */
   equiv: Equiv | null;
+  /** Can size, shown on the list. */
+  ml_per_can?: number | null;
+  /** Cooked amount per dry amount (grains). */
+  cooked_ratio?: number | null;
 };
 
 export type WeekPlan = {
@@ -125,8 +129,8 @@ const DISH_EN: Record<string, string> = {
   "pain plat": "flatbread", accompagnement: "side dish",
 };
 const PROTEIN_EN: Record<string, string> = {
-  tofu: "tofu", tempeh: "tempeh", "pois chiches": "chickpeas", "haricots noirs": "black beans", "haricots rouges": "red beans",
-  "haricots blancs": "white beans", lentilles: "lentils", "édamames": "edamame", "haché végé": "veggie ground round",
+  tofu: "tofu", tempeh: "tempeh", "pois chiches": "chickpeas", "haricots noirs": "black beans", "haricots rouges": "red kidney beans",
+  "haricots blancs": "white beans", lentilles: "lentils", "édamames": "edamame", "haché végé": "plant-based ground round",
   fromage: "cheese", "œufs": "eggs", "végé": "veggie", poisson: "fish", poulet: "chicken",
 };
 

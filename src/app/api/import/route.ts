@@ -1,18 +1,15 @@
 // Server-side recipe import: web pages cannot be read from the browser (CORS), so the phone sends the link here.
 // POST { url } or { text }, with the user's Supabase access token as a Bearer token.
-import { createClient } from "@supabase/supabase-js";
 import { fetchRecipe } from "@/lib/importRecipe";
 import { safeFetch } from "@/lib/safeFetch";
 import { parseRecipeText } from "@/lib/parseRecipeText";
-import { SUPABASE_KEY, SUPABASE_URL } from "@/lib/supabase";
 import { cleanUrl } from "@/lib/url";
+import { bookMemberOnly } from "@/lib/bookAccess";
 import { messageFr } from "@/lib/erreur";
 
 export async function POST(request: Request) {
-  const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
-  if (!token) return Response.json({ error: "Non connecté." }, { status: 401 });
-  const { data, error } = await createClient(SUPABASE_URL, SUPABASE_KEY).auth.getUser(token);
-  if (error || !data.user) return Response.json({ error: "Session expirée, reconnectez-vous." }, { status: 401 });
+  const refused = await bookMemberOnly(request);
+  if (refused) return refused;
 
   const body = (await request.json().catch(() => ({}))) as { url?: string; text?: string };
   try {

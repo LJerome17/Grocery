@@ -11,7 +11,7 @@ const KNOWN: [RegExp, string, string][] = [
   [/email logins are disabled/i, "La connexion avec mot de passe n'est pas encore activée.", "Password sign-in is not enabled yet."],
   [/rate limit|too many requests/i, "Trop de tentatives : réessayez dans quelques minutes.", "Too many attempts: try again in a few minutes."],
   [/jwt expired|invalid jwt|not authenticated|session/i, "Session expirée : rechargez la page.", "Session expired: reload the page."],
-  [/failed to fetch|networkerror|network request failed|fetch failed|load failed/i, "Pas de connexion Internet, ou le serveur ne répond pas.", "No Internet connection, or the server is not answering."],
+  [/failed to fetch|networkerror|network request failed|fetch failed|load failed/i, "Pas de connexion Internet, ou le serveur ne répond pas.", "No Internet connection, or the server isn't responding."],
   [/row-level security|permission denied|violates row-level/i, "Action non autorisée pour ce foyer.", "Not allowed for this household."],
   [/duplicate key/i, "Cet élément existe déjà.", "This already exists."],
   [/payload too large|exceeded the maximum allowed size/i, "Fichier trop volumineux.", "File too large."],
@@ -19,7 +19,7 @@ const KNOWN: [RegExp, string, string][] = [
 
 /** French messages written by the server routes and shared code, in English. */
 const FRENCH_EN: [RegExp, string][] = [
-  [/^Le site a refusé la lecture \(HTTP (\d+)\)/, "The site refused to be read (HTTP $1). Use “Paste the text” instead."],
+  [/^Le site a refusé la lecture \(HTTP (\d+)\)/, "This site won't let the recipe be read (HTTP $1). Use “Paste the text” instead."],
   [/^Lien invalide : seules/, "Invalid link: only web addresses are accepted."],
   [/^Lien invalide/, "Invalid link."],
   [/^Lien ou texte manquant/, "Link or text missing."],
@@ -27,6 +27,7 @@ const FRENCH_EN: [RegExp, string][] = [
   [/^Fichier trop volumineux/, "File too large."],
   [/^Image introuvable/, "Picture not found."],
   [/^Non connecté/, "Not signed in."],
+  [/^Réservé au foyer Momo et Jéjé/, "Only the Momo et Jéjé household can do this."],
   [/^Session expirée/, "Session expired: sign in again."],
   [/^Aucun ingrédient trouvé/, "No ingredients found. Try pasting the recipe text."],
 ];

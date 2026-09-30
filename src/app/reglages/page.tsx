@@ -17,11 +17,11 @@ function Rule({ label, help, value, min, max, onChange }: { label: string; help:
         <p className="text-xs text-muted">{help}</p>
       </div>
       <div className="flex items-center gap-2">
-        <button className="btn-ghost h-8 w-8 !p-0" onClick={() => onChange(Math.max(min, value - 1))}>
+        <button className="btn-ghost h-8 w-8 !p-0" aria-label={tr(`Diminuer : ${label}`, `Decrease: ${label}`)} onClick={() => onChange(Math.max(min, value - 1))}>
           −
         </button>
         <span className="w-5 text-center font-semibold">{value}</span>
-        <button className="btn-ghost h-8 w-8 !p-0" onClick={() => onChange(Math.min(max, value + 1))}>
+        <button className="btn-ghost h-8 w-8 !p-0" aria-label={tr(`Augmenter : ${label}`, `Increase: ${label}`)} onClick={() => onChange(Math.min(max, value + 1))}>
           +
         </button>
       </div>
@@ -52,10 +52,10 @@ function ProtectAccount() {
   return (
     <form onSubmit={protect} className="space-y-2">
       <p className="text-sm">
-        {tr("Vous utilisez l'app sans compte : l'accès est lié à ce navigateur. Choisissez un nom d'utilisateur pour le retrouver sur un autre appareil.", "You're using the app without an account: access is tied to this browser. Choose a username to get it back on another device.")}
+        {tr("Vous utilisez l'application sans compte : l'accès est lié à ce navigateur. Choisissez un nom d'utilisateur pour le retrouver sur un autre appareil.", "You're using the app without an account: access is tied to this browser. Choose a username to get it back on another device.")}
       </p>
       <input className="input" autoComplete="username" autoCapitalize="none" placeholder={tr("Nom d'utilisateur", "Username")} value={login} onChange={(e) => setLogin(e.target.value)} required />
-      <input className="input" type="password" autoComplete="new-password" placeholder={tr("Mot de passe (6 caractères minimum)", "Password (at least 6 characters)")} minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} required />
+      <input className="input" type="password" autoComplete="new-password" placeholder={tr("Mot de passe (6 caractères minimum)", "Password (6 characters minimum)")} minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} required />
       <button className="btn-primary w-full" disabled={busy}>
         {tr("Créer mon nom d'utilisateur", "Create my username")}
       </button>
@@ -87,10 +87,22 @@ export default function Reglages() {
     await reloadHousehold();
   }
 
+  /** A new invite code: the old one stops working (someone shared it too widely, or left the household). */
+  async function newCode() {
+    if (!confirm(tr("Créer un nouveau code ? L'ancien ne fonctionnera plus.", "Create a new code? The old one will stop working."))) return;
+    const code = Array.from(crypto.getRandomValues(new Uint8Array(4)), (b) => b.toString(16).padStart(2, "0")).join("");
+    await update({ invite_code: code });
+  }
+
   async function leave() {
     const alone = members.length <= 1;
+    // The recipe book must keep someone who can change its recipes (the database refuses too).
+    if (alone && household!.is_book) {
+      alert(tr("Vous êtes le seul membre du livre de recettes : invitez quelqu'un d'autre avant de le quitter.", "You're the only member of the recipe book: invite someone else before leaving it."));
+      return;
+    }
     const warning = alone
-      ? tr("Vous êtes le seul membre : les recettes de ce foyer ne seront plus accessibles. Quitter quand même ?", "You're the only member: this household's recipes will no longer be accessible. Leave anyway?")
+      ? tr("Vous êtes le seul membre : les semaines et les listes de ce foyer ne seront plus accessibles. Quitter quand même ?", "You're the only member: this household's weeks and lists will no longer be accessible. Leave anyway?")
       : tr("Quitter ce foyer ? Vous pourrez en créer un autre ou en rejoindre un avec un code.", "Leave this household? You can create another one or join one with a code.");
     if (!confirm(warning)) return;
     await supabase().from("household_members").delete().eq("household_id", household!.id).eq("user_id", session!.user.id);
@@ -141,7 +153,10 @@ export default function Reglages() {
             {copied ? tr("Copié ✓", "Copied ✓") : tr("Partager", "Share")}
           </button>
         </div>
-        <p className="mt-2 text-xs text-muted">{tr("Votre conjoint·e crée son compte, puis choisit « Rejoindre un foyer » avec ce code.", "Your partner creates an account, then chooses “Join an existing household” with this code.")}</p>
+        <button className="mt-2 text-xs text-muted underline" onClick={newCode}>
+          {tr("Créer un nouveau code d'invitation", "Create a new invite code")}
+        </button>
+        <p className="mt-2 text-xs text-muted">{tr("Votre conjoint·e crée son compte, puis choisit « Rejoindre un foyer existant » avec ce code.", "Your partner creates an account, then chooses “Join an existing household” with this code.")}</p>
       </section>
 
       <section className="card space-y-2 p-4">

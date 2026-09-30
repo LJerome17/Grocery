@@ -9,7 +9,7 @@ et des amis peuvent avoir leur propre foyer.
 - Base de données : Supabase, projet `nptpjbncvqjyqeyroasg`
 - Dossier local : `C:\Users\jerom\Projets\epicerie` (hors OneDrive exprès)
 
-Ce fichier est tenu à jour à chaque changement important. Dernière mise à jour : 2026-09-30.
+Ce fichier est tenu à jour à chaque changement important. Dernière mise à jour : 2026-09-30 (validation avant lancement).
 
 ## Règles décidées avec Momo et Jéjé
 
@@ -26,22 +26,31 @@ Ce fichier est tenu à jour à chaque changement important. Dernière mise à jo
 - Photos personnelles dans `recettes/Photo_recettes/` (nom de fichier = tous les mots du titre) : elles passent avant toute autre image.
 
 **Livre de recettes partagé**
-- Le foyer de Momo et Jéjé (code d'invitation `5e35aedc`) est le livre : tous les foyers le lisent en direct, lui seul
-  ajoute, modifie ou supprime des recettes. Chaque foyer a ses propres semaines et listes.
+- Le foyer de Momo et Jéjé est le livre (code d'invitation gardé secret ; bouton « Créer un nouveau code d'invitation » dans Réglages) :  tous les foyers le lisent en direct, lui seul
+  ajoute, modifie ou supprime des recettes. Son dernier membre ne peut pas le quitter. Seuls ses membres peuvent utiliser la
+  lecture de liens et la copie de photos (`/api/import`, `/api/image`). Pas de bouton pour retirer un membre (décision : code secret). Chaque foyer a ses propres semaines et listes.
 - `book_household()` renvoie l'identifiant fixe de ce foyer ; `households.is_book` est une colonne calculée (non modifiable).
 
 **Semaine**
 - Une semaine = un nombre de portions + un maximum de recettes. Toujours au moins les portions demandées ;
-  « moins d'extra d'abord » (moins de recettes si ça donne moins de surplus) ; un multiple coûte comme 2 portions en trop.
+  « moins d'extra d'abord » (moins de recettes si ça donne moins de surplus) ; un multiple coûte comme 2 portions en trop
+  (multiples calculés exactement). Une semaine qui respecte les règles de variété passe toujours avant une qui les enfreint.
 - Filtres stricts : saisons cochées, types de plat exclus. Variété : même type de plat max 2, même protéine max 3 (par défaut),
   pause avant de revoir une recette.
-- Score : saison, note (0,25 par étoile au-dessus de 3, donc +0,5 au plus), jamais planifiée, ingrédients frais partagés, hasard (0 à 1,2).
+- Score : saison, note (0,25 par étoile au-dessus de 3, donc +0,5 au plus), jamais planifiée, ingrédients frais partagés
+  (0,25 chacun), hasard (0 à 1,6, élargi pour des suggestions proches de l'uniforme).
 
 **Liste d'épicerie**
 - Articles en français (ou en anglais pour un foyer anglophone), jamais de franglais.
 - Les plages restent (« 4 à 8 ») ; équivalences d'unités vers l'unité d'achat ; unités entières arrondies vers le haut.
 - Garde-manger (73 articles : huiles, vinaigres, sauces, épices, farine, sucre…) listé à part.
-- Tofu ferme et extra-ferme restent deux articles.
+- Tofu ferme et extra-ferme restent deux articles ; bloc de tofu = 450 g.
+- Boîtes : format affiché (« 2 boîtes (540 ml) ») ; une boîte de légumineuses de 540 ml = 500 ml égouttés.
+- Grains cuits dans une recette (« riz cuit », « quinoa cuit »…) achetés secs (`cooked_ratio` du catalogue).
+- Épinards en sacs de 200 g (1 tasse = 30 g) ; herbes fraîches : 1 botte = 1 tasse hachée.
+- Bouillon : la quantité demandée telle quelle (ils utilisent Better than Bouillon), pas de conversion en cubes.
+- Une ligne peut mélanger des unités (« 24 g + 60 ml ») ; « au goût » ou « une poignée » disparaît si une autre recette donne une quantité.
+- Un seul article pour les boissons végétales (soya, avoine, amande…). Balsamique blanc et piment doux sont des articles à part.
 
 **Comptes**
 - Pas d'inscription obligatoire : accès anonyme lié au navigateur ; « Rejoindre un foyer » avec le code pour un autre appareil.
@@ -88,6 +97,8 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
 | 0009 | variété par défaut 2 / 3 | appliquée |
 | 0010 | légumes d'accompagnement des recettes de tofu seul | appliquée |
 | 0011 | langue du foyer + noms anglais du catalogue | appliquée |
+| 0012 | validation : cooked_ratio, dernier membre du livre, catalogue (258 articles), fusion boissons végétales | à appliquer |
+| 0013 | alias du catalogue (après 0012) | à appliquer |
 
 ## Procédures
 - **Publier** : `npx vitest run`, `npx tsc --noEmit`, `npx eslint src scripts`, `npm run build`, puis commit et push sur `main`.
@@ -95,7 +106,10 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
   et `npx tsx scripts/add-recipe-test.ts` (ajout de recette).
 - **Recettes de départ** : `npx tsx scripts/import-local.ts` → `scripts/fetch-images.ts` (`--force` ou supprimer l'image pour la refaire)
   → `scripts/build-starter.ts` → `scripts/build-seed.ts` ; vérifier avec `scripts/check-catalog.ts`, `scripts/list-audit.ts`, `scripts/protein-audit.ts`.
-- **Icônes** : `npx tsx scripts/build-icons.ts` depuis le logo dans `Logo/`.
+- **Icônes** : `npx tsx scripts/build-icons.ts` depuis le logo dans `Logo/` (le fichier le plus récent).
+- **Validation** : `src/validation/*.test.ts` (quantités lues, conversions, liste d'épicerie sur des centaines de semaines,
+  planificateur, langues) ; `scripts/validate/mapping.ts` (chaque ligne → article), `scripts/validate/quantities.ts`,
+  `scripts/validate/aliases-check.ts` (alias risqués).
 - **Sauvegarde** : chaque lundi, l'action GitHub « Sauvegarde des recettes » copie tout le livre (recettes, ingrédients, étapes,
   photos téléversées) dans `backup/` ; lancer à la main avec `npx tsx scripts/backup-recipes.ts` ou Actions → Run workflow.
   Vercel ne republie pas pour une sauvegarde seule (`vercel.json`). La lecture hebdomadaire évite aussi la mise en pause de Supabase.

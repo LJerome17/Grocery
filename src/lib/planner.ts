@@ -68,39 +68,55 @@ export type Planned = { id: string; multiplier: number };
 /** Each extra multiple (×2, ×3…) counts like 2 extra portions: variety wins over cooking one recipe many times. */
 const MULTIPLY_COST = 2;
 
+/** A week that breaks the variety rules is only kept when no draw (of any size up to the maximum) respects them. */
+const RULE_BREAK_COST = 1000;
+
 /**
- * Whole multipliers (×1, ×2…) so the recipes reach at least `target` portions with as little extra as possible.
+ * Whole multipliers (×1, ×2…) so the recipes reach at least `target` portions at the lowest cost:
+ * extra portions + MULTIPLY_COST per multiple (exact, by dynamic programming over the portion total).
  * Quantities are never adapted otherwise: a recipe for 4 is cooked for 4, 8, 12…
  */
 export function assignMultipliers(servings: number[], target: number): number[] {
   if (!servings.length) return [];
   const s = servings.map((x) => (x > 0 ? x : DEFAULT_SERVINGS));
-  const share = target / s.length;
-  const m = s.map((x) => Math.max(1, Math.round(share / x)));
-  const total = () => m.reduce((sum, k, i) => sum + k * s[i], 0);
-
-  while (total() < target) {
-    // The addition that reaches the target with the least overshoot, else the biggest step.
-    const t = total();
-    let best = 0;
-    for (let i = 1; i < s.length; i++) {
-      const a = t + s[i], b = t + s[best];
-      const better = a >= target ? b < target || a < b || (a === b && m[i] < m[best]) : b < target && s[i] > s[best];
-      if (better) best = i;
-    }
-    m[best]++;
-  }
-  // Trim: drop a multiple while the target is still met, biggest recipes first.
-  for (let changed = true; changed; ) {
-    changed = false;
-    const order = s.map((_, i) => i).sort((a, b) => s[b] - s[a]);
-    for (const i of order) {
-      if (m[i] > 1 && total() - s[i] >= target) {
-        m[i]--;
-        changed = true;
-        break;
+  // Totals past target + the biggest recipe never help: one multiple less would still reach the target.
+  const cap = Math.max(target, 0) + Math.max(...s);
+  // best[t] = lowest multiple cost reaching exactly total t with the recipes seen so far; choice[i][t] = multiplier.
+  let best: number[] = new Array(cap + 1).fill(Infinity);
+  best[0] = 0;
+  const choice: number[][] = [];
+  for (const size of s) {
+    const next = new Array(cap + 1).fill(Infinity);
+    const pick = new Array(cap + 1).fill(0);
+    for (let t = 0; t <= cap; t++) {
+      if (best[t] === Infinity) continue;
+      for (let m = 1; t + m * size <= cap; m++) {
+        const c = best[t] + (m - 1) * MULTIPLY_COST;
+        const u = t + m * size;
+        // On a tie, fewer multiples of this recipe (spread across recipes).
+        if (c < next[u]) {
+          next[u] = c;
+          pick[u] = m;
+        }
       }
     }
+    best = next;
+    choice.push(pick);
+  }
+  let end = -1;
+  let endCost = Infinity;
+  for (let t = Math.max(target, 0); t <= cap; t++) {
+    const c = best[t] + (t - target);
+    if (c < endCost) {
+      endCost = c;
+      end = t;
+    }
+  }
+  if (end < 0) return s.map(() => 1);
+  const m = new Array(s.length).fill(1);
+  for (let i = s.length - 1, t = end; i >= 0; i--) {
+    m[i] = choice[i][t];
+    t -= m[i] * s[i];
   }
   return m;
 }
@@ -132,9 +148,9 @@ export function planWeek(
       const plan = ids.map((id, i) => ({ id, multiplier: mult[i] }));
       const extra = totalPortions(plan, (id) => servings.get(id)!) - target;
       // The least extra, and as few multiplied recipes as possible (more variety).
-      const cost = extra + mult.reduce((a, k) => a + (k - 1), 0) * MULTIPLY_COST;
+      const cost = extra + mult.reduce((a, k) => a + (k - 1), 0) * MULTIPLY_COST + (respectsRules(plan, recipes, rules) ? 0 : RULE_BREAK_COST);
       if (!best || cost < best.cost) best = { plan, extra, cost };
-      if (extra === 0 && mult.every((k) => k === 1)) break;
+      if (extra === 0 && mult.every((k) => k === 1) && cost === 0) break;
     }
     return best;
   };
@@ -208,8 +224,8 @@ export function score(r: PlannerRecipe, season: Season, picked: PlannerRecipe[],
   else s += Math.min(r.weeksSinceEaten, 12) * 0.05; // long time no see
   // Shared fresh ingredients with the rest of the week: an opened bunch of coriander gets used up.
   const pickedIngredients = new Set(picked.flatMap((p) => p.ingredientIds));
-  s += r.ingredientIds.filter((i) => pickedIngredients.has(i)).length * 0.3;
-  return s + random() * 1.2;
+  s += r.ingredientIds.filter((i) => pickedIngredients.has(i)).length * 0.25;
+  return s + random() * 1.6; // wider chance than the bonuses: suggestions stay close to uniform (user, 2026-09-30)
 }
 
 function pickBest(

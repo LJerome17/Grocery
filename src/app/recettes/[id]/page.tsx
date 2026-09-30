@@ -78,7 +78,7 @@ function RecipeView() {
         </p>
         <div className="flex items-center gap-1">
           {[1, 2, 3, 4, 5].map((n) => (
-            <button key={n} disabled={!canEdit} className={`text-2xl ${recipe.rating && n <= recipe.rating ? "text-amber-500" : "text-line"}`} onClick={() => update({ rating: recipe.rating === n ? null : n })}>
+            <button key={n} disabled={!canEdit} aria-label={tr(`${n} étoile${n > 1 ? "s" : ""}`, `${n} star${n > 1 ? "s" : ""}`)} className={`text-2xl ${recipe.rating && n <= recipe.rating ? "text-amber-500" : "text-line"}`} onClick={() => update({ rating: recipe.rating === n ? null : n })}>
               ★
             </button>
           ))}
@@ -109,7 +109,7 @@ function RecipeView() {
           })}
         </ul>
         {times > 1 && <p className="mb-3 rounded-lg bg-brand-soft p-2 text-sm text-brand">{tr(`Recette ×${times} cette semaine : multipliez chaque quantité par ${times}.`, `Recipe ×${times} this week: multiply each quantity by ${times}.`)}</p>}
-        {!recipe.servings && <p className="mt-3 text-xs text-muted">{tr("Nombre de portions inconnu : 4 supposées. Indiquez-le dans Préférences.", "Number of servings unknown: 4 assumed. Set it in Preferences.")}</p>}
+        {!recipe.servings && <p className="mt-3 text-xs text-muted">{canEdit ? tr("Nombre de portions inconnu : 4 supposées. Indiquez-le dans Préférences.", "Number of servings unknown: 4 assumed. Set it in Preferences.") : tr("Nombre de portions inconnu : 4 supposées.", "Number of servings unknown: 4 assumed.")}</p>}
       </section>
 
       {recipe.instructions.length > 0 && (

@@ -124,15 +124,20 @@ async function main() {
     }
 
     // 6. Server import route with the visitor's token.
-    await step("POST /api/import (lien)", async () => {
+    // Reading links is reserved to the recipe book's members (other households cannot save recipes).
+    await step("POST /api/import refused to an ordinary household", async () => {
       const r = await fetch(`${SITE}/api/import`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ url: "https://margauxfood.ca/recette/nouilles-udon-au-tofu-croustillant/" }),
       });
-      const d = await r.json();
-      if (!r.ok) throw new Error(d.error ?? `HTTP ${r.status}`);
-      return `${d.ingredients.length} ingrédients, ${d.instructions.length} étapes`;
+      if (r.status !== 403) throw new Error(`HTTP ${r.status}`);
+      return "403";
+    });
+    await step("GET /api/image refused to an ordinary household", async () => {
+      const r = await fetch(`${SITE}/api/image?url=${encodeURIComponent("https://margauxfood.ca/")}`, { headers: { Authorization: `Bearer ${token}` } });
+      if (r.status !== 403) throw new Error(`HTTP ${r.status}`);
+      return "403";
     });
     await step("POST /api/import refuses without token", async () => {
       const r = await fetch(`${SITE}/api/import`, { method: "POST", body: "{}" });

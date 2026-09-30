@@ -9,10 +9,12 @@ function privateAddress(ip: string): boolean {
   if (isIP(ip) === 6) {
     const v = ip.toLowerCase();
     if (v.startsWith("::ffff:")) return privateAddress(v.slice(7));
+    // IPv4-compatible (::a.b.c.d) and NAT64 (64:ff9b::) addresses can reach IPv4 hosts: refused outright.
+    if (/^::\d+\.\d+\.\d+\.\d+$/.test(v) || v.startsWith("64:ff9b:")) return true;
     return v === "::1" || v === "::" || /^f[cd]/.test(v) || /^fe[89ab]/.test(v);
   }
   const [a, b] = ip.split(".").map(Number);
-  return a === 0 || a === 10 || a === 127 || (a === 169 && b === 254) || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168) || (a === 100 && b >= 64 && b <= 127) || a >= 224;
+  return a === 0 || a === 10 || a === 127 || (a === 169 && b === 254) || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168) || (a === 100 && b >= 64 && b <= 127) || (a === 198 && (b === 18 || b === 19)) || a >= 224;
 }
 
 async function assertPublic(url: URL) {

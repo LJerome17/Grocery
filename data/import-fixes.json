@@ -10,7 +10,47 @@
     ],
     "1/4 fresh basil": "1/4 cup fresh basil",
     "Grains de 4 maïs": "4 épis de maïs (les grains)",
-    "1 boîte de conserve (540 ml) lentilles vertes, rincées et égouttées": "1 boîte de 540 ml de lentilles en conserve (vertes), rincées et égouttées"
+    "1 boîte de conserve (540 ml) lentilles vertes, rincées et égouttées": "1 boîte de 540 ml de lentilles en conserve (vertes), rincées et égouttées",
+    "Sel et poivre": [
+      "Sel",
+      "Poivre"
+    ],
+    "Sel et poivre Au goût": [
+      "Sel au goût",
+      "Poivre au goût"
+    ],
+    "Sel et poivre - Au goût": [
+      "Sel au goût",
+      "Poivre au goût"
+    ],
+    "Poivre et sel": [
+      "Poivre",
+      "Sel"
+    ],
+    "1 c. à thé de sel, poivre au goût": [
+      "1 c. à thé de sel",
+      "Poivre au goût"
+    ],
+    "½ c. à thé de sel, poivre au goût": [
+      "½ c. à thé de sel",
+      "Poivre au goût"
+    ],
+    "¼ tasse de sauce soya + 1 c. à soupe pour la cuisson du tofu": [
+      "¼ tasse de sauce soya",
+      "1 c. à soupe de sauce soya pour la cuisson du tofu"
+    ],
+    "Garnitures: 4 oeufs, maïs, coriandre et graines de sésame pour garnir": [
+      "4 oeufs (garniture)",
+      "Maïs (garniture)",
+      "Coriandre (garniture)",
+      "Graines de sésame (garniture)"
+    ],
+    "30 oz canned chickpeas 2 cans, drained and rinsed": "2 cans chickpeas (30 oz), drained and rinsed",
+    "Pour servir: riz cuit et coriandre fraîche": [
+      "Riz cuit (pour servir)",
+      "Coriandre fraîche (pour servir)"
+    ],
+    "Charred Corn and Tomato Salsa (recipe below) (or salsa of choice)": "Charred Corn and Tomato Salsa (recipe below) (or salsa of choice) (optional)"
   },
   "pdfUrls": {
     "Salade-tiède-de-légumes-grillés-aux-lentilles-_-margauxfood.ca.pdf": "https://margauxfood.ca/recette/salade-de-legumes-grilles-aux-lentilles/",

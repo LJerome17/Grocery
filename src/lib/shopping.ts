@@ -4,7 +4,7 @@ import { AISLE_ORDER, NO_AISLE } from "./aisles";
 import { nameKey } from "./text";
 import { catalogName } from "./db";
 import { tr } from "./i18n";
-import { formatBase, formatNumber, toBase, UNIT_BY_KEY } from "./units";
+import { formatBase, formatNumber, toBase, unitLabel } from "./units";
 
 export type ListIngredient = {
   quantity: number | null;
@@ -26,7 +26,13 @@ export type CatalogItem = {
   count_unit?: string | null;
   /** How to add up different units of this product in the unit it is bought in. */
   equiv?: Equiv | null;
+  /** Size of the can it is sold in, shown on the list: "2 boîtes (540 ml)". */
+  ml_per_can?: number | null;
+  /** Grains bought dry: a recipe giving the cooked amount ("2 tasses de riz cuit") buys this many times less. */
+  cooked_ratio?: number | null;
 };
+
+const COOKED_RE = /\b(?:cuits?|cuites?|cooked)\b/i;
 
 /**
  * `unit`: the buying unit ("" = counted as is, "g"/"ml" = weighed/measured, else a count unit key).
@@ -74,6 +80,7 @@ type Range = [number, number];
 type Acc = {
   line: ListLine;
   equiv: Equiv | null;
+  canMl: number | null;
   amounts: Map<string, Range>; // base unit -> amount
   unquantified: boolean;
   requiredSomewhere: boolean;
@@ -103,6 +110,7 @@ export function buildShoppingList(
             recipes: [],
           },
           equiv: cat?.equiv ?? null,
+          canMl: cat?.ml_per_can ?? null,
           amounts: new Map(),
           unquantified: false,
           requiredSomewhere: false,
@@ -117,14 +125,15 @@ export function buildShoppingList(
       }
       const unit = (i.unit === null || i.unit === "piece") && cat?.count_unit ? cat.count_unit : i.unit;
       // Ranges are kept as written: "4-8 oeufs" stays "4 à 8" on the list (low and high are added up separately).
-      const low = toBase(i.quantity * r.factor, unit);
-      const high = toBase(Math.max(i.quantity, i.quantity_max ?? 0) * r.factor, unit);
+      const dry = cat?.cooked_ratio && COOKED_RE.test(i.name) ? 1 / Number(cat.cooked_ratio) : 1;
+      const low = toBase(i.quantity * r.factor * dry, unit);
+      const high = toBase(Math.max(i.quantity, i.quantity_max ?? 0) * r.factor * dry, unit);
       const prev = a.amounts.get(low.baseUnit) ?? [0, 0];
       a.amounts.set(low.baseUnit, [prev[0] + low.amount, prev[1] + high.amount]);
     }
   }
 
-  const lines = [...acc.values()].map(({ line, equiv, amounts, unquantified, requiredSomewhere }) => {
+  const lines = [...acc.values()].map(({ line, equiv, canMl, amounts, unquantified, requiredSomewhere }) => {
     const buying = equiv ? toBuyingUnit(amounts, equiv) : amounts;
     const parts = [...buying.entries()].map(([unit, [low, high]]) => {
       if (WHOLE_UNITS.has(unit)) [low, high] = [low, high].map((v) => Math.max(1, Math.ceil(v - 0.1))) as Range;
@@ -132,10 +141,10 @@ export function buildShoppingList(
       if (Math.abs(high - low) < 1e-9 || one(low) === one(high)) return one(low);
       // "4 à 8", "250 à 375 ml": the unit is written once when both ends share it.
       const [a, b] = [one(low), one(high)];
-      const unitA = a.replace(/^[\d\s,¼½¾⅓⅔]+/, ""), unitB = b.replace(/^[\d\s,¼½¾⅓⅔]+/, "");
+      const unitA = a.replace(/^[\d\s,.¼½¾⅓⅔]+/, ""), unitB = b.replace(/^[\d\s,.¼½¾⅓⅔]+/, "");
       const to = tr("à", "to");
       return unitA && unitA === unitB ? `${a.slice(0, a.length - unitA.length).trim()} ${to} ${b}` : `${a} ${to} ${b}`;
-    });
+    }).map((text, i) => ([...buying.keys()][i] === "can" && canMl ? `${text} (${canMl} ml)` : text));
     if (!parts.length && unquantified) parts.push(tr("au besoin", "as needed"));
     return { ...line, quantityText: parts.join(" + "), optional: !requiredSomewhere };
   });
@@ -153,7 +162,7 @@ export function scaledQuantity(quantity: number | null, quantityMax: number | nu
   if (quantity === null) return "";
   const q = formatNumber(quantity * factor);
   const max = quantityMax ? `–${formatNumber(quantityMax * factor)}` : "";
-  const u = unit ? UNIT_BY_KEY[unit] : null;
-  const label = u ? (quantity * factor > 1 ? u.label[1] : u.label[0]) : unit ?? "";
+  // Same labels as the list: household language, French singular below 2 ("1 ½ tasse").
+  const label = unit ? unitLabel(unit, quantity * factor) : "";
   return `${q}${max}${label ? ` ${label}` : ""}`;
 }

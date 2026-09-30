@@ -70,7 +70,7 @@ const NICE_FRACTIONS: [number, string][] = [
   [0.25, "¼"], [1 / 3, "⅓"], [0.5, "½"], [2 / 3, "⅔"], [0.75, "¾"],
 ];
 
-/** 1.5 -> "1 ½", 0.333 -> "⅓", 2.37 -> "2,4" (decimal comma in French, point in English). */
+/** 1.5 -> "1 ½", 0.333 -> "⅓", 2.6 -> "2,6" (decimal comma in French, point in English). */
 export function formatNumber(n: number): string {
   const whole = Math.floor(n + 1e-9);
   const frac = n - whole;
@@ -97,13 +97,23 @@ export function unitLabel(unit: string | null, qty: number): string {
   const u = UNIT_BY_KEY[unit];
   if (!u) return unit;
   const label = (lang() === "en" && LABEL_EN[u.key]) || u.label;
-  return qty > 1 ? label[1] : label[0];
+  // French (OQLF): plural from 2 ("1 ½ tasse", "2 tasses"); English: plural above 1 ("1.5 cups").
+  return (lang() === "en" ? qty > 1 : qty >= 2) ? label[1] : label[0];
 }
 
-/** Display a base amount (g or ml) with a sensible unit: 1500 g -> "1,5 kg". */
+/** 2.5 -> "2,5": kilograms and litres are written in decimals, never fractions ("2,5 à 2,6 L", not "2 ½ à 2,6 L"). */
+function decimal(n: number): string {
+  const d = String(Math.round(n * 10) / 10);
+  return lang() === "en" ? d : d.replace(".", ",");
+}
+
+/** Display a base amount (g or ml) with a sensible unit: 1500 g -> "1,5 kg"; a trace is at least "1 g", never "0 g". */
 export function formatBase(amount: number, baseUnit: string): string {
-  if (baseUnit === "g") return amount >= 1000 ? `${formatNumber(amount / 1000)} kg` : `${Math.round(amount)} g`;
-  if (baseUnit === "ml") return amount >= 1000 ? `${formatNumber(amount / 1000)} L` : `${Math.round(amount)} ml`;
+  if (baseUnit === "g" || baseUnit === "ml") {
+    const r = Math.max(amount > 0 ? 1 : 0, Math.round(amount));
+    if (r >= 1000) return `${decimal(amount / 1000)} ${baseUnit === "g" ? "kg" : "L"}`;
+    return `${r} ${baseUnit}`;
+  }
   const label = unitLabel(baseUnit, amount);
   return label ? `${formatNumber(amount)} ${label}` : formatNumber(amount);
 }

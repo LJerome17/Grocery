@@ -1421,12 +1421,22 @@
         "optional": false
       },
       {
-        "raw": "Sel et poivre",
+        "raw": "Sel",
         "section": null,
         "quantity": null,
         "quantityMax": null,
         "unit": null,
-        "name": "Sel et poivre",
+        "name": "Sel",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "Poivre",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Poivre",
         "note": null,
         "optional": false
       },
@@ -2061,8 +2071,8 @@
         "quantityMax": null,
         "unit": null,
         "name": "Champignons enokis",
-        "note": "facultatifs",
-        "optional": false
+        "note": null,
+        "optional": true
       },
       {
         "raw": "Condiment de type chili croquant ou huile piquante (facultatif)",
@@ -2152,13 +2162,23 @@
         "optional": false
       },
       {
-        "raw": "Sel et poivre Au goût",
+        "raw": "Sel au goût",
         "section": null,
         "quantity": null,
         "quantityMax": null,
         "unit": null,
-        "name": "Sel et poivre",
-        "note": "Au goût",
+        "name": "Sel",
+        "note": "au goût",
+        "optional": false
+      },
+      {
+        "raw": "Poivre au goût",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Poivre",
+        "note": "au goût",
         "optional": false
       },
       {
@@ -3992,11 +4012,11 @@
       {
         "raw": "Jus et zeste de ½ citron",
         "section": null,
-        "quantity": null,
+        "quantity": 0.5,
         "quantityMax": null,
         "unit": null,
-        "name": "Jus et zeste de 1/2 citron",
-        "note": null,
+        "name": "citron",
+        "note": "jus et zeste",
         "optional": false
       },
       {
@@ -4262,12 +4282,22 @@
         "optional": false
       },
       {
-        "raw": "¼ tasse de sauce soya + 1 c. à soupe pour la cuisson du tofu",
+        "raw": "¼ tasse de sauce soya",
         "section": null,
         "quantity": 0.25,
         "quantityMax": null,
         "unit": "cup",
-        "name": "sauce soya + 1 c. à soupe pour la cuisson du tofu",
+        "name": "sauce soya",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "1 c. à soupe de sauce soya pour la cuisson du tofu",
+        "section": null,
+        "quantity": 1,
+        "quantityMax": null,
+        "unit": "tbsp",
+        "name": "sauce soya pour la cuisson du tofu",
         "note": null,
         "optional": false
       },
@@ -4322,13 +4352,43 @@
         "optional": false
       },
       {
-        "raw": "Garnitures: 4 oeufs, maïs, coriandre et graines de sésame pour garnir",
+        "raw": "4 oeufs (garniture)",
         "section": null,
         "quantity": 4,
         "quantityMax": null,
         "unit": null,
         "name": "oeufs",
-        "note": "maïs, coriandre et graines de sésame pour garnir; garnitures",
+        "note": "garniture",
+        "optional": false
+      },
+      {
+        "raw": "Maïs (garniture)",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Maïs",
+        "note": "garniture",
+        "optional": false
+      },
+      {
+        "raw": "Coriandre (garniture)",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Coriandre",
+        "note": "garniture",
+        "optional": false
+      },
+      {
+        "raw": "Graines de sésame (garniture)",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Graines de sésame",
+        "note": "garniture",
         "optional": false
       }
     ],
@@ -7668,12 +7728,22 @@
         "optional": false
       },
       {
-        "raw": "Poivre et sel",
+        "raw": "Poivre",
         "section": null,
         "quantity": null,
         "quantityMax": null,
         "unit": null,
-        "name": "Poivre et sel",
+        "name": "Poivre",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "Sel",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Sel",
         "note": null,
         "optional": false
       },
@@ -7925,12 +7995,22 @@
         "optional": false
       },
       {
-        "raw": "Sel et poivre",
+        "raw": "Sel",
         "section": "Bol",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
-        "name": "Sel et poivre",
+        "name": "Sel",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "Poivre",
+        "section": "Bol",
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Poivre",
         "note": null,
         "optional": false
       },
@@ -8070,13 +8150,13 @@
         "optional": false
       },
       {
-        "raw": "180 ml de eau (3 c. à soupe)",
+        "raw": "180 ml de eau",
         "section": "Sauce",
         "quantity": 180,
         "quantityMax": null,
         "unit": "ml",
         "name": "eau",
-        "note": "3 c. à soupe",
+        "note": null,
         "optional": false
       },
       {
@@ -8200,13 +8280,13 @@
         "optional": false
       },
       {
-        "raw": "500 ml de féculents au choix (1/2 tasse)",
+        "raw": "500 ml de féculents au choix",
         "section": "Accompagnement",
         "quantity": 500,
         "quantityMax": null,
         "unit": "ml",
         "name": "féculents au choix",
-        "note": "1/2 tasse",
+        "note": null,
         "optional": false
       }
     ],
@@ -8698,13 +8778,13 @@
         "optional": false
       },
       {
-        "raw": "30 oz canned chickpeas 2 cans, drained and rinsed",
+        "raw": "2 cans chickpeas (30 oz), drained and rinsed",
         "section": null,
-        "quantity": 30,
+        "quantity": 2,
         "quantityMax": null,
-        "unit": "oz",
-        "name": "canned chickpeas 2 cans",
-        "note": "drained and rinsed",
+        "unit": "can",
+        "name": "chickpeas",
+        "note": "drained and rinsed; 30 oz",
         "optional": false
       },
       {
@@ -9582,13 +9662,23 @@
         "optional": false
       },
       {
-        "raw": "Sel et poivre - Au goût",
+        "raw": "Sel au goût",
         "section": null,
         "quantity": null,
         "quantityMax": null,
         "unit": null,
-        "name": "Sel et poivre -",
-        "note": "Au goût",
+        "name": "Sel",
+        "note": "au goût",
+        "optional": false
+      },
+      {
+        "raw": "Poivre au goût",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Poivre",
+        "note": "au goût",
         "optional": false
       },
       {
@@ -10147,12 +10237,22 @@
         "optional": false
       },
       {
-        "raw": "Pour servir: riz cuit et coriandre fraîche",
+        "raw": "Riz cuit (pour servir)",
         "section": null,
         "quantity": null,
         "quantityMax": null,
         "unit": null,
-        "name": "riz cuit et coriandre fraîche",
+        "name": "Riz cuit",
+        "note": "pour servir",
+        "optional": false
+      },
+      {
+        "raw": "Coriandre fraîche (pour servir)",
+        "section": null,
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Coriandre fraîche",
         "note": "pour servir",
         "optional": false
       }
@@ -10966,14 +11066,14 @@
         "optional": false
       },
       {
-        "raw": "Charred Corn and Tomato Salsa (recipe below) (or salsa of choice)",
+        "raw": "Charred Corn and Tomato Salsa (recipe below) (or salsa of choice) (optional)",
         "section": "Toppings (optional)",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
         "name": "Charred Corn and Tomato Salsa",
         "note": "recipe below; or salsa of choice",
-        "optional": false
+        "optional": true
       },
       {
         "raw": "Lazy Guacamole (recipe below)",
@@ -11153,13 +11253,23 @@
         "optional": false
       },
       {
-        "raw": "1 c. à thé de sel, poivre au goût",
+        "raw": "1 c. à thé de sel",
         "section": "Tofu shawarma",
         "quantity": 1,
         "quantityMax": null,
         "unit": "tsp",
         "name": "sel",
-        "note": "poivre au goût",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "Poivre au goût",
+        "section": "Tofu shawarma",
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Poivre",
+        "note": "au goût",
         "optional": false
       },
       {
@@ -11233,13 +11343,23 @@
         "optional": false
       },
       {
-        "raw": "½ c. à thé de sel, poivre au goût",
+        "raw": "½ c. à thé de sel",
         "section": "Houmous maison (ou du commerce)",
         "quantity": 0.5,
         "quantityMax": null,
         "unit": "tsp",
         "name": "sel",
-        "note": "poivre au goût",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "Poivre au goût",
+        "section": "Houmous maison (ou du commerce)",
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Poivre",
+        "note": "au goût",
         "optional": false
       },
       {
@@ -11946,11 +12066,11 @@
       {
         "raw": "Jus et zeste d'un ½ citron",
         "section": "Yogourt au sumac",
-        "quantity": null,
+        "quantity": 0.5,
         "quantityMax": null,
         "unit": null,
-        "name": "Jus et zeste d'un 1/2 citron",
-        "note": null,
+        "name": "citron",
+        "note": "jus et zeste",
         "optional": false
       },
       {
@@ -12168,12 +12288,22 @@
         "optional": false
       },
       {
-        "raw": "Sel et poivre",
+        "raw": "Sel",
         "section": "Cari végétarien",
         "quantity": null,
         "quantityMax": null,
         "unit": null,
-        "name": "Sel et poivre",
+        "name": "Sel",
+        "note": null,
+        "optional": false
+      },
+      {
+        "raw": "Poivre",
+        "section": "Cari végétarien",
+        "quantity": null,
+        "quantityMax": null,
+        "unit": null,
+        "name": "Poivre",
         "note": null,
         "optional": false
       },
@@ -13488,11 +13618,11 @@
       {
         "raw": "Le zeste et le jus de 1 citron",
         "section": "Vinaigrette",
-        "quantity": null,
+        "quantity": 1,
         "quantityMax": null,
         "unit": null,
-        "name": "Le zeste et le jus de 1 citron",
-        "note": null,
+        "name": "citron",
+        "note": "zeste et jus",
         "optional": false
       },
       {

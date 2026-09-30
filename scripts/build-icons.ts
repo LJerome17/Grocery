@@ -1,11 +1,18 @@
 // App icons and the page logo from the round logo in Logo/ (1024×1024, transparent outside the circle).
 // Usage: npx tsx scripts/build-icons.ts
 import sharp from "sharp";
-import { writeFileSync } from "node:fs";
+import { readdirSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = join(__dirname, "..");
-const SRC = join(ROOT, "Logo", "Icône avec cercle blanc, fond transparent@1x.png");
+// The most recent picture in Logo/ (the file name changes with each new version).
+const LOGO_DIR = join(ROOT, "Logo");
+const SRC = join(
+  LOGO_DIR,
+  readdirSync(LOGO_DIR)
+    .filter((f) => /.(png|jpe?g|webp)$/i.test(f))
+    .sort((a, b) => statSync(join(LOGO_DIR, b)).mtimeMs - statSync(join(LOGO_DIR, a)).mtimeMs)[0],
+);
 const BG = "#f5eee0"; // app background: phones fill transparent corners with black otherwise
 
 /** Square icon: the circle at `scale` of the side, centred on the app background. */

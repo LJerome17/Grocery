@@ -30,7 +30,7 @@ describe("English households", () => {
   it("translates server messages", () => {
     setLang("en");
     expect(messageFr(new Error("Le site a refusé la lecture (HTTP 403). Utilisez plutôt « coller le texte ».")))
-      .toBe("The site refused to be read (HTTP 403). Use “Paste the text” instead.");
+      .toBe("This site won't let the recipe be read (HTTP 403). Use “Paste the text” instead."); // wording changed 2026-09-30
     expect(messageFr(new Error("Invalid login credentials"))).toBe("Wrong username or password.");
   });
 

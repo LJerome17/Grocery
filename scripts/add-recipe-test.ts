@@ -4,7 +4,9 @@
 // Usage: npx tsx scripts/add-recipe-test.ts [site=https://momo-et-jeje-cuisinent-vege.vercel.app]
 import { createClient } from "@supabase/supabase-js";
 import { buildAliasIndex, matchIngredient } from "../src/lib/catalog";
-import type { ImportedRecipe } from "../src/lib/importRecipe";
+import { fetchRecipe, type ImportedRecipe } from "../src/lib/importRecipe";
+import { parseRecipeText } from "../src/lib/parseRecipeText";
+import { safeFetch } from "../src/lib/safeFetch";
 import { SUPABASE_KEY, SUPABASE_URL } from "../src/lib/supabase";
 
 const SITE = process.argv[2] ?? "https://momo-et-jeje-cuisinent-vege.vercel.app";
@@ -60,8 +62,11 @@ async function main() {
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.access_token}` },
           body: JSON.stringify(body),
         });
-        const draft = (await res.json()) as ImportedRecipe & { error?: string };
-        if (!res.ok) throw new Error(draft.error ?? `HTTP ${res.status}`);
+        // Link reading is reserved to the recipe book: an ordinary household is refused, so the page is read here
+        // with the same code the server runs.
+        if (res.status !== 403) throw new Error(`un foyer ordinaire devrait être refusé (HTTP ${res.status})`);
+        console.log("Lecture refusée au foyer ordinaire (403), comme prévu ; lecture locale avec le même code :");
+        const draft: ImportedRecipe = "url" in body ? await fetchRecipe(body.url, safeFetch) : parseRecipeText(body.text);
         console.log(`Titre : ${draft.title} | portions ${draft.servings} | ${draft.ingredients.length} ingrédients | ${draft.instructions.length} étapes | image ${draft.image ? "oui" : "non"}`);
         const index = await aliasIndex();
         const links = draft.ingredients.map((i) => matchIngredient(i.name, index));

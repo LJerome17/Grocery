@@ -31,7 +31,7 @@ const AISLE_EN: Record<string, string> = {
 
 /** Aisle name in the household's language. */
 export function aisleLabel(key: string): string {
-  return (lang() === "en" ? AISLE_EN[key] : AISLE_FR[key]) ?? AISLE_FR.autre;
+  return lang() === "en" ? AISLE_EN[key] ?? AISLE_EN.autre : AISLE_FR[key] ?? AISLE_FR.autre;
 }
 export const AISLE_ORDER: Record<string, number> = Object.fromEntries(AISLES.map(([k], i) => [k, i]));
 /** Catalogue aisle for things never bought (water). */

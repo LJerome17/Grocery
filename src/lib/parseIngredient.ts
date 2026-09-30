@@ -26,13 +26,15 @@ const QTY_RE = new RegExp(String.raw`^(${NUM})(?:\s*(?:-|–|à|to|or|ou)\s*(${N
 const APPROX_RE = /^(?:\+\/-|±|~|about|approx\.?|around|environ)\s*/i;
 const HALF_RE = /^(?:une? |a )?(?:demi|half)(?:-|\s+)(?:an? |d['’]une? |une? )?/i;
 const WORD_ONE_RE = /^(?:a|an|one|un|une)\s+/i;
-const PART_OF_RE = /^(?:le |la |the )?(jus|zeste|juice|zest)\s+(?:de\s+|d['’]\s*|of\s+)(?:la |le |l['’]|the )?/i;
+// "Le jus d'une lime", "Jus et zeste de ½ citron", "Le zeste et le jus de 1 citron", "d'un ½ citron".
+const PART_OF_RE =
+  /^(?:le |la |the )?(jus|zeste|juice|zest)(?:\s+(?:et|and|&)\s+(?:le |la |the )?(jus|zeste|juice|zest))?\s+(?:de\s+|d['’]\s*|of\s+)(?:la |le |l['’]|the |une?\s+(?=[\d½¼¾⅓⅔]))?/i;
 // A package size such as "796 ml", "350 à 450 g".
 const SIZE_AMOUNT = String.raw`\d+(?:[.,]\d+)?(?:\s*(?:à|-|–|to)\s*\d+(?:[.,]\d+)?)?\s*(?:ml|g|kg|l|oz|lb)`;
 const CONTAINER_UNITS = new Set(["can", "pack", "block"]);
 const SIZE_RE =
   /^(?:(?:small|medium|large)[- ]sized?|medium to large|small to medium|moyen(?:ne)?s? (?:à|a) gros(?:se)?s?|small|medium|large|big|extra[- ]large|heaped|heaping|level|rounded|generous|scant|petite?s?|moyens?|moyennes?|gros|grosses?|grande?s?|rases?|bomb[ée]es?|combles?)(?=\s|$)\s*/i;
-const OPTIONAL_RE = /\b(?:optional|optionnel(?:le)?|facultati(?:f|ve))\b/i;
+const OPTIONAL_RE = /\b(?:optional|optionnel(?:le)?s?|facultati(?:f|ve)s?)\b/i;
 const TRAILING_NOTE_RE = /\s*\b(to taste|au go[uû]t|au besoin|as needed|for garnish|to serve|pour garnir|pour servir)\b.*$/i;
 const BULLET_RE = /^[\s\-‐‑‒–—−•*▢□☐·]+/;
 // "Pesto végétalien - 125 ml", "Nouilles soba — 250 g", "Fromage halloumi : un bloc" (quantity after the name).
@@ -109,7 +111,7 @@ export function parseIngredientLine(rawInput: string, section: string | null = n
   // "Le jus d'une lime" -> buy a lime; "juice" kept as a note.
   const part = s.match(PART_OF_RE);
   if (part) {
-    notes.push(part[1].toLowerCase());
+    notes.push((part[2] ? `${part[1]} et ${part[2]}` : part[1]).toLowerCase());
     s = s.slice(part[0].length);
   }
 

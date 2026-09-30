@@ -30,8 +30,8 @@ describe("calendar helpers", () => {
 describe("portions: whole multipliers only", () => {
   it("reaches the target with the least extra", () => {
     expect(assignMultipliers([4, 4, 4, 4, 4], 19)).toEqual([1, 1, 1, 1, 1]); // 20 = 1 extra
-    expect(assignMultipliers([4, 4, 4, 4], 19)).toEqual([2, 1, 1, 1]); // 20
-    expect(assignMultipliers([1, 4, 4], 12)).toEqual([4, 1, 1]); // the 1-portion bowl ×4
+    expect([...assignMultipliers([4, 4, 4, 4], 19)].sort()).toEqual([1, 1, 1, 2]); // 20: one recipe ×2 (any)
+    expect([...assignMultipliers([1, 4, 4], 12)].sort()).toEqual([1, 1, 2]); // 13 (1 extra + one multiple = 3) beats the bowl ×4 (3 multiples = 6)
     expect(assignMultipliers([6, 4], 10)).toEqual([1, 1]);
   });
   it("never goes under the target", () => {

@@ -13,7 +13,8 @@ import { supabase } from "@/lib/supabase";
 export default function Foyer() {
   const { session, household, reloadHousehold, lang } = useApp();
   const router = useRouter();
-  const [name, setName] = useState("Momo et Jéjé");
+  // Empty until typed: the default name follows the language picked on this page.
+  const [name, setName] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [code, setCode] = useState("");
   const [login, setLogin] = useState("");
@@ -39,7 +40,7 @@ export default function Foyer() {
     setBusy(true);
     setError(null);
     if (!(await withUsername())) return;
-    const { data: id, error } = await supabase().rpc("create_household", { p_name: name, p_display_name: displayName || null });
+    const { data: id, error } = await supabase().rpc("create_household", { p_name: name.trim() || tr("Notre foyer", "Our household"), p_display_name: displayName || null });
     if (error) {
       setError(messageFr(error));
       setBusy(false);
@@ -106,7 +107,7 @@ export default function Foyer() {
 
       <form onSubmit={create} className="card space-y-3 p-5">
         <h2 className="font-semibold">{tr("Créer un foyer", "Create a household")}</h2>
-        <input className="input" value={name} onChange={(e) => setName(e.target.value)} required />
+        <input className="input" placeholder={tr("Notre foyer", "Our household")} value={name} onChange={(e) => setName(e.target.value)} />
         <button className="btn-primary w-full" disabled={busy}>
           {busy ? tr("Création…", "Creating…") : tr("Créer", "Create")}
         </button>

@@ -55,7 +55,7 @@ export default function Nouvelle() {
         body: JSON.stringify(mode === "url" ? { url: input.trim() } : { text: input }),
       });
       const data = await res.json();
-      if (!res.ok) throw data.error ? new Error(data.error) : new UserMessage(tr("Import impossible.", "Import failed."));
+      if (!res.ok) throw data.error ? new Error(data.error) : new UserMessage(tr("Importation impossible.", "Could not import the recipe."));
       const r = data as ImportedRecipe;
       if (!r.ingredients.length) throw new UserMessage(tr("Aucun ingrédient trouvé. Essayez de coller le texte de la recette.", "No ingredients found. Try pasting the recipe text."));
       setDraft(r);
@@ -69,7 +69,7 @@ export default function Nouvelle() {
   async function newIngredient(index: number) {
     const name = prompt(tr("Nom de l'ingrédient sur la liste d'épicerie :", "Ingredient name on the grocery list:"), draft?.ingredients[index].name ?? "");
     if (!name) return;
-    const aisle = prompt(tr(`Rayon ? (${AISLES.map(([k]) => k).join(", ")})`, `Aisle? (${AISLES.map(([k]) => `${k} = ${aisleLabel(k)}`).join(", ")})`), "autre") ?? "autre";
+    const aisle = prompt(tr(`Rayon ? (${AISLES.map(([k]) => `${k} = ${aisleLabel(k)}`).join(", ")})`, `Aisle? (${AISLES.map(([k]) => `${k} = ${aisleLabel(k)}`).join(", ")})`), "autre") ?? "autre";
     const { data, error } = await supabase()
       .from("ingredients")
       .insert({ household_id: householdId, name, aisle: AISLES.some(([k]) => k === aisle) ? aisle : "autre" })
@@ -158,7 +158,7 @@ export default function Nouvelle() {
       <div className="card mt-10 space-y-3 p-5 text-center">
         <p>{tr("Les recettes sont celles de Momo et Jéjé : seuls eux peuvent en ajouter.", "The recipes belong to Momo and Jéjé: only they can add new ones.")}</p>
         <button onClick={() => router.back()} className="btn-ghost">
-          ← Retour
+          {tr("← Retour", "← Back")}
         </button>
       </div>
     );
@@ -168,7 +168,7 @@ export default function Nouvelle() {
     return (
       <div className="space-y-4">
         <button onClick={() => router.back()} className="text-sm text-muted">
-          ← Retour
+          {tr("← Retour", "← Back")}
         </button>
         <h1 className="text-2xl font-bold">{tr("Nouvelle recette", "New recipe")}</h1>
         <div className="flex gap-2">
