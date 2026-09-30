@@ -17,8 +17,9 @@ export function loginEmail(input: string): string | null {
   return key && `${key}@${DOMAIN}`;
 }
 
-/** What to show for a signed-in account: the username, or the real email. */
-export function accountName(email: string | undefined): string {
+/** What to show for a signed-in account: the username as typed ("Jérôme"), else its login key, else the real email. */
+export function accountName(email: string | undefined, typed?: unknown): string {
+  if (typeof typed === "string" && typed) return typed;
   return email?.endsWith(`@${DOMAIN}`) ? email.slice(0, -DOMAIN.length - 1) : email ?? "";
 }
 
@@ -30,8 +31,19 @@ export async function protectAccess(input: string, password: string): Promise<vo
   if (!email) throw new Error(`Nom d'utilisateur invalide (${USERNAME_RULE})`);
   if (password.length < 6) throw new Error("Le mot de passe doit contenir au moins 6 caractères.");
   const sb = supabase();
-  const a = await sb.auth.updateUser({ email });
-  if (a.error) throw /already|exists/i.test(a.error.message) ? new Error("Ce nom d'utilisateur est déjà pris.") : a.error;
+  await setLogin(input, email);
   const b = await sb.auth.updateUser({ password });
   if (b.error) throw b.error;
+}
+
+/** New username for the signed-in account (the password stays the same); throws a French message. */
+export async function renameAccount(input: string): Promise<void> {
+  const email = loginEmail(input);
+  if (!email) throw new Error(`Nom d'utilisateur invalide (${USERNAME_RULE})`);
+  await setLogin(input, email);
+}
+
+async function setLogin(input: string, email: string) {
+  const { error } = await supabase().auth.updateUser({ email, data: { username: input.includes("@") ? null : input.trim() } });
+  if (error) throw /already|exists/i.test(error.message) ? new Error("Ce nom d'utilisateur est déjà pris.") : error;
 }

@@ -6,7 +6,7 @@ import type { Household } from "@/lib/db";
 import { syncStarterRecipes } from "@/lib/starter";
 import { supabase } from "@/lib/supabase";
 import { messageFr } from "@/lib/erreur";
-import { accountName, protectAccess } from "@/lib/username";
+import { accountName, protectAccess, renameAccount } from "@/lib/username";
 
 function Rule({ label, help, value, min, max, onChange }: { label: string; help: string; value: number; min: number; max: number; onChange: (v: number) => void }) {
   return (
@@ -25,6 +25,38 @@ function Rule({ label, help, value, min, max, onChange }: { label: string; help:
         </button>
       </div>
     </div>
+  );
+}
+
+/** Signed-in account: shows the username and lets it be changed (same password). */
+function RenameAccount({ current }: { current: string }) {
+  const [login, setLogin] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
+
+  async function rename(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setMsg(null);
+    try {
+      await renameAccount(login);
+      setMsg(`C'est fait : connectez-vous maintenant avec « ${login.trim()} ».`);
+      setLogin("");
+    } catch (err) {
+      setMsg(messageFr(err));
+    }
+    setBusy(false);
+  }
+
+  return (
+    <form onSubmit={rename} className="space-y-2">
+      <p className="text-muted">Connecté : {current}</p>
+      <input className="input" autoCapitalize="none" placeholder="Nouveau nom d'utilisateur" value={login} onChange={(e) => setLogin(e.target.value)} required />
+      <button className="btn-ghost w-full" disabled={busy}>
+        Changer mon nom d&apos;utilisateur
+      </button>
+      {msg && <p className="text-sm text-muted">{msg}</p>}
+    </form>
   );
 }
 
@@ -162,7 +194,7 @@ export default function Reglages() {
       )}
 
       <section className="card p-4 text-sm">
-        {session?.user.is_anonymous ? <ProtectAccount /> : <p className="text-muted">Connecté : {accountName(session?.user.email)}</p>}
+        {session?.user.is_anonymous ? <ProtectAccount /> : <RenameAccount current={accountName(session?.user.email, session?.user.user_metadata?.username)} />}
         <button className="btn-ghost mt-3 w-full" onClick={leave}>
           Quitter ce foyer
         </button>
