@@ -122,7 +122,7 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
 | 0013 | alias du catalogue (après 0012) | appliquée |
 | 0014 | report de recette (postponed, already_bought), nom « Momo et Jéjé », articles jus de citron / lime, suivi d'utilisation | appliquée |
 | 0015 | sauvegardes d'un bloc (`save_weeks`, `replace_list`), statistiques sans les visiteurs partis | appliquée |
-| 0016 | empreinte de la liste (`list_signature`, `make_list`) : retirer les articles cochés ne rend plus la liste « pas à jour » | **à appliquer** (sans elle : `replace_list`, puis comparaison des lignes) |
+| 0016 | empreinte de la liste (`list_signature`, `make_list`) : retirer les articles cochés ne rend plus la liste « pas à jour » | appliquée |
 
 ## Procédures
 - **Publier** : `npx vitest run`, `npx tsc --noEmit`, `npx eslint src scripts`, `npm run build`, puis commit et push sur `main`.
@@ -147,7 +147,7 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
 - **Audit (2026-10-27)** : `src/validation/audit/simulation.test.ts` (milliers de semaines, chaque opération de Semaine et
   Épicerie jouée des centaines de fois, règles vérifiées après chacune), `src/validation/audit/list-oracle.test.ts` (listes
   comparées à un calcul indépendant), `scripts/audit/live-ops.ts` (opérations réelles et droits d'accès dans la vraie base,
-  foyers jetables). Résultats et corrections : voir « Audit » plus bas.
+  foyers jetables). Résultats et corrections : voir « Audit du 2026-10-27 » plus bas.
 - **Sauvegarde** : chaque lundi, l'action GitHub « Sauvegarde des recettes » copie tout le livre (recettes, ingrédients, étapes,
   photos téléversées) dans `backup/` ; lancer à la main avec `npx tsx scripts/backup-recipes.ts` ou Actions → Run workflow.
   Vercel ne republie pas pour une sauvegarde seule (`vercel.json`). La lecture hebdomadaire évite aussi la mise en pause de Supabase.
@@ -163,6 +163,22 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
 - Limites connues (tests `it.fails`) : le lecteur de lignes comprend mal « 30 oz … 2 cans », « + 1 c. à soupe » après le nom et
   « 1 morceau de ½ pouce » (les lignes concernées des recettes de départ sont corrigées une à une) ; aux réglages par défaut
   (20 portions, 5 recettes), les recettes de 1 à 3 portions sortent rarement (cinq recettes de 4 portions tombent pile).
+
+## Audit du 2026-10-27
+- Volume : simulation de 4 000 sessions (91 000 opérations, avec et sans les migrations 0015 / 0016, coupures de connexion
+  simulées) ; 3 600 semaines et 1,4 million de lignes de liste comparées à un calcul indépendant ; environ 6 600 opérations
+  réelles et 7 000 tentatives d'accès croisées dans la vraie base. Chaque erreur a été reproduite par un second agent.
+- Corrigé : recettes reportées retirées ou re-multipliées par « Proposer », les portions, le nombre de recettes, retirer,
+  ajouter ; échange qui enfreignait la variété ; sauvegardes en plusieurs étapes (semaine ou liste vidée, recette dans les
+  deux semaines si la connexion coupe) ; case cochée d'un article manuel qui cochait une ligne de recette ; « 1 gousse à
+  2 gousses » ; réglages affichés différents de la base après un échec ; statistiques gonflées par les tests ; bandeau
+  « liste pas à jour » après « Retirer les articles cochés ».
+- Résultat après corrections : 0 erreur (sans les migrations, une coupure peut encore laisser un état partiel ; elles sont appliquées).
+- Choix assumés, non corrigés : une semaine qui manque de plus de 10 portions passe avant une qui enfreint la variété
+  (surtout quand il ne reste que des recettes reportées) ; le planificateur peut multiplier au-delà de 6 alors que le bouton
+  + s'arrête à 6 ; une ligne retirée avec « Retirer les articles cochés » revient décochée si on refait la liste.
+- Lancer : `npx vitest run src/validation/audit/` (ajouter `--disableConsoleIntercept` pour les résumés) ;
+  `npx tsx scripts/audit/live-ops.ts --seed 202 --minutes 6.5 --atomic 20` (vraie base, foyers jetables).
 
 ## En attente
 - Sources manquantes : Soupe de lentilles (p. 142), Garlic Chili (après l'étape 9).
