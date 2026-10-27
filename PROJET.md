@@ -132,8 +132,10 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
   Dernière passe (2026-09-30) : 29 réussis ; C3, C4, E1 en attente de « Mettre à jour les recettes de départ » ; C5 : 2 recettes
   ajoutées sans photo. A produit deux corrections (arrivée sur la semaine après connexion ; « Choisir une recette » sur une semaine vide).
 - **Utilisation** : chaque ouverture de l'app appelle `log_usage()` (une ligne par personne, foyer et jour dans `usage_days`,
-  lisible seulement par `usage_stats()`). Réglages → « Utilisation » (foyer livre seulement) : dernière visite, jours et
-  ouvertures sur 30 jours, semaines planifiées, listes faites, par foyer. Compté depuis le 2026-10-27.
+  lisible seulement par `usage_summary()` et `usage_stats()`, réservées aux membres du livre). Réglages → « Utilisation »
+  (foyer livre seulement) : comptes actifs (7 / 30 jours, total), visites, foyers, foyers avec une liste cette semaine
+  (et la suivante), puis le classement des foyers (visites et jours sur 30 jours, semaines planifiées, listes faites).
+  Une visite = une ouverture de l'app (une par onglet). Visites comptées depuis le 2026-10-27 ; semaines et listes depuis le début.
 - **Sauvegarde** : chaque lundi, l'action GitHub « Sauvegarde des recettes » copie tout le livre (recettes, ingrédients, étapes,
   photos téléversées) dans `backup/` ; lancer à la main avec `npx tsx scripts/backup-recipes.ts` ou Actions → Run workflow.
   Vercel ne republie pas pour une sauvegarde seule (`vercel.json`). La lecture hebdomadaire évite aussi la mise en pause de Supabase.
