@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { assignMultipliers, planWeek, seasonOf, suggest, swapFor, weekStart, type PlannerRecipe, type Rules } from "./planner";
+import { assignMultipliers, fitMultipliers, planWeek, respectsRules, seasonOf, suggest, swapFor, swapInPlan, weekStart, type PlannerRecipe, type Rules } from "./planner";
 import { buildShoppingList, type CatalogItem } from "./shopping";
 
 const rules: Rules = { maxSameDishType: 1, maxSameProtein: 2, cooldownWeeks: 3 };
@@ -204,5 +204,47 @@ describe("buildShoppingList", () => {
   it("marks items only used as optional", () => {
     const list = buildShoppingList([{ title: "A", factor: 1, ingredients: [ing(null, null, null, "Coriandre", true)] }], catalog);
     expect(list[0]).toMatchObject({ optional: true, quantityText: "au besoin" });
+  });
+});
+
+// Audit 2026-10-27: recipes postponed from the previous week are fixed (always kept, multiplier unchanged).
+describe("postponed recipes (fixed)", () => {
+  const book = [
+    r("A", "bol", "tofu"), r("B", "soupe", "lentilles"), r("C", "pâtes", "pois chiches"), r("D", "salade", "haricots noirs"),
+    r("E", "mijoté", "tempeh"), r("F", "four", "fromage"), r("G", "riz", "œufs"), r("H", "wrap", "végé"),
+  ];
+  const sv = () => 4;
+  it("fitMultipliers leaves a fixed recipe's multiplier alone", () => {
+    expect(fitMultipliers(["A", "B"], sv, 12, new Map([["A", 1]]))).toEqual([{ id: "A", multiplier: 1 }, { id: "B", multiplier: 2 }]);
+    expect(fitMultipliers(["A", "B"], sv, 4, new Map([["A", 2]]))).toEqual([{ id: "A", multiplier: 2 }, { id: "B", multiplier: 1 }]);
+  });
+  it("planWeek always keeps every fixed recipe, with its multiplier", () => {
+    for (let seed = 0; seed < 300; seed++) {
+      let x = seed + 1;
+      const random = () => ((x = (x * 16807) % 2147483647) / 2147483647);
+      const fixed = [{ id: "A", multiplier: 1 + (seed % 3) }, ...(seed % 2 ? [{ id: "B", multiplier: 1 }] : [])];
+      const target = 4 + (seed % 7) * 4;
+      const count = 1 + (seed % 6);
+      const plan = planWeek(book, count, target, { ...rules, maxSameProtein: 3, maxSameDishType: 2 }, "automne", { fixed, keep: ["C", "D", "E"], random });
+      for (const f of fixed) expect(plan.find((p) => p.id === f.id)?.multiplier, `seed ${seed}`).toBe(f.multiplier);
+    }
+  });
+  it("the planner adds recipes around them to reach the portions", () => {
+    const plan = planWeek(book, 5, 20, rules, "automne", { fixed: [{ id: "A", multiplier: 2 }], random: noRandom });
+    expect(plan[0]).toEqual({ id: "A", multiplier: 2 });
+    expect(plan.reduce((s, p) => s + p.multiplier * 4, 0)).toBe(20);
+  });
+});
+
+describe("swap prefers a replacement that respects the variety rules", () => {
+  it("does not return a rule-breaking recipe when a fitting one exists", () => {
+    const strict: Rules = { maxSameDishType: 9, maxSameProtein: 1, cooldownWeeks: 0 };
+    const book = [r("X", "bol", "tofu"), r("Y", "soupe", "lentilles"), r("G", "pâtes", "pois chiches", { servings: 6 }), ...[1, 2, 3, 4, 5, 6].map((i) => r(`T${i}`, "salade", "tofu"))];
+    for (let seed = 0; seed < 100; seed++) {
+      let x = seed + 1;
+      const random = () => ((x = (x * 16807) % 2147483647) / 2147483647);
+      const next = swapInPlan(book, [{ id: "X", multiplier: 1 }, { id: "Y", multiplier: 1 }], "Y", 8, strict, "automne", { random });
+      expect(next && respectsRules(next, book, strict), `seed ${seed}: ${JSON.stringify(next)}`).toBe(true);
+    }
   });
 });

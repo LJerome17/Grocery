@@ -9,7 +9,7 @@ import type { ShoppingItem } from "@/lib/db";
 import { messageFr } from "@/lib/erreur";
 import { locale, plural, tr } from "@/lib/i18n";
 import { weekStart } from "@/lib/planner";
-import { nextWeekOf } from "@/lib/weekPlan";
+import { listOrder, nextWeekOf } from "@/lib/weekPlan";
 import { supabase } from "@/lib/supabase";
 
 export default function ListePage() {
@@ -62,13 +62,7 @@ function Liste() {
       return;
     }
     // The plan asked for (from "Faire la liste"), else this week, then upcoming weeks, then past ones.
-    const rank = (w: string) => (w === thisWeek ? 0 : w > thisWeek ? 1 : 2);
-    const ordered = (plans ?? []).sort(
-      (a, b) =>
-        Number(b.id === requested) - Number(a.id === requested) ||
-        rank(a.week_start) - rank(b.week_start) ||
-        (rank(a.week_start) === 1 ? a.week_start.localeCompare(b.week_start) : b.week_start.localeCompare(a.week_start)),
-    );
+    const ordered = listOrder(plans ?? [], requested, thisWeek);
     for (const p of ordered) {
       const { data } = await supabase().from("shopping_items").select("*").eq("plan_id", p.id).order("position");
       if (data?.length) {

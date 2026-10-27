@@ -20,7 +20,9 @@ vi.mock("../lib/supabase", () => {
     p.then = (res: (v: unknown) => unknown, rej: (e: unknown) => unknown) => Promise.resolve({ data: [], error: null }).then(res, rej);
     return p;
   };
-  return { supabase: () => ({ from: () => chain() }), SUPABASE_URL: "http://test", SUPABASE_KEY: "test" };
+  // No replace_list function (database before migration 0015): generateList writes the rows itself, recorded above.
+  const rpc = () => Promise.resolve({ data: null, error: { code: "PGRST202", message: "function not found" } });
+  return { supabase: () => ({ from: () => chain(), rpc }), SUPABASE_URL: "http://test", SUPABASE_KEY: "test" };
 });
 
 import { buildShoppingList, type CatalogItem, type Equiv, type ListIngredient, type ListLine } from "../lib/shopping";

@@ -44,8 +44,14 @@ Ce fichier est tenu à jour à chaque changement important. Dernière mise à jo
   (sur Semaine et sur Épicerie). On peut faire la liste de la semaine suivante sans toucher à celle-ci.
 - Reporter (⏭, cette semaine seulement) : la recette passe à la semaine suivante avec son multiplicateur ; les autres
   recettes de cette semaine ne sont pas multipliées pour compenser. L'app demande si les ingrédients sont déjà achetés :
-  oui → hors de la liste suivante (`already_bought`), réactivable sur la carte ; non → sur la liste. Une recette reportée
-  (`postponed`) reste quand on redemande des suggestions pour cette semaine-là.
+  oui → hors de la liste suivante (`already_bought`), réactivable sur la carte ; non → sur la liste. Les deux semaines
+  sont enregistrées d'un coup (jamais la recette dans les deux, ni dans aucune).
+- Une recette reportée (`postponed`) est fixe : toujours gardée, avec son multiplicateur, par « Proposer », les portions,
+  le nombre de recettes, retirer, ajouter et échanger (le planificateur complète autour : `fixed` de `planWeek`,
+  `fitMultipliers`). Seuls ✕, « Échanger » sur elle-même ou les boutons − / + de son multiplicateur la changent.
+- Échanger : un remplaçant qui respecte les règles de variété passe toujours avant un qui les enfreint.
+- Bandeau « La liste d'épicerie n'est plus à jour » sur Semaine quand les recettes ont changé depuis « Faire la liste »
+  (comparaison de la liste enregistrée avec celle que donneraient les recettes, aussi après un changement fait sur l'autre téléphone).
 - Score : saison, note (0,25 par étoile au-dessus de 3, donc +0,5 au plus), jamais planifiée, ingrédients frais partagés
   (0,25 chacun), hasard (0 à 1,6, élargi pour des suggestions proches de l'uniforme).
 
@@ -114,7 +120,8 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
 | 0011 | langue du foyer + noms anglais du catalogue | appliquée |
 | 0012 | validation : cooked_ratio, dernier membre du livre, catalogue (258 articles), fusion boissons végétales | appliquée |
 | 0013 | alias du catalogue (après 0012) | appliquée |
-| 0014 | report de recette (postponed, already_bought), nom « Momo et Jéjé », articles jus de citron / lime, suivi d'utilisation | **à appliquer** |
+| 0014 | report de recette (postponed, already_bought), nom « Momo et Jéjé », articles jus de citron / lime, suivi d'utilisation | appliquée |
+| 0015 | sauvegardes d'un bloc (`save_weeks`, `replace_list`), statistiques sans les visiteurs partis | **à appliquer** (l'app fait les mêmes étapes une à une tant qu'elle manque) |
 
 ## Procédures
 - **Publier** : `npx vitest run`, `npx tsc --noEmit`, `npx eslint src scripts`, `npm run build`, puis commit et push sur `main`.
@@ -136,6 +143,10 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
   (foyer livre seulement) : comptes actifs (7 / 30 jours, total), visites, foyers, foyers avec une liste cette semaine
   (et la suivante), puis le classement des foyers (visites et jours sur 30 jours, semaines planifiées, listes faites).
   Une visite = une ouverture de l'app (une par onglet). Visites comptées depuis le 2026-10-27 ; semaines et listes depuis le début.
+- **Audit (2026-10-27)** : `src/validation/audit/simulation.test.ts` (milliers de semaines, chaque opération de Semaine et
+  Épicerie jouée des centaines de fois, règles vérifiées après chacune), `src/validation/audit/list-oracle.test.ts` (listes
+  comparées à un calcul indépendant), `scripts/audit/live-ops.ts` (opérations réelles et droits d'accès dans la vraie base,
+  foyers jetables). Résultats et corrections : voir « Audit » plus bas.
 - **Sauvegarde** : chaque lundi, l'action GitHub « Sauvegarde des recettes » copie tout le livre (recettes, ingrédients, étapes,
   photos téléversées) dans `backup/` ; lancer à la main avec `npx tsx scripts/backup-recipes.ts` ou Actions → Run workflow.
   Vercel ne republie pas pour une sauvegarde seule (`vercel.json`). La lecture hebdomadaire évite aussi la mise en pause de Supabase.

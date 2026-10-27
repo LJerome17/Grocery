@@ -177,7 +177,9 @@ export function buildShoppingList(
       const [a, b] = [one(low), one(high)];
       const unitA = a.replace(/^[\d\s,.¼½¾⅓⅔]+/, ""), unitB = b.replace(/^[\d\s,.¼½¾⅓⅔]+/, "");
       const to = tr("à", "to");
-      return unitA && unitA === unitB ? `${a.slice(0, a.length - unitA.length).trim()} ${to} ${b}` : `${a} ${to} ${b}`;
+      // A count unit is the same unit at both ends, only its plural differs: "1 à 2 gousses", not "1 gousse à 2 gousses".
+      const sameUnit = unitA && (unitA === unitB || (unit !== "g" && unit !== "ml"));
+      return sameUnit ? `${a.slice(0, a.length - unitA.length).trim()} ${to} ${b}` : `${a} ${to} ${b}`;
     }).map((text, i) => ([...buying.keys()][i] === "can" && canMl ? `${text} (${canMl} ml)` : text));
     if (!parts.length && unquantified) parts.push(tr("au besoin", "as needed"));
     return { ...line, quantityText: parts.join(" + "), optional: !requiredSomewhere };

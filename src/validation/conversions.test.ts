@@ -288,3 +288,13 @@ describe("English mode", () => {
     expect(qty("Bouillon de légumes", [[ing("Bouillon de légumes", 1100, "ml", 1600)]])).toBe("1.1 to 1.6 L");
   });
 });
+
+describe("ranges of a count unit (audit 2026-10-27)", () => {
+  it("the unit is written once: « 1 à 2 gousses »", () => {
+    expect(qty("Ail", [[ing("Ail", 1, "clove", 2)]])).toBe("1 à 2 gousses");
+    expect(qty("Pois chiches (conserve)", [[ing("Pois chiches (conserve)", 1, "can", 2)]])).toBe("1 à 2 boîtes (540 ml)");
+    expect(qty("Ail", [[ing("Ail", 2, "clove", 3)]])).toBe("2 à 3 gousses");
+    setLang("en");
+    expect(qty("Pois chiches (conserve)", [[ing("Pois chiches (conserve)", 1, "can", 2)]])).toBe("1 to 2 cans (540 ml)");
+  });
+});

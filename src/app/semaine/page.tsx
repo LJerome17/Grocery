@@ -8,7 +8,7 @@ import { RecipeImage } from "@/components/RecipeImage";
 import { loadHistory, toPlannerRecipes } from "@/lib/data";
 import { DISH_TYPES, dishTypeLabel, type WeekPlanRecipe } from "@/lib/db";
 import {
-  assignMultipliers,
+  fitMultipliers,
   NOT_A_MEAL,
   passesFilters,
   planWeek,
@@ -24,7 +24,7 @@ import {
 } from "@/lib/planner";
 import { nameKey } from "@/lib/text";
 import { useKitchen } from "@/lib/useKitchen";
-import { flagsOf, generateList, loadWeek, nextWeekOf, saveWeek, servingsOf, type PostponeFlags, type WeekSettings } from "@/lib/weekPlan";
+import { fixedOf, flagsOf, generateList, listStatus, loadWeek, postponeRecipe, saveWeek, servingsOf, type WeekSettings } from "@/lib/weekPlan";
 import { messageFr } from "@/lib/erreur";
 import { locale, plural, tr } from "@/lib/i18n";
 
@@ -101,6 +101,8 @@ export default function Semaine() {
   const [postponing, setPostponing] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [search, setSearch] = useState("");
+  /** Whether the week's stored list still matches its recipes (recipes changed since "Faire la liste"). */
+  const [list, setList] = useState<"none" | "current" | "stale">("none");
 
   useEffect(() => {
     if (!householdId) return;
@@ -151,6 +153,22 @@ export default function Semaine() {
     : { maxSameDishType: 1, maxSameProtein: 2, cooldownWeeks: 3 };
   const filters: Filters = { seasons: settings.seasons, excludeDishTypes: settings.excludeDishTypes };
   const current: Planned[] = items.map((i) => ({ id: i.recipe_id, multiplier: i.multiplier || 1 }));
+  // Postponed recipes keep their multiplier (their groceries may already be bought): the planner works around them.
+  const fixed = fixedOf(items);
+  const fixedList = [...fixed].map(([id, multiplier]) => ({ id, multiplier }));
+
+  // The list is checked against the recipes after every change (and on arrival), also when the other phone changed it.
+  useEffect(() => {
+    if (!planId || kitchen.loading) return;
+    let cancelled = false;
+    listStatus(planId, items, kitchen.recipes, kitchen.ingredients, kitchen.catalog).then(
+      (s) => !cancelled && setList(s),
+      () => {},
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [planId, items, kitchen.loading, kitchen.recipes, kitchen.ingredients, kitchen.catalog]);
   const available = planner.filter((r) => r.active !== false && !NOT_A_MEAL.has(r.dishType ?? "") && passesFilters(r, filters)).length;
 
   async function persist(planned: Planned[], s = settings, flags = flagsOf(items)) {
@@ -170,16 +188,12 @@ export default function Semaine() {
     setBusy(false);
   }
 
-  /** Recompute the multipliers so the week still reaches the portions asked. */
-  const refit = (ids: string[], portions: number): Planned[] => {
-    const m = assignMultipliers(ids.map(sv), portions);
-    return ids.map((id, i) => ({ id, multiplier: m[i] }));
-  };
+  /** Recompute the multipliers so the week still reaches the portions asked (postponed recipes keep theirs). */
+  const refit = (ids: string[], portions: number): Planned[] => fitMultipliers(ids, sv, portions, fixed);
 
   function suggestAll(s = settings) {
-    // Recipes postponed from the previous week stay; the suggestions fill the rest.
-    const keep = items.filter((i) => i.postponed).map((i) => i.recipe_id);
-    const plan = planWeek(planner, s.recipes, s.portions, rules, season, { keep, filters: { seasons: s.seasons, excludeDishTypes: s.excludeDishTypes } });
+    // Recipes postponed from the previous week stay, with their multiplier; the suggestions fill the rest.
+    const plan = planWeek(planner, s.recipes, s.portions, rules, season, { fixed: fixedList, filters: { seasons: s.seasons, excludeDishTypes: s.excludeDishTypes } });
     if (!plan.length) return setError(tr("Aucune recette ne correspond aux catégories choisies.", "No recipe matches the chosen categories."));
     return persist(plan, s);
   }
@@ -192,6 +206,7 @@ export default function Semaine() {
       // so the week reaches the portions with the least extra.
       const plan = planWeek(planner, next.recipes, next.portions, rules, season, {
         keep: current.map((p) => p.id),
+        fixed: fixedList,
         filters: { seasons: next.seasons, excludeDishTypes: next.excludeDishTypes },
       });
       return persist(plan.length ? plan : refit(current.map((p) => p.id), next.portions), next);
@@ -200,7 +215,7 @@ export default function Semaine() {
   }
 
   async function swap(recipeId: string) {
-    const next = swapInPlan(planner, current, recipeId, settings.portions, rules, season, { avoid: swappedAway, filters });
+    const next = swapInPlan(planner, current, recipeId, settings.portions, rules, season, { avoid: swappedAway, filters, fixed });
     if (!next) return setError(tr("Aucune autre recette ne convient aux catégories et aux règles de variété.", "No other recipe fits the categories and variety rules."));
     setSwappedAway([...swappedAway, recipeId]);
     await persist(next);
@@ -223,30 +238,22 @@ export default function Semaine() {
    */
   async function postpone(recipeId: string, bought: boolean) {
     setPostponing(null);
-    const moved = current.find((p) => p.id === recipeId);
-    if (!moved || busy) return;
-    const target = nextWeekOf(week);
+    if (!current.some((p) => p.id === recipeId) || busy) return;
+    const forWeek = week;
     setBusy(true);
     setError(null);
     try {
-      const next = await loadWeek(householdId, target);
-      if (next.items.some((i) => i.recipe_id === recipeId)) {
-        setBusy(false);
-        return setError(tr("Cette recette est déjà prévue la semaine suivante.", "This recipe is already planned for the next week."));
+      // Both weeks in one save: the recipe is never in both, or in neither.
+      const r = await postponeRecipe(householdId, { week, settings, planned: current, flags: flagsOf(items) }, recipeId, bought, settings, sv);
+      if (r === "already") setError(tr("Cette recette est déjà prévue la semaine suivante.", "This recipe is already planned for the next week."));
+      else if (weekRef.current === forWeek) {
+        setPlanId(r.from.plan.id);
+        setItems(r.from.items);
       }
-      const nextPlanned = [...next.items.map((i) => ({ id: i.recipe_id, multiplier: i.multiplier || 1 })), moved];
-      const base: WeekSettings = next.plan
-        ? { portions: next.plan.portions ?? 20, recipes: next.plan.suppers, seasons: next.plan.seasons ?? [seasonOf(new Date(`${target}T12:00:00`))], excludeDishTypes: next.plan.exclude_dish_types ?? [] }
-        : { ...settings, seasons: [seasonOf(new Date(`${target}T12:00:00`))] };
-      const flags = flagsOf(next.items);
-      flags.set(recipeId, { postponed: true, already_bought: bought } satisfies PostponeFlags);
-      await saveWeek(householdId, target, { ...base, recipes: Math.max(base.recipes, nextPlanned.length) }, nextPlanned, sv, flags);
     } catch (e) {
       setError(messageFr(e));
-      setBusy(false);
-      return;
     }
-    await persist(current.filter((p) => p.id !== recipeId));
+    setBusy(false);
   }
 
   /** Put a postponed recipe's ingredients back on the list (or take them off again). */
@@ -313,7 +320,7 @@ export default function Semaine() {
       <section className="card space-y-3 p-4">
         <div className="flex gap-2">
           <Stepper label={tr("Portions", "Servings")} value={settings.portions} min={1} max={80} disabled={busy} onChange={(v) => changeSettings({ ...settings, portions: v })} />
-          <Stepper label={tr("Recettes (au plus)", "Recipes (max)")} value={settings.recipes} min={1} max={10} disabled={busy} onChange={(v) => changeSettings({ ...settings, recipes: v })} />
+          <Stepper label={tr("Recettes (au plus)", "Recipes (max)")} value={settings.recipes} min={Math.max(1, fixed.size)} max={10} disabled={busy} onChange={(v) => changeSettings({ ...settings, recipes: v })} />
         </div>
         <button className="flex w-full items-center justify-between border-t border-line pt-3 text-sm" onClick={() => setShowFilters(!showFilters)}>
           <span className="font-medium">{tr("Catégories proposées", "Suggested categories")}</span>
@@ -445,6 +452,14 @@ export default function Semaine() {
             </button>
           </section>
 
+          {list === "stale" && (
+            <div className="flex items-center justify-between gap-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-900">
+              <span>{tr("La liste d'épicerie n'est plus à jour : les recettes ont changé depuis.", "The grocery list is out of date: the recipes changed since.")}</span>
+              <button className="btn-primary shrink-0 !py-2" onClick={makeList} disabled={busy}>
+                {tr("Refaire la liste", "Remake the list")}
+              </button>
+            </div>
+          )}
           <div className="flex gap-2">
             <button className="btn-ghost flex-1" onClick={() => suggestAll()} disabled={busy}>
               ✨ {tr("Proposer une autre semaine", "Suggest another week")}
