@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useApp } from "@/components/AppProvider";
 import { RecipeImage } from "@/components/RecipeImage";
 import { loadHistory, toPlannerRecipes } from "@/lib/data";
-import { DISH_TYPES, dishTypeLabel, type WeekPlanRecipe } from "@/lib/db";
+import { DISH_TYPES, dishTypeLabel, type WeekPlan, type WeekPlanRecipe } from "@/lib/db";
 import {
   fitMultipliers,
   NOT_A_MEAL,
@@ -71,6 +71,16 @@ function frenchWeek(week: string) {
   return new Date(`${week}T12:00:00`).toLocaleDateString(locale(), { day: "numeric", month: "long" });
 }
 
+/** A saved week's settings (older plans may miss the newer columns). */
+function settingsOf(plan: WeekPlan, week: string): WeekSettings {
+  return {
+    portions: plan.portions ?? 20,
+    recipes: plan.suppers,
+    seasons: plan.seasons ?? [seasonOf(new Date(`${week}T12:00:00`))],
+    excludeDishTypes: plan.exclude_dish_types ?? [],
+  };
+}
+
 const portions = (n: number) => plural(n, ["portion", "portions"], ["serving", "servings"]);
 
 export default function Semaine() {
@@ -121,12 +131,7 @@ export default function Semaine() {
         setItems(w.items);
         setSettings(
           w.plan
-            ? {
-                portions: w.plan.portions ?? 20,
-                recipes: w.plan.suppers,
-                seasons: w.plan.seasons ?? [seasonOf(new Date(`${week}T12:00:00`))],
-                excludeDishTypes: w.plan.exclude_dish_types ?? [],
-              }
+            ? settingsOf(w.plan, week)
             : { portions: 20, recipes: 5, seasons: [seasonOf(new Date(`${week}T12:00:00`))], excludeDishTypes: [] },
         );
         setHistory(h);
@@ -184,8 +189,22 @@ export default function Semaine() {
       }
     } catch (e) {
       setError(messageFr(e));
+      await resync(forWeek);
     }
     setBusy(false);
+  }
+
+  /** After a failed save: show the week as the database has it (settings changed on screen are not kept). */
+  async function resync(forWeek: string) {
+    try {
+      const w = await loadWeek(householdId, forWeek);
+      if (weekRef.current !== forWeek) return;
+      setPlanId(w.plan?.id ?? null);
+      setItems(w.items);
+      if (w.plan) setSettings(settingsOf(w.plan, forWeek));
+    } catch {
+      /* still offline: the error is already shown */
+    }
   }
 
   /** Recompute the multipliers so the week still reaches the portions asked (postponed recipes keep theirs). */
@@ -252,6 +271,7 @@ export default function Semaine() {
       }
     } catch (e) {
       setError(messageFr(e));
+      await resync(forWeek);
     }
     setBusy(false);
   }
