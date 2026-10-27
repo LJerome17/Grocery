@@ -2,7 +2,7 @@
 
 import { NO_AISLE } from "./aisles";
 import type { Ingredient, Recipe, RecipeIngredient, WeekPlan, WeekPlanRecipe } from "./db";
-import { DEFAULT_SERVINGS, type Planned } from "./planner";
+import { DEFAULT_SERVINGS, weekStart, type Planned } from "./planner";
 import { buildShoppingList, type CatalogItem } from "./shopping";
 import { tr } from "./i18n";
 import { supabase } from "./supabase";
@@ -34,6 +34,8 @@ export async function saveWeek(
   settings: WeekSettings,
   planned: Planned[],
   servingsOf: (recipeId: string) => number,
+  /** Postponed / already-bought marks, by recipe id (kept across the delete and re-insert below). */
+  flags: Map<string, PostponeFlags> = new Map(),
 ): Promise<{ plan: WeekPlan; items: WeekPlanRecipe[] }> {
   const sb = supabase();
   const { data: plan, error } = await sb
@@ -60,13 +62,31 @@ export async function saveWeek(
     position,
     multiplier: p.multiplier,
     portions: p.multiplier * servingsOf(p.id),
+    // Only written when set, so weeks without a postponed recipe never need the columns.
+    ...(flags.get(p.id)?.postponed ? { postponed: true } : {}),
+    ...(flags.get(p.id)?.already_bought ? { already_bought: true } : {}),
   }));
-  const { data: items, error: e2 } = rows.length ? await sb.from("week_plan_recipes").insert(rows).select("*") : { data: [], error: null };
+  const { data: items, error: e2 } = rows.length
+    ? await sb.from("week_plan_recipes").insert(rows, { defaultToNull: false }).select("*")
+    : { data: [], error: null };
   if (e2) throw e2;
   return { plan: plan as WeekPlan, items: ((items ?? []) as WeekPlanRecipe[]).sort((a, b) => a.position - b.position) };
 }
 
-export const servingsOf = (r: Pick<Recipe, "servings"> | undefined) => (r?.servings && r.servings > 0 ? r.servings : DEFAULT_SERVINGS);
+export type PostponeFlags = Pick<WeekPlanRecipe, "postponed" | "already_bought">;
+
+/** The postponed / already-bought marks of a week's recipes, to pass back to saveWeek. */
+export function flagsOf(items: WeekPlanRecipe[]): Map<string, PostponeFlags> {
+  return new Map(items.filter((i) => i.postponed || i.already_bought).map((i) => [i.recipe_id, { postponed: i.postponed, already_bought: i.already_bought }]));
+}
+
+/** The Monday seven days after `week` (calendar arithmetic, safe across daylight-saving changes). */
+export function nextWeekOf(week: string): string {
+  const [y, m, d] = week.split("-").map(Number);
+  return weekStart(new Date(y, m - 1, d + 7));
+}
+
+export const servingsOf =(r: Pick<Recipe, "servings"> | undefined) => (r?.servings && r.servings > 0 ? r.servings : DEFAULT_SERVINGS);
 
 /** Replace the generated lines of the plan's list (manual additions are kept). Returns the number of lines. */
 export async function generateList(
@@ -84,6 +104,8 @@ export async function generateList(
   // Quantities as written in the recipe, times the whole multiplier: never adapted otherwise.
   const lines = buildShoppingList(
     items
+      // A postponed recipe whose ingredients were bought with the previous week's list.
+      .filter((it) => !it.already_bought)
       .map((it) => ({ it, r: recipeById.get(it.recipe_id) }))
       .filter((x): x is { it: WeekPlanRecipe; r: Recipe } => !!x.r)
       .map(({ it, r }) => ({ title: r.title, factor: it.multiplier || 1, ingredients: byRecipe.get(r.id) ?? [] })),

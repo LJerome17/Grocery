@@ -91,6 +91,10 @@ export type WeekPlanRecipe = {
   portions: number;
   position: number;
   cooked: boolean;
+  /** Moved from the previous week (kept when the week is suggested again). */
+  postponed?: boolean;
+  /** Ingredients already bought with the previous week's list: left off this week's list. */
+  already_bought?: boolean;
 };
 
 export type ShoppingItem = {

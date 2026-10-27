@@ -7,8 +7,9 @@ import { useApp } from "@/components/AppProvider";
 import { AISLE_ORDER, aisleLabel } from "@/lib/aisles";
 import type { ShoppingItem } from "@/lib/db";
 import { messageFr } from "@/lib/erreur";
-import { plural, tr } from "@/lib/i18n";
+import { locale, plural, tr } from "@/lib/i18n";
 import { weekStart } from "@/lib/planner";
+import { nextWeekOf } from "@/lib/weekPlan";
 import { supabase } from "@/lib/supabase";
 
 export default function ListePage() {
@@ -23,6 +24,11 @@ function Liste() {
   const { householdId } = useApp();
   const requested = useSearchParams().get("plan");
   const [planId, setPlanId] = useState<string | null>(null);
+  const [planWeek, setPlanWeek] = useState<string | null>(null);
+  /** Week picked with the chips (null = the usual choice below). */
+  const [wanted, setWanted] = useState<string | null>(null);
+  const [thisWeek] = useState(() => weekStart(new Date()));
+  const nextWeek = nextWeekOf(thisWeek);
   const [items, setItems] = useState<ShoppingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [newItem, setNewItem] = useState("");
@@ -45,8 +51,17 @@ function Liste() {
       return;
     }
     setError(null);
+    if (wanted) {
+      // This week or next week, picked with the chips: its list, even empty.
+      const p = (plans ?? []).find((x) => x.week_start === wanted);
+      const { data } = p ? await supabase().from("shopping_items").select("*").eq("plan_id", p.id).order("position") : { data: [] };
+      setPlanId(p?.id ?? null);
+      setPlanWeek(wanted);
+      setItems((data ?? []) as ShoppingItem[]);
+      setLoading(false);
+      return;
+    }
     // The plan asked for (from "Faire la liste"), else this week, then upcoming weeks, then past ones.
-    const thisWeek = weekStart(new Date());
     const rank = (w: string) => (w === thisWeek ? 0 : w > thisWeek ? 1 : 2);
     const ordered = (plans ?? []).sort(
       (a, b) =>
@@ -58,15 +73,17 @@ function Liste() {
       const { data } = await supabase().from("shopping_items").select("*").eq("plan_id", p.id).order("position");
       if (data?.length) {
         setPlanId(p.id);
+        setPlanWeek(p.week_start);
         setItems(data as ShoppingItem[]);
         setLoading(false);
         return;
       }
     }
     setPlanId(ordered[0]?.id ?? null);
+    setPlanWeek(ordered[0]?.week_start ?? null);
     setItems([]);
     setLoading(false);
-  }, [householdId, requested]);
+  }, [householdId, requested, wanted, thisWeek]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- initial fetch
@@ -159,13 +176,43 @@ function Liste() {
 
   if (loading) return <p className="py-20 text-center text-muted">{tr("Chargement…", "Loading…")}</p>;
 
-  if (!planId) {
+  const weekChips = (
+    <div className="flex gap-1">
+      {[
+        [thisWeek, tr("Cette semaine", "This week")],
+        [nextWeek, tr("Semaine suivante", "Next week")],
+      ].map(([w, label]) => (
+        <button
+          key={w}
+          className={planWeek === w ? "chip-on" : "chip"}
+          onClick={() => {
+            setLoading(true);
+            setWanted(w);
+          }}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+  const weekTitle = planWeek
+    ? tr(`Semaine du ${new Date(`${planWeek}T12:00:00`).toLocaleDateString(locale(), { day: "numeric", month: "long" })}`, `Week of ${new Date(`${planWeek}T12:00:00`).toLocaleDateString(locale(), { day: "numeric", month: "long" })}`)
+    : "";
+
+  if (!planId || (wanted && !items.length)) {
     return (
-      <div className="card mt-10 space-y-3 p-5 text-center">
-        <p>{tr("Pas encore de liste. Choisissez d'abord les recettes de la semaine.", "No list yet. Pick this week's recipes first.")}</p>
-        <Link href="/semaine" className="btn-primary">
-          {tr("Planifier la semaine", "Plan the week")}
-        </Link>
+      <div className="space-y-4">
+        {weekChips}
+        <div className="card mt-6 space-y-3 p-5 text-center">
+          <p>
+            {wanted === nextWeek
+              ? tr("Pas encore de liste pour la semaine suivante. Choisissez ses recettes, puis « Faire la liste ».", "No list yet for next week. Pick its recipes, then “Make the list”.")
+              : tr("Pas encore de liste. Choisissez d'abord les recettes de la semaine.", "No list yet. Pick this week's recipes first.")}
+          </p>
+          <Link href={wanted === nextWeek ? "/semaine?semaine=suivante" : "/semaine"} className="btn-primary">
+            {tr("Planifier la semaine", "Plan the week")}
+          </Link>
+        </div>
       </div>
     );
   }
@@ -193,10 +240,14 @@ function Liste() {
 
   return (
     <div className="space-y-4">
+      {weekChips}
       <header className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-bold">{tr("Épicerie", "Groceries")}</h1>
-          <p className="text-sm text-muted">{plural(remaining, ["article", "articles"], ["item", "items"])} {tr("à acheter", "to buy")}</p>
+          <p className="text-sm text-muted">
+            {weekTitle ? `${weekTitle} · ` : ""}
+            {plural(remaining, ["article", "articles"], ["item", "items"])} {tr("à acheter", "to buy")}
+          </p>
         </div>
         <button className={hideChecked ? "chip-on" : "chip"} onClick={() => setHideChecked(!hideChecked)}>
           {hideChecked ? tr("Tout afficher", "Show all") : tr("Masquer les cochés", "Hide checked")}

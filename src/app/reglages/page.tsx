@@ -6,7 +6,7 @@ import type { Household } from "@/lib/db";
 import { syncStarterRecipes } from "@/lib/starter";
 import { supabase } from "@/lib/supabase";
 import { messageFr } from "@/lib/erreur";
-import { plural, tr, type Lang } from "@/lib/i18n";
+import { locale, plural, tr, type Lang } from "@/lib/i18n";
 import { accountName, protectAccess } from "@/lib/username";
 
 function Rule({ label, help, value, min, max, onChange }: { label: string; help: string; value: number; min: number; max: number; onChange: (v: number) => void }) {
@@ -26,6 +26,84 @@ function Rule({ label, help, value, min, max, onChange }: { label: string; help:
         </button>
       </div>
     </div>
+  );
+}
+
+type UsageRow = { name: string; is_book: boolean; members: number; created_at: string; last_day: string | null; days_30: number; opens_30: number; weeks: number; lists: number };
+
+type UsageSummary = { accounts: number; active_7: number; active_30: number; visits_7: number; visits_30: number; households: number; lists_this_week: number; lists_next_week: number };
+
+/** How the app is used (recipe book only): totals, then a leaderboard of the households. */
+function Usage() {
+  const [rows, setRows] = useState<UsageRow[] | null>(null);
+  const [sum, setSum] = useState<UsageSummary | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    supabase()
+      .rpc("usage_summary")
+      .then(({ data, error }) => (error ? setError(messageFr(error)) : setSum(((data ?? []) as UsageSummary[])[0] ?? null)));
+    supabase()
+      .rpc("usage_stats")
+      .then(({ data, error }) => (error ? setError(messageFr(error)) : setRows((data ?? []) as UsageRow[])));
+  }, []);
+  const tile = (value: number | undefined, label: string, sub?: string) => (
+    <div className="rounded-xl bg-brand-soft p-3">
+      <p className="text-2xl font-bold">{value ?? "—"}</p>
+      <p className="text-xs">{label}</p>
+      {sub && <p className="text-xs text-muted">{sub}</p>}
+    </div>
+  );
+  const day = (d: string | null) => (d ? new Date(`${d.slice(0, 10)}T12:00:00`).toLocaleDateString(locale(), { day: "numeric", month: "short" }) : "—");
+  return (
+    <section className="card space-y-2 p-4">
+      <h2 className="font-semibold">{tr("Utilisation", "Usage")}</h2>
+      {error && <p className="text-sm text-red-700">{error}</p>}
+      {sum && (
+        <div className="grid grid-cols-2 gap-2">
+          {tile(sum.active_30, tr("comptes actifs (30 jours)", "active accounts (30 days)"), tr(`${sum.active_7} cette semaine · ${sum.accounts} au total`, `${sum.active_7} this week · ${sum.accounts} in all`))}
+          {tile(sum.visits_30, tr("visites (30 jours)", "visits (30 days)"), tr(`${sum.visits_7} ces 7 derniers jours`, `${sum.visits_7} in the last 7 days`))}
+          {tile(sum.households, tr("foyers", "households"))}
+          {tile(sum.lists_this_week, tr("foyers avec une liste cette semaine", "households with a list this week"), tr(`${sum.lists_next_week} pour la semaine suivante`, `${sum.lists_next_week} for next week`))}
+        </div>
+      )}
+      <h3 className="pt-2 text-sm font-semibold">{tr("Classement des foyers", "Household leaderboard")}</h3>
+      <p className="text-xs text-muted">{tr("Visites et jours d'utilisation sur 30 jours, semaines planifiées et listes faites depuis le début. Visites comptées depuis le 27 octobre 2026.", "Visits and days of use over 30 days, weeks planned and lists made since the start. Visits counted since October 27, 2026.")}</p>
+      {rows && (
+        <div className="-mx-4 overflow-x-auto px-4">
+          <table className="w-full text-left text-sm">
+            <thead className="text-xs text-muted">
+              <tr>
+                <th className="py-1 pr-1 font-medium">#</th>
+                <th className="py-1 pr-2 font-medium">{tr("Foyer", "Household")}</th>
+                <th className="px-1 font-medium">{tr("Vu le", "Seen")}</th>
+                <th className="px-1 text-right font-medium">{tr("Jours", "Days")}</th>
+                <th className="px-1 text-right font-medium">{tr("Visites", "Visits")}</th>
+                <th className="px-1 text-right font-medium">{tr("Sem.", "Weeks")}</th>
+                <th className="pl-1 text-right font-medium">{tr("Listes", "Lists")}</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-line">
+              {rows.map((r, i) => (
+                <tr key={i}>
+                  <td className="py-1.5 pr-1 text-muted">{i + 1}</td>
+                  <td className="py-1.5 pr-2">
+                    {r.name}
+                    <span className="block text-xs text-muted">
+                      {plural(r.members, ["membre", "membres"], ["member", "members"])} · {tr("créé le", "created")} {day(r.created_at)}
+                    </span>
+                  </td>
+                  <td className="px-1">{day(r.last_day)}</td>
+                  <td className="px-1 text-right">{r.days_30}</td>
+                  <td className="px-1 text-right">{r.opens_30}</td>
+                  <td className="px-1 text-right">{r.weeks}</td>
+                  <td className="pl-1 text-right">{r.lists}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -70,6 +148,7 @@ export default function Reglages() {
   const [copied, setCopied] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [syncMsg, setSyncMsg] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null); // null = not editing
 
   useEffect(() => {
     if (!household) return;
@@ -139,7 +218,26 @@ export default function Reglages() {
       <h1 className="text-2xl font-bold">{tr("Réglages", "Settings")}</h1>
 
       <section className="card p-4">
-        <h2 className="font-semibold">{household.name}</h2>
+        {name === null ? (
+          <div className="flex items-center justify-between gap-2">
+            <h2 className="font-semibold">{household.name}</h2>
+            <button className="text-xs text-muted underline" onClick={() => setName(household.name)}>
+              {tr("Renommer", "Rename")}
+            </button>
+          </div>
+        ) : (
+          <form
+            className="flex gap-2"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (name.trim() && name.trim() !== household.name) await update({ name: name.trim() });
+              setName(null);
+            }}
+          >
+            <input className="input" aria-label={tr("Nom du foyer", "Household name")} value={name} maxLength={60} autoFocus onChange={(e) => setName(e.target.value)} />
+            <button className="btn-primary">{tr("OK", "OK")}</button>
+          </form>
+        )}
         <p className="mt-1 text-sm text-muted">
           {plural(members.length, ["membre", "membres"], ["member", "members"])}
           {members.some((m) => m.display_name) ? `${tr(" : ", ": ")}${members.map((m) => m.display_name ?? "?").join(", ")}` : ""}
@@ -190,6 +288,8 @@ export default function Reglages() {
         {!syncing && syncMsg && <p className="text-sm text-muted">{syncMsg}</p>}
       </section>
       )}
+
+      {household.is_book && <Usage />}
 
       <section className="card p-4 text-sm">
         {session?.user.is_anonymous ? <ProtectAccount /> : <p className="text-muted">{tr("Connecté : ", "Signed in: ")}{accountName(session?.user.email, session?.user.user_metadata?.username)}</p>}

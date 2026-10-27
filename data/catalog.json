@@ -504,6 +504,24 @@
       }
     },
     {
+      "name": "Jus de citron",
+      "name_en": "Lemon juice",
+      "aisle": "fruits-legumes",
+      "aliases": [
+        "jus de citron en bouteille",
+        "bottled lemon juice"
+      ]
+    },
+    {
+      "name": "Jus de lime",
+      "name_en": "Lime juice",
+      "aisle": "fruits-legumes",
+      "aliases": [
+        "jus de lime en bouteille",
+        "bottled lime juice"
+      ]
+    },
+    {
       "name": "Avocat",
       "name_en": "Avocado",
       "aisle": "fruits-legumes",

@@ -5,11 +5,11 @@ Buts : moins de charge mentale, moins de coûts, moins de gaspillage. Claude con
 et des amis peuvent avoir leur propre foyer.
 
 - Site : https://momo-et-jeje-cuisinent-vege.vercel.app (ancienne adresse : grocery-eight-beta.vercel.app, toujours active)
-- Code : https://github.com/LJerome17/Grocery (privé, branche `main`) ; chaque poussée sur `main` est publiée par Vercel
+- Code : https://github.com/LJerome17/Grocery (**public** selon l'API GitHub au 2026-10-27, branche `main`) ; chaque poussée sur `main` est publiée par Vercel
 - Base de données : Supabase, projet `nptpjbncvqjyqeyroasg`
 - Dossier local : `C:\Users\jerom\Projets\epicerie` (hors OneDrive exprès)
 
-Ce fichier est tenu à jour à chaque changement important. Dernière mise à jour : 2026-09-30 (validation avant lancement terminée, version de lancement en ligne).
+Ce fichier est tenu à jour à chaque changement important. Dernière mise à jour : 2026-10-27 (semaine suivante, report de recette, jus de citron, suivi d'utilisation).
 
 ## Règles décidées avec Momo et Jéjé
 
@@ -26,7 +26,7 @@ Ce fichier est tenu à jour à chaque changement important. Dernière mise à jo
 - Photos personnelles dans `recettes/Photo_recettes/` (nom de fichier = tous les mots du titre) : elles passent avant toute autre image.
 
 **Livre de recettes partagé**
-- Le foyer de Momo et Jéjé est le livre : tous les foyers le lisent en direct, lui seul ajoute, modifie ou supprime des recettes.
+- Le foyer de Momo et Jéjé (nommé « Momo et Jéjé » par 0014 ; renommable dans Réglages par tout foyer) est le livre : tous les foyers le lisent en direct, lui seul ajoute, modifie ou supprime des recettes.
   Chaque foyer a ses propres semaines et listes.
 - Code d'invitation gardé secret ; bouton « Créer un nouveau code d'invitation » dans Réglages. Pas de bouton pour retirer
   un membre (décision : le code reste secret). Le dernier membre du livre ne peut pas le quitter.
@@ -40,6 +40,12 @@ Ce fichier est tenu à jour à chaque changement important. Dernière mise à jo
   (multiples calculés exactement). Une semaine qui respecte les règles de variété passe toujours avant une qui les enfreint.
 - Filtres stricts : saisons cochées, types de plat exclus. Variété : même type de plat max 2, même protéine max 3 (par défaut),
   pause avant de revoir une recette.
+- Deux semaines à l'écran : « Cette semaine » et « Semaine suivante », chacune avec ses recettes et sa liste
+  (sur Semaine et sur Épicerie). On peut faire la liste de la semaine suivante sans toucher à celle-ci.
+- Reporter (⏭, cette semaine seulement) : la recette passe à la semaine suivante avec son multiplicateur ; les autres
+  recettes de cette semaine ne sont pas multipliées pour compenser. L'app demande si les ingrédients sont déjà achetés :
+  oui → hors de la liste suivante (`already_bought`), réactivable sur la carte ; non → sur la liste. Une recette reportée
+  (`postponed`) reste quand on redemande des suggestions pour cette semaine-là.
 - Score : saison, note (0,25 par étoile au-dessus de 3, donc +0,5 au plus), jamais planifiée, ingrédients frais partagés
   (0,25 chacun), hasard (0 à 1,6, élargi pour des suggestions proches de l'uniforme).
 
@@ -53,6 +59,9 @@ Ce fichier est tenu à jour à chaque changement important. Dernière mise à jo
 - Épinards en sacs de 200 g (1 tasse = 30 g) ; herbes fraîches : 1 botte = 1 tasse hachée.
 - Bouillon : la quantité demandée telle quelle (ils utilisent Better than Bouillon), pas de conversion en cubes.
 - Une ligne peut mélanger des unités (« 24 g + 60 ml ») ; « au goût » ou « une poignée » disparaît si une autre recette donne une quantité.
+- Citron et lime : une recette qui ne demande que le jus achète « Jus de citron » / « Jus de lime » (en ml ; un fruit = 45 / 30 ml).
+  Dès que la recette veut le fruit (zeste, quartier, « ½ citron »), toutes ses lignes de ce fruit restent sur le fruit
+  (règle dans `shopping.ts`, au moment de faire la liste ; sans les articles jus au catalogue, rien ne change).
 - Un seul article pour les boissons végétales (soya, avoine, amande…). Balsamique blanc et piment doux sont des articles à part.
 
 **Comptes**
@@ -105,6 +114,7 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
 | 0011 | langue du foyer + noms anglais du catalogue | appliquée |
 | 0012 | validation : cooked_ratio, dernier membre du livre, catalogue (258 articles), fusion boissons végétales | appliquée |
 | 0013 | alias du catalogue (après 0012) | appliquée |
+| 0014 | report de recette (postponed, already_bought), nom « Momo et Jéjé », articles jus de citron / lime, suivi d'utilisation | **à appliquer** |
 
 ## Procédures
 - **Publier** : `npx vitest run`, `npx tsc --noEmit`, `npx eslint src scripts`, `npm run build`, puis commit et push sur `main`.
@@ -121,9 +131,14 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
 - **UAT automatique** : `scripts/uat/uat-e2e.mjs` joue 34 des 42 tests dans un vrai navigateur (Edge), en foyers d'essai.
   Dernière passe (2026-09-30) : 29 réussis ; C3, C4, E1 en attente de « Mettre à jour les recettes de départ » ; C5 : 2 recettes
   ajoutées sans photo. A produit deux corrections (arrivée sur la semaine après connexion ; « Choisir une recette » sur une semaine vide).
+- **Utilisation** : chaque ouverture de l'app appelle `log_usage()` (une ligne par personne, foyer et jour dans `usage_days`,
+  lisible seulement par `usage_stats()`). Réglages → « Utilisation » (foyer livre seulement) : dernière visite, jours et
+  ouvertures sur 30 jours, semaines planifiées, listes faites, par foyer. Compté depuis le 2026-10-27.
 - **Sauvegarde** : chaque lundi, l'action GitHub « Sauvegarde des recettes » copie tout le livre (recettes, ingrédients, étapes,
   photos téléversées) dans `backup/` ; lancer à la main avec `npx tsx scripts/backup-recipes.ts` ou Actions → Run workflow.
   Vercel ne republie pas pour une sauvegarde seule (`vercel.json`). La lecture hebdomadaire évite aussi la mise en pause de Supabase.
+  Elle n'écrit un commit que si le livre a changé, et ses commits n'arrivent sur le PC qu'avec `git pull`. Vérifié le 2026-10-27 :
+  succès les 30 sept., 12, 19 et 26 oct. ; échec le 5 oct. (panne GitHub : aucun serveur disponible, rien à corriger).
 
 ## Validation avant lancement (2026-09-30)
 - Six vérifications en parallèle : quantités lues (1 208 lignes contre leurs sources), conversions et équivalences,

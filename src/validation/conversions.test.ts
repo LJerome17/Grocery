@@ -178,6 +178,21 @@ describe("shopping list: garlic, ginger, herbs, produce", () => {
     expect(qty("Citron", [[ing("Citron", 1, "tbsp")]])).toBe("1");
     expect(qty("Lime", [[ing("Lime", 3, "tbsp")]])).toBe("2"); // 45 ml / 30 ml
   });
+  it("only the juice asked: the juice is bought, not the fruit", () => {
+    const juice = (q: number | null, unit: string | null, raw: string, note: string | null = null, fruit = "Citron") => ({ ...ing(fruit, q, unit), raw, note });
+    const has = (recipes: ListIngredient[][], id: string) => buildShoppingList(recipes.map((ingredients, n) => ({ title: `R${n}`, factor: 1, ingredients })), catalog).some((l) => l.ingredientId === id);
+    expect(qty("Jus de citron", [[juice(2, "tbsp", "2 c. à soupe de jus de citron")]])).toBe("30 ml");
+    expect(qty("Jus de citron", [[juice(0.5, null, "Jus de ½ citron", "jus")]])).toBe("23 ml"); // half of a 45 ml lemon
+    expect(qty("Jus de lime", [[juice(1, null, "1 lime, juiced", "juiced", "Lime")]])).toBe("30 ml");
+    expect(has([[juice(2, "tbsp", "2 c. à soupe de jus de citron")]], "Citron")).toBe(false);
+    // Zest asked: the fruit, juice included.
+    expect(qty("Citron", [[juice(1, null, "Le zeste et le jus de 1 citron", "zeste et jus")]])).toBe("1");
+    // Zest on another line of the same recipe: its lemons give the juice too.
+    expect(qty("Lime", [[juice(1, null, "Zeste de 1 lime", "zeste", "Lime"), juice(3, "tbsp", "3 c. à soupe de jus de lime", null, "Lime")]])).toBe("3");
+    expect(has([[juice(1, null, "Zeste de 1 lime", "zeste", "Lime"), juice(3, "tbsp", "3 c. à soupe de jus de lime", null, "Lime")]], "Jus de lime")).toBe(false);
+    // Each recipe decides for itself.
+    expect(qty("Jus de citron", [[juice(1, "tbsp", "1 tbsp lemon juice")], [juice(1, null, "1 citron, le zeste", "le zeste")]])).toBe("15 ml");
+  });
   it("carrots and potatoes", () => {
     expect(qty("Carotte", [[ing("Carotte", 3, "cup")]])).toBe("6");
     expect(qty("Pomme de terre", [[ing("Pomme de terre", 2.25, "lb")]])).toBe("6"); // 1021 g / 200 g = 5.1: whole units round up past a 0.1 tolerance

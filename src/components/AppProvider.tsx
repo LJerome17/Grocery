@@ -87,6 +87,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const loading = !authReady || loadedFor !== (userId ?? "");
 
+  // Usage: one count each time the app is opened (Réglages → Utilisation, for the recipe book). Never blocks the app.
+  const householdId = household?.id;
+  useEffect(() => {
+    if (!householdId) return;
+    const key = `usage:${householdId}`;
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch {
+      /* storage blocked: count anyway */
+    }
+    supabase().rpc("log_usage").then(() => {}, () => {});
+  }, [householdId]);
+
   // Route guard: an identity first (anonymous is fine), then create or join a household.
   // /connexion stays reachable for anonymous visitors who want to use an existing account.
   useEffect(() => {

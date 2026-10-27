@@ -33,7 +33,7 @@ import type { Ingredient, Recipe, RecipeIngredient, WeekPlanRecipe } from "../li
 
 const ROOT = join(__dirname, "..", "..");
 type CatEntry = { name: string; name_en: string; aisle: string; pantry?: boolean; count_unit?: string; equiv?: Equiv; ml_per_can?: number; cooked_ratio?: number };
-type SIng = { raw: string; quantity: number | null; quantity_max: number | null; unit: string | null; name: string; optional: boolean; catalog: string | null };
+type SIng = { raw: string; quantity: number | null; quantity_max: number | null; unit: string | null; name: string; note?: string | null; optional: boolean; catalog: string | null };
 type SRecipe = { title: string; ingredients: SIng[] };
 
 const CAT: CatEntry[] = JSON.parse(readFileSync(join(ROOT, "data", "catalog.json"), "utf8")).ingredients;
@@ -56,7 +56,7 @@ const toApp = (w: Week) =>
   w.items.map(({ recipe, factor }) => ({
     title: recipe.title,
     factor,
-    ingredients: recipe.ingredients.map((i): ListIngredient => ({ quantity: i.quantity, quantity_max: i.quantity_max, unit: i.unit, name: i.name, optional: i.optional, ingredient_id: i.catalog })),
+    ingredients: recipe.ingredients.map((i): ListIngredient => ({ quantity: i.quantity, quantity_max: i.quantity_max, unit: i.unit, name: i.name, note: i.note ?? null, raw: i.raw, optional: i.optional, ingredient_id: i.catalog })),
   }));
 
 // ---------------------------------------------------------------- independent reference
@@ -80,10 +80,26 @@ type Expected = {
   droppedNegligible: string[]; // e.g. "2-3 handful" lines not added up
 };
 
+// Juice only (2026-10-27): a recipe whose every lemon (lime) line asks for juice and no zest buys the juice, in ml.
+const JUICE: Record<string, [string, number]> = { Citron: ["Jus de citron", 45], Lime: ["Jus de lime", 30] };
+function juiceLines(ings: SIng[]): SIng[] {
+  const text = (i: SIng) => norm(`${i.name} ${i.note ?? ""} ${i.raw}`);
+  const onlyJuice = (i: SIng) => /\b(jus|juice|juiced)\b/.test(text(i)) && !/\bzest/.test(text(i));
+  const fruitNeeded = new Set(ings.filter((i) => i.catalog && JUICE[i.catalog] && !onlyJuice(i)).map((i) => i.catalog));
+  return ings.map((i) => {
+    if (!i.catalog || !JUICE[i.catalog] || fruitNeeded.has(i.catalog) || !CAT_BY_NAME.has(JUICE[i.catalog][0])) return i;
+    const [juice, ml] = JUICE[i.catalog];
+    if (i.quantity !== null && (i.unit === null || i.unit === "piece")) {
+      return { ...i, catalog: juice, unit: "ml", quantity: i.quantity * ml, quantity_max: i.quantity_max === null ? null : i.quantity_max * ml };
+    }
+    return { ...i, catalog: juice };
+  });
+}
+
 function reference(w: Week): Map<string, Expected> {
   const out = new Map<string, Expected>();
   for (const { recipe, factor } of w.items) {
-    for (const i of recipe.ingredients) {
+    for (const i of juiceLines(recipe.ingredients)) {
       const c = i.catalog ? CAT_BY_NAME.get(i.catalog) : undefined;
       if (c?.aisle === "aucun") continue; // water is never bought
       const key = c ? c.name : `nom:${norm(i.name)}`;
@@ -375,7 +391,7 @@ describe("règles précises", () => {
   it("facultatif seulement si facultatif partout", () => {
     const lines = compareWeek(HAND[6]);
     for (const l of lines) {
-      const uses = HAND[6].items.flatMap(({ recipe }) => recipe.ingredients.filter((i) => i.catalog === l.ingredientId));
+      const uses = HAND[6].items.flatMap(({ recipe }) => juiceLines(recipe.ingredients).filter((i) => i.catalog === l.ingredientId));
       expect(l.optional, l.label).toBe(uses.every((i) => i.optional));
     }
     expect(lines.filter((l) => l.optional).length).toBeGreaterThan(0);
@@ -396,7 +412,7 @@ describe("règles précises", () => {
     for (const r of RECIPES) {
       const lines = buildShoppingList(toApp({ name: "", items: [{ recipe: r, factor: 3 }] }), catalog);
       for (const l of lines) {
-        const quantified = r.ingredients.some((i) => i.catalog === l.ingredientId && i.quantity && !(i.unit && NEGLIGIBLE.has(i.unit)));
+        const quantified = juiceLines(r.ingredients).some((i) => i.catalog === l.ingredientId && i.quantity && !(i.unit && NEGLIGIBLE.has(i.unit)));
         if (!quantified) expect(l.quantityText, `${r.title} / ${l.label}`).toBe("au besoin");
       }
     }
@@ -480,7 +496,7 @@ describe("generateList (weekPlan) : lignes écrites dans la liste", () => {
   const run = async (w: Week, lang: "fr" | "en" = "fr") => {
     mockState.inserted.length = 0;
     const recipes = w.items.map(({ recipe }, k) => ({ id: `r${k}`, title: recipe.title }) as unknown as Recipe);
-    const ings = w.items.flatMap(({ recipe }, k) => recipe.ingredients.map((i, p) => ({ id: `i${k}-${p}`, recipe_id: `r${k}`, position: p, section: null, raw: i.raw, quantity: i.quantity, quantity_max: i.quantity_max, unit: i.unit, name: i.name, note: null, optional: i.optional, ingredient_id: i.catalog }) as RecipeIngredient));
+    const ings = w.items.flatMap(({ recipe }, k) => recipe.ingredients.map((i, p) => ({ id: `i${k}-${p}`, recipe_id: `r${k}`, position: p, section: null, raw: i.raw, quantity: i.quantity, quantity_max: i.quantity_max, unit: i.unit, name: i.name, note: i.note ?? null, optional: i.optional, ingredient_id: i.catalog }) as RecipeIngredient));
     const items = w.items.map(({ factor }, k) => ({ id: `w${k}`, plan_id: "p", recipe_id: `r${k}`, multiplier: factor, portions: 4 * factor, position: k, cooked: false }) as WeekPlanRecipe);
     const cat = CAT.map((c) => ({ id: c.name, household_id: null, name: c.name, name_en: c.name_en, aisle: c.aisle, pantry: !!c.pantry, count_unit: c.count_unit ?? null, equiv: c.equiv ?? null, ml_per_can: c.ml_per_can ?? null, cooked_ratio: c.cooked_ratio ?? null }) as Ingredient);
     setLang(lang);

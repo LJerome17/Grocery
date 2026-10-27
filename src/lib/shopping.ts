@@ -14,6 +14,9 @@ export type ListIngredient = {
   name: string;
   optional: boolean;
   ingredient_id: string | null;
+  /** Line as written and its note ("jus", "zeste"): tell a lemon's juice from the lemon. */
+  raw?: string | null;
+  note?: string | null;
 };
 
 export type CatalogItem = {
@@ -86,13 +89,44 @@ type Acc = {
   requiredSomewhere: boolean;
 };
 
+/** Juice articles, by the catalogue name of their fruit. */
+const JUICE_OF: Record<string, string> = { Citron: "Jus de citron", Lime: "Jus de lime" };
+const JUICE_RE = /\b(?:jus|juiced?)\b/i;
+const ZEST_RE = /\bz[eê]st/i;
+
+/**
+ * A recipe that only wants a lemon's (or lime's) juice buys the juice, not the fruit: "Jus de ½ citron" becomes
+ * about 22 ml of "Jus de citron". As soon as the recipe needs the fruit itself (zest, wedge, "½ lemon"), every line
+ * of that fruit stays on the fruit: its juice comes from the lemons bought anyway.
+ */
+function juiceInsteadOfFruit(ingredients: ListIngredient[], catalog: Map<string, CatalogItem>): ListIngredient[] {
+  const byName = new Map([...catalog.values()].map((c) => [c.name, c]));
+  const fruitOf = (i: ListIngredient) => (i.ingredient_id ? catalog.get(i.ingredient_id) : undefined);
+  const juiceOnly = (i: ListIngredient) => {
+    const text = `${i.name} ${i.note ?? ""} ${i.raw ?? ""}`;
+    return JUICE_RE.test(text) && !ZEST_RE.test(text);
+  };
+  const needsFruit = new Set(ingredients.filter((i) => fruitOf(i) && JUICE_OF[fruitOf(i)!.name] && !juiceOnly(i)).map((i) => fruitOf(i)!.id));
+  return ingredients.map((i) => {
+    const fruit = fruitOf(i);
+    const juice = fruit && !needsFruit.has(fruit.id) ? byName.get(JUICE_OF[fruit.name]) : undefined;
+    if (!fruit || !juice) return i;
+    const ml = fruit.equiv?.ml;
+    // A number of fruits ("jus de 2 limes") is measured as the juice they give.
+    if ((i.unit === null || i.unit === "" || i.unit === "piece") && i.quantity !== null && typeof ml === "number") {
+      return { ...i, ingredient_id: juice.id, unit: "ml", quantity: i.quantity * ml, quantity_max: i.quantity_max ? i.quantity_max * ml : i.quantity_max };
+    }
+    return { ...i, ingredient_id: juice.id };
+  });
+}
+
 export function buildShoppingList(
   recipes: { title: string; factor: number; ingredients: ListIngredient[] }[],
   catalog: Map<string, CatalogItem>,
 ): ListLine[] {
   const acc = new Map<string, Acc>();
   for (const r of recipes) {
-    for (const i of r.ingredients) {
+    for (const i of juiceInsteadOfFruit(r.ingredients, catalog)) {
       const cat = i.ingredient_id ? catalog.get(i.ingredient_id) : undefined;
       if (cat?.aisle === NO_AISLE) continue;
       const key = cat ? cat.id : `nom:${nameKey(i.name)}`;
