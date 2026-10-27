@@ -214,6 +214,17 @@ export function listRows(items: WeekPlanRecipe[], recipes: Recipe[], ingredients
   }));
 }
 
+/**
+ * Fingerprint of a list's lines (labels and quantities, in the household's language): stored when the list is made,
+ * so a later change of recipes is noticed even after bought items were removed from the list.
+ */
+export function listSignature(rows: Pick<ListRow, "label" | "quantity_text">[]): string {
+  const text = rows.map((r) => `${r.label}|${r.quantity_text ?? ""}`).sort().join("\n");
+  let h = 5381;
+  for (let i = 0; i < text.length; i++) h = (Math.imul(h, 33) ^ text.charCodeAt(i)) >>> 0;
+  return `${rows.length}-${h.toString(36)}`;
+}
+
 const tickKey = (r: { ingredient_id: string | null; label: string }) => r.ingredient_id ?? `label:${r.label}`;
 
 /**
@@ -230,6 +241,10 @@ export async function generateList(
 ): Promise<number> {
   const rows = listRows(items, recipes, ingredients, catalog);
   const sb = supabase();
+  // make_list (migration 0016) also records the list's fingerprint; replace_list (0015) does not.
+  const made = await sb.rpc("make_list", { p_plan: planId, p_rows: rows, p_signature: listSignature(rows) });
+  if (!made.error) return rows.length;
+  if (!missingFunction(made.error)) throw made.error;
   const { error } = await sb.rpc("replace_list", { p_plan: planId, p_rows: rows });
   if (!error) return rows.length;
   if (!missingFunction(error)) throw error;
@@ -258,6 +273,11 @@ export async function listStatus(
   ingredients: RecipeIngredient[],
   catalog: Ingredient[],
 ): Promise<"none" | "current" | "stale"> {
+  // The fingerprint taken when the list was made: removing bought items from the list does not make it stale.
+  const plan = await supabase().from("week_plans").select("list_signature").eq("id", planId).maybeSingle();
+  const signature = plan.error ? null : (plan.data as { list_signature?: string | null } | null)?.list_signature;
+  if (signature) return signature === listSignature(listRows(items, recipes, ingredients, catalog)) ? "current" : "stale";
+  // Lists made before migration 0016: compare the lines themselves.
   const { data, error } = await supabase().from("shopping_items").select("label,quantity_text").eq("plan_id", planId).eq("manual", false);
   if (error) throw error;
   if (!data?.length) return "none";

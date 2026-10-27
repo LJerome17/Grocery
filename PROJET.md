@@ -121,7 +121,8 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
 | 0012 | validation : cooked_ratio, dernier membre du livre, catalogue (258 articles), fusion boissons végétales | appliquée |
 | 0013 | alias du catalogue (après 0012) | appliquée |
 | 0014 | report de recette (postponed, already_bought), nom « Momo et Jéjé », articles jus de citron / lime, suivi d'utilisation | appliquée |
-| 0015 | sauvegardes d'un bloc (`save_weeks`, `replace_list`), statistiques sans les visiteurs partis | **à appliquer** (l'app fait les mêmes étapes une à une tant qu'elle manque) |
+| 0015 | sauvegardes d'un bloc (`save_weeks`, `replace_list`), statistiques sans les visiteurs partis | appliquée |
+| 0016 | empreinte de la liste (`list_signature`, `make_list`) : retirer les articles cochés ne rend plus la liste « pas à jour » | **à appliquer** (sans elle : `replace_list`, puis comparaison des lignes) |
 
 ## Procédures
 - **Publier** : `npx vitest run`, `npx tsc --noEmit`, `npx eslint src scripts`, `npm run build`, puis commit et push sur `main`.
