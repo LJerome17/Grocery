@@ -123,6 +123,7 @@ s'est corrompu : chaque instruction est autonome, fichiers < ~90 Ko, testés loc
 | 0014 | report de recette (postponed, already_bought), nom « Momo et Jéjé », articles jus de citron / lime, suivi d'utilisation | appliquée |
 | 0015 | sauvegardes d'un bloc (`save_weeks`, `replace_list`), statistiques sans les visiteurs partis | appliquée |
 | 0016 | empreinte de la liste (`list_signature`, `make_list`) : retirer les articles cochés ne rend plus la liste « pas à jour » | appliquée |
+| 0017 | comptes et foyers de test : supprimés (`cleanup_tests()`, relançable depuis l'éditeur SQL) et exclus des statistiques d'utilisation ; les tests nomment leurs foyers « TEST … » | à appliquer |
 
 ## Procédures
 - **Publier** : `npx vitest run`, `npx tsc --noEmit`, `npx eslint src scripts`, `npm run build`, puis commit et push sur `main`.

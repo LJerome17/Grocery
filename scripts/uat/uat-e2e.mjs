@@ -40,6 +40,7 @@ await test("A1", pa, async () => {
   await pa.waitForURL(/\/foyer/);
   await pa.getByPlaceholder("Nom d'utilisateur").fill(USER);
   await pa.getByPlaceholder("Mot de passe (6 caractères minimum)").fill(PASS);
+  await pa.getByPlaceholder("Notre foyer").fill(`TEST uat-e2e ${n}`);
   await pa.getByRole("button", { name: "Créer", exact: true }).click();
   await pa.waitForURL(/\/semaine/);
   for (const t of ["Semaine", "Épicerie", "Recettes", "Réglages"]) expect(await pa.getByRole("link", { name: t }).count(), `onglet ${t} absent`);
@@ -410,6 +411,7 @@ await test("F1", pf, async () => {
   await pf.goto(SITE);
   await pf.waitForURL(/\/foyer/);
   await pf.getByRole("button", { name: "English", exact: true }).click();
+  await pf.getByPlaceholder("Our household").fill(`TEST uat-e2e friend ${n}`);
   await pf.getByRole("button", { name: "Create", exact: true }).click();
   await pf.waitForURL(/\/semaine/);
   await pf.getByRole("link", { name: "Settings" }).click();

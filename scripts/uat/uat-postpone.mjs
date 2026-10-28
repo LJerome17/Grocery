@@ -56,7 +56,7 @@ try {
   // A new household (anonymous access).
   await page.goto(SITE);
   await page.waitForURL(/\/foyer/);
-  await page.getByPlaceholder("Notre foyer").fill(`test-uat-report-${Date.now().toString(36)}`);
+  await page.getByPlaceholder("Notre foyer").fill(`TEST uat-report-${Date.now().toString(36)}`);
   await page.getByRole("button", { name: "Créer", exact: true }).click();
   await page.waitForURL(/\/semaine/);
 

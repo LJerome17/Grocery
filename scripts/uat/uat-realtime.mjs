@@ -5,7 +5,7 @@ const browser = await chromium.launch({ executablePath: "C:/Program Files (x86)/
 const phone = { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, locale: "fr-CA" };
 const mk = async () => { const c = await browser.newContext(phone); const p = await c.newPage(); p.on("dialog", (d) => d.accept()); p.setDefaultTimeout(20000); return p; };
 const a = await mk(), b = await mk();
-await a.goto(SITE); await a.waitForURL(/foyer/); await a.getByRole("button", { name: "Créer", exact: true }).click(); await a.waitForURL(/semaine/);
+await a.goto(SITE); await a.waitForURL(/foyer/); await a.getByPlaceholder("Notre foyer").fill(`TEST uat-realtime ${Date.now().toString(36)}`); await a.getByRole("button", { name: "Créer", exact: true }).click(); await a.waitForURL(/semaine/);
 await a.getByRole("link", { name: "Réglages" }).click(); const code = (await a.locator("p.font-mono").first().innerText()).trim();
 await b.goto(SITE); await b.waitForURL(/foyer/); await b.getByPlaceholder("Code d'invitation (dans Réglages)").fill(code); await b.getByRole("button", { name: "Rejoindre" }).click(); await b.waitForURL(/semaine/);
 await a.getByRole("link", { name: "Semaine" }).click(); await a.getByRole("button", { name: /Proposer une semaine de/ }).click(); await a.locator("article.card").first().waitFor();
